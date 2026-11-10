@@ -170,13 +170,39 @@
 <div class="ov" id="ov" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 <div class="login" id="login"><div class="box">
-  <img src="icons/icon-192.png" alt="">
+  <svg viewBox="0 0 512 512" width="84" height="84" style="border-radius:22px;box-shadow:0 10px 26px rgba(120,80,110,.25)" role="img" aria-label="Loan Alerts">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE9EC"/><stop offset="1" stop-color="#F4C9D3"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E4AA"/><stop offset="1" stop-color="#C49A3C"/></linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34343d"/><stop offset="1" stop-color="#0c0c10"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="400" cy="112" r="120" fill="#BFE2FF" opacity=".55"/>
+  <!-- bank: roof, columns, base -->
+  <path d="M256 92 L96 186 L416 186 Z" fill="url(#ink)" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="256" cy="150" r="17" fill="url(#gold)"/>
+  <rect x="124" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
+  <rect x="200" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
+  <rect x="264" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
+  <rect x="340" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
+  <rect x="104" y="360" width="304" height="26" rx="10" fill="url(#ink)"/>
+  <rect x="84" y="396" width="344" height="28" rx="12" fill="url(#ink)"/>
+  <!-- reminder bell badge -->
+  <circle cx="392" cy="392" r="62" fill="#FF3B30" stroke="#fff" stroke-width="10"/>
+  <path d="M392 352c-18 0-30 14-30 32v14l-10 14h80l-10-14v-14c0-18-12-32-30-32z" fill="#fff"/>
+  <circle cx="392" cy="426" r="8" fill="#fff"/>
+</svg>
   <h2>Loan <span style="color:var(--gold)">Alerts</span></h2>
-  <div class="sm">Sign in with your email. Each email gets its own private loans and reminders on this device.</div>
+  <div class="sm">Sign in with your email and password. Each email keeps its own private loans and reminders on this device.</div>
   <label>Your email</label>
-  <input type="email" id="li_email" placeholder="you@gmail.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+  <input type="email" id="li_email" placeholder="you@gmail.com" autocomplete="username" oninput="$('li_cw').style.display='none'">
+  <label>Password</label>
+  <input type="password" id="li_pw" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+  <div id="li_cw" style="display:none"><label>Repeat password</label>
+  <input type="password" id="li_pw2" placeholder="Repeat password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
   <div class="btns"><button class="primary" onclick="doLogin()">Continue</button></div>
-  <div class="hint" id="li_note"></div>
+  <div class="hint" id="li_note">New email? Just type it with a password and press Continue to create your account.</div>
+  <div class="btns" style="margin-top:6px"><button class="xs" onclick="forgotPw()">Forgot password?</button></div>
 </div></div>
 
 <script>
@@ -474,19 +500,43 @@ function renderTester(){var t=$('tester');if(!t)return;t.className='tester'+(tes
 /* ============ sign-in (separate data per email) ============ */
 var timers=[];
 function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)}
-function doLogin(){
-  var e=$('li_email').value.trim().toLowerCase();
-  if(!validEmail(e)){$('li_note').textContent='Type a valid email address.';return}
+function authKey(e){return BASE+'.auth.'+e}
+function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+function unhex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
+async function hashPw(pw,saltHex){
+  var k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+  return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt:unhex(saltHex),iterations:150000,hash:'SHA-256'},k,256))}
+function note(t){$('li_note').textContent=t}
+async function doLogin(){
+  var e=$('li_email').value.trim().toLowerCase(),pw=$('li_pw').value;
+  if(!validEmail(e))return note('Type a valid email address.');
+  if(!pw)return note('Type your password.');
+  if(!(window.crypto&&crypto.subtle))return note('This browser cannot do secure passwords here. Open the app from localhost or https.');
+  var auth=null;try{auth=JSON.parse(localStorage.getItem(authKey(e))||'null')}catch(x){}
   try{
+    if(!auth){
+      if($('li_cw').style.display==='none'){$('li_cw').style.display='block';$('li_pw2').focus();return note('New account. Choose a password (6+ characters) and repeat it.')}
+      if(pw.length<6)return note('Password must be at least 6 characters.');
+      if(pw!==$('li_pw2').value)return note('The two passwords do not match.');
+      var salt=hex(crypto.getRandomValues(new Uint8Array(16)));
+      localStorage.setItem(authKey(e),JSON.stringify({salt:salt,hash:await hashPw(pw,salt)}))
+    }else if(await hashPw(pw,auth.salt)!==auth.hash){return note('Wrong password.')}
     localStorage.setItem(SESSION,e);
     var legacy=localStorage.getItem(BASE);
     if(legacy&&!localStorage.getItem(userKey(e))&&!localStorage.getItem(BASE+'.migrated')){
       localStorage.setItem(userKey(e),legacy);localStorage.setItem(BASE+'.migrated',e);localStorage.removeItem(BASE)}
-  }catch(x){$('li_note').textContent='This browser blocks storage, so sign-in cannot work.';return}
+  }catch(x){return note('This browser blocks storage, so sign-in cannot work.')}
+  $('li_pw').value='';$('li_pw2').value='';$('li_cw').style.display='none';note('');
   boot(e)}
+function forgotPw(){
+  var e=$('li_email').value.trim().toLowerCase();
+  if(!validEmail(e))return note('Type your email first, then press Forgot password.');
+  if(!confirm('Passwords cannot be recovered. This will ERASE all loans and reminders saved for '+e+' on this device and let you set a new password. Continue?'))return;
+  try{localStorage.removeItem(authKey(e));localStorage.removeItem(userKey(e))}catch(x){}
+  $('li_cw').style.display='block';note('Account reset. Choose a new password and repeat it.')}
 function logout(){try{localStorage.removeItem(SESSION)}catch(e){}
   clearInterval(beepTimer);beepTimer=null;beepKey='';timers.forEach(clearInterval);timers=[];closeModal();
-  $('app').innerHTML='';$('tester').className='tester';$('li_email').value='';$('login').className='login on'}
+  $('app').innerHTML='';$('tester').className='tester';$('li_email').value='';$('li_pw').value='';$('li_cw').style.display='none';$('login').className='login on'}
 function boot(email){
   KEY=userKey(email);S=load();
   if(!S.contact.email)S.contact.email=email;
