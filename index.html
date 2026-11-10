@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loan Alerts</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FFF6F0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Loan Alerts">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>
+  :root{
+    --cream:#FFF6F0;--pink:#F9DDE3;--pink2:#F4C9D3;--sky:#BFE2FF;--sky2:#8CCBFF;--skyd:#2F86D6;
+    --gold:#C49A3C;--gold2:#EBD28F;--goldd:#9A7424;--ink:#15151B;--muted:#80737F;
+    --red:#FF3B30;--orange:#F59A0B;--green:#2FB36B;
+    --glass:rgba(255,255,255,.58);--strong:rgba(255,255,255,.82);--edge:rgba(255,255,255,.9);
+    --shadow:0 12px 36px rgba(120,80,110,.14);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);text-align:center;background:var(--cream);overflow:hidden}
+  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(1100px 700px at 15% -10%,#FFE9EC,transparent 60%),radial-gradient(900px 600px at 100% 100%,#E3F1FF,transparent 60%),linear-gradient(160deg,#FFF8F2,#FCE9EC)}
+  .blob{position:absolute;border-radius:50%;filter:blur(64px);animation:float 20s ease-in-out infinite;transition:background .6s,opacity .6s}
+  .b1{width:430px;height:430px;left:-120px;top:-90px;background:radial-gradient(circle at 30% 30%,#fff,var(--pink2));opacity:.85}
+  .b2{width:380px;height:380px;right:-100px;top:120px;background:radial-gradient(circle at 40% 40%,#e6f4ff,var(--sky2));opacity:.75;animation-delay:-7s}
+  .b3{width:340px;height:340px;left:34%;bottom:-170px;background:radial-gradient(circle,#fff1c9,var(--gold2));opacity:.55;animation-delay:-12s}
+  body.critical .b1{background:radial-gradient(circle at 30% 30%,#ffd0cb,#ff6a5f);opacity:.6}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(34px,24px) scale(1.07)}}
+
+  .app{position:relative;z-index:1;height:100dvh;max-width:1180px;margin:0 auto;padding:14px 18px 14px;display:grid;
+    grid-template-columns:270px minmax(0,1fr) 285px;grid-template-rows:auto minmax(0,1fr) auto;gap:14px}
+  .top{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;min-height:42px}
+  .top h1{font-size:22px;margin:0;letter-spacing:-.02em}
+  .top h1 span{color:var(--gold)}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--strong);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff}
+  .chip.nudge{background:linear-gradient(180deg,#fff7de,#f3dd9c);border-color:#fff;color:#5b4310;cursor:pointer;animation:nudge 2s infinite}
+  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(196,154,60,.5)}60%{box-shadow:0 0 0 10px rgba(196,154,60,0)}}
+  .topgear{position:fixed;top:12px;right:14px;z-index:5}
+
+  .card{position:relative;background:var(--glass);border-radius:26px;padding:16px 14px 14px;-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);
+    border:1px solid var(--edge);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -1.5px 0 rgba(235,210,143,.35),var(--shadow);overflow:hidden;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,0) 40%,rgba(255,255,255,0) 72%,rgba(255,255,255,.3))}
+  .card>*{position:relative;width:100%}
+  .left{grid-column:1;grid-row:2;align-self:center}
+  .mainc{grid-column:2;grid-row:2;justify-content:flex-start}
+  .right{grid-column:3;grid-row:2;justify-content:flex-start}
+  .dock{grid-column:1/-1;grid-row:3;justify-self:center;width:min(470px,100%);flex-direction:row;gap:14px;padding:12px 18px;justify-content:space-between}
+  .dock>div{width:auto;flex:1}
+
+  .ct{font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .big{font-size:26px;font-weight:800;letter-spacing:-.03em;margin:4px 0 2px;line-height:1.1}
+  .mid{font-size:22px;font-weight:780;letter-spacing:-.02em;margin:3px 0 1px}
+  .sm{font-size:12.5px;color:var(--muted)}
+  .gear{position:absolute!important;top:9px;right:9px;width:32px!important;height:32px;border-radius:50%;padding:0!important;display:grid;place-items:center;font-size:16px;z-index:2}
+  button{font:inherit;font-weight:600;font-size:13.5px;border:1px solid var(--edge);cursor:pointer;border-radius:999px;padding:9px 16px;color:var(--ink);background:var(--strong);
+    box-shadow:inset 0 1.5px 0 #fff,0 4px 14px rgba(120,80,110,.10);transition:transform .15s,filter .15s}
+  button:hover{transform:translateY(-1px);filter:brightness(1.03)}button:active{transform:scale(.96)}
+  button.primary{color:#fff;background:linear-gradient(180deg,#34343d,#0c0c10);border-color:rgba(235,210,143,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 7px 18px rgba(20,20,30,.35)}
+  button.gold{color:#2c2108;background:linear-gradient(180deg,#f6e4aa,#d2a949);border-color:#fff;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),0 7px 18px rgba(196,154,60,.4)}
+  button.danger{color:#fff;background:linear-gradient(180deg,#ff6b60,#FF3B30);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 7px 20px rgba(255,59,48,.35)}
+  button.xs{padding:4px 10px;font-size:11.5px}
+  button.plus{width:46px;height:46px;padding:0;font-size:26px;line-height:1;display:grid;place-items:center;flex:none}
+  .btns{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:10px}
+
+  /* status */
+  .dot{width:13px;height:13px;border-radius:50%;background:var(--sky2);display:inline-block;animation:ping 2.6s infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(140,203,255,.7)}70%,100%{box-shadow:0 0 0 16px rgba(140,203,255,0)}}
+  .status .big{color:var(--skyd)}
+  .status.warn .big{color:var(--goldd)}.status.warn .dot{background:var(--gold)}
+  .status.critical{background:linear-gradient(180deg,rgba(255,232,229,.9),rgba(255,255,255,.55));border-color:rgba(255,140,130,.9);animation:glow 1.2s infinite}
+  .status.critical .big{color:var(--red)}
+  .status.critical .dot{background:var(--red);animation:blink 1.2s infinite}
+  @keyframes blink{0%,45%{opacity:1;box-shadow:0 0 0 0 rgba(255,59,48,.8),0 0 14px 4px rgba(255,59,48,.7)}50%,100%{opacity:.25;box-shadow:0 0 0 18px rgba(255,59,48,0)}}
+  @keyframes glow{0%,100%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 rgba(255,59,48,.5),var(--shadow)}40%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 12px rgba(255,59,48,0),0 0 50px rgba(255,59,48,.45)}}
+  .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(196,154,60,.5),transparent);margin:12px 0 10px}
+  .bar{height:8px;border-radius:99px;background:rgba(47,134,214,.14);margin:8px auto 5px;max-width:170px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold2),var(--gold))}
+
+  .rows{display:flex;flex-direction:column;gap:6px;margin-top:9px;min-height:0;overflow:hidden}
+  .row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:15px;background:rgba(255,255,255,.62);border:1px solid var(--edge);text-align:left;font-size:12.5px}
+  .row b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row span{color:var(--muted);font-size:11.5px}
+  .row>div{min-width:0}
+  .row.bad{border-color:rgba(255,120,110,.8);background:rgba(255,232,229,.8)}
+  .tag{padding:4px 9px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(140,203,255,.3);color:var(--skyd);white-space:nowrap}
+  .tag.bad{background:rgba(255,59,48,.14);color:var(--red);animation:b2 1.2s infinite}.tag.ok{background:rgba(47,179,107,.14);color:var(--green)}
+  @keyframes b2{50%{opacity:.45}}
+  .empty{color:var(--muted);font-size:12.5px;padding:12px 6px}
+  .more{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+
+  /* warning waves: yellow slow -> orange faster -> red fastest -> still red on due date */
+  .row{position:relative;overflow:hidden}.row>*{position:relative;z-index:1}
+  .row.t-y{--c:#FFCC00;--spd:2.6s;border-color:rgba(230,180,0,.8)}
+  .row.t-o{--c:#FF9500;--spd:1.5s;border-color:rgba(245,140,0,.85)}
+  .row.t-r{--c:#FF3B30;--spd:.8s;border-color:rgba(255,80,70,.9)}
+  .row.t-d{border-color:rgba(255,70,60,.95);background:rgba(255,214,210,.92)}
+  .row.t-y::after,.row.t-o::after,.row.t-r::after{content:"";position:absolute;inset:0;background:var(--c);opacity:.04;animation:rowBeep var(--spd) ease-in-out infinite;pointer-events:none;z-index:0}
+  @keyframes rowBeep{0%,100%{opacity:.04}12%{opacity:.55}34%{opacity:.05}}
+  .tag.t-y{background:rgba(255,204,0,.3);color:#8a6a00}.tag.t-o{background:rgba(255,149,0,.22);color:#b85f00}.tag.t-r{background:rgba(255,59,48,.16);color:var(--red)}
+  .tag.t-d{background:var(--red);color:#fff}
+  .status.t-y{--c:#FFCC00;--g:rgba(255,204,0,.55);--spd:2.6s;background:linear-gradient(180deg,rgba(255,246,205,.9),rgba(255,255,255,.55));border-color:rgba(235,190,40,.9)}
+  .status.t-o{--c:#FF9500;--g:rgba(255,149,0,.5);--spd:1.5s;background:linear-gradient(180deg,rgba(255,234,206,.9),rgba(255,255,255,.55));border-color:rgba(250,150,20,.9)}
+  .status.t-r{--c:#FF3B30;--g:rgba(255,59,48,.55);--spd:.8s;background:linear-gradient(180deg,rgba(255,226,222,.92),rgba(255,255,255,.55));border-color:rgba(255,120,110,.95)}
+  .status.t-d{background:linear-gradient(180deg,rgba(255,214,210,.95),rgba(255,236,233,.6));border-color:rgba(255,70,60,.95)}
+  .status.t-y,.status.t-o,.status.t-r{animation:cardBeep var(--spd) ease-in-out infinite}
+  @keyframes cardBeep{0%,100%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 transparent,var(--shadow)}12%{box-shadow:inset 0 1.5px 0 #fff,0 0 42px 6px var(--g),var(--shadow)}34%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 transparent,var(--shadow)}}
+  .status.t-y .big{color:#9a7400}.status.t-o .big{color:#d97500}.status.t-r .big,.status.t-d .big{color:var(--red)}
+  .status.t-y .dot,.status.t-o .dot,.status.t-r .dot{background:var(--c);animation:dotBeep var(--spd) ease-in-out infinite}
+  .status.t-d .dot{background:var(--red);animation:none;box-shadow:0 0 12px 3px rgba(255,59,48,.6)}
+  @keyframes dotBeep{0%,100%{opacity:.35;box-shadow:0 0 0 0 transparent}12%{opacity:1;box-shadow:0 0 16px 5px var(--g)}34%{opacity:.4;box-shadow:0 0 0 0 transparent}}
+  .num{letter-spacing:.01em}
+
+  .gear svg{width:15px;height:15px}
+  .row.hasdel{grid-template-columns:1fr auto auto auto}.row .del{color:#b83a2e}
+  .toast button{margin-left:10px}
+  .mailbox{background:rgba(255,255,255,.7);border-radius:12px;padding:8px 10px;text-align:left;margin-top:7px}
+  .tester{position:fixed;right:14px;bottom:14px;z-index:6;width:238px;padding:12px 12px 10px;border-radius:22px;display:none;background:rgba(255,252,248,.82);-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);border:1px solid #fff;box-shadow:inset 0 1.5px 0 #fff,inset 0 -1.5px 0 rgba(235,210,143,.4),var(--shadow)}
+  .tester.on{display:block}
+  .tester .th{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px}
+  .tester .td{font-size:15px;font-weight:700;margin:6px 0 2px}
+  .tester .btns{margin-top:7px}
+  .tester input[type=date]{padding:7px 8px;font-size:13px;margin-top:7px}
+  /* modal */
+  .ov{position:fixed;inset:0;z-index:20;background:rgba(40,25,40,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:14px}
+  .ov.on{display:flex}
+  .modal{width:100%;max-width:440px;max-height:92vh;overflow:auto;background:rgba(255,250,246,.86);-webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%);
+    border:1px solid #fff;border-radius:30px;padding:20px 18px;box-shadow:inset 0 1.5px 0 #fff,inset 0 -2px 0 rgba(235,210,143,.4),0 30px 80px rgba(40,25,40,.35);animation:pop .25s}
+  @keyframes pop{from{transform:scale(.94);opacity:0}}
+  .modal h2{margin:0 0 3px;font-size:18px}
+  label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+  input[type=text],input[type=number],input[type=date],input[type=password],input[type=email],select{width:100%;font:inherit;font-size:14.5px;text-align:center;color:var(--ink);padding:10px 12px;border-radius:15px;outline:0;
+    background:rgba(255,255,255,.9);border:1px solid #fff;box-shadow:inset 0 2px 6px rgba(120,80,110,.1)}
+  input:focus,select:focus{box-shadow:0 0 0 4px rgba(196,154,60,.25)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .sw{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:11px;cursor:pointer;font-weight:600;font-size:13.5px;text-transform:none;letter-spacing:0;color:var(--ink)}
+  .sw input{display:none}.sw i{width:44px;height:27px;border-radius:99px;background:rgba(120,110,130,.35);position:relative;transition:.25s;flex:none}
+  .sw i::after{content:"";position:absolute;top:2px;left:2px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.25);transition:.25s}
+  .sw input:checked+i{background:#15151B}.sw input:checked+i::after{left:19px}
+  details{margin-top:12px;background:rgba(255,255,255,.5);border-radius:16px;padding:8px 12px;border:1px solid #fff}
+  summary{cursor:pointer;font-weight:650;font-size:13px}
+  .toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,40px);opacity:0;z-index:30;padding:11px 20px;border-radius:99px;font-weight:600;font-size:13.5px;background:rgba(21,21,27,.94);color:#fff;transition:.35s;max-width:92vw;border:1px solid rgba(235,210,143,.6)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* small screens: allow normal scrolling stack */
+  @media(max-width:880px){
+    body{overflow:auto}.app{height:auto;min-height:100dvh;grid-template-columns:1fr;grid-template-rows:none}
+    .left,.mainc,.right,.dock{grid-column:1;grid-row:auto}.two{grid-template-columns:1fr}
+  }
+  @media(max-height:640px) and (min-width:881px){.big{font-size:22px}.row{padding:5px 9px}.sep{margin:8px 0 6px}}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+  .login{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:16px;background:radial-gradient(900px 600px at 15% -10%,#FFE9EC,transparent 60%),radial-gradient(800px 600px at 100% 100%,#E3F1FF,transparent 60%),linear-gradient(160deg,#FFF8F2,#FCE9EC)}
+  .login.on{display:flex}
+  .login .box{width:100%;max-width:380px;background:var(--glass);border:1px solid var(--edge);border-radius:30px;padding:26px 20px;box-shadow:inset 0 1.5px 0 #fff,var(--shadow);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+  .login img{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 26px rgba(120,80,110,.25)}
+  .login h2{margin:12px 0 4px;font-size:22px}
+  .login .btns{margin-top:16px}
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<button class="topgear" id="topgear" title="Email &amp; Telegram settings" onclick="openModal('contact')" style="width:42px;height:42px;padding:0;border-radius:50%;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+<div class="tester" id="tester"></div>
+<div class="app" id="app"></div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<div class="login" id="login"><div class="box">
+  <img src="icons/icon-192.png" alt="">
+  <h2>Loan <span style="color:var(--gold)">Alerts</span></h2>
+  <div class="sm">Sign in with your email. Each email gets its own private loans and reminders on this device.</div>
+  <label>Your email</label>
+  <input type="email" id="li_email" placeholder="you@gmail.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+  <div class="btns"><button class="primary" onclick="doLogin()">Continue</button></div>
+  <div class="hint" id="li_note"></div>
+</div></div>
+
+<script>
+/* ============ storage ============ */
+var BASE='loanAlerts.v1',SESSION='loanAlerts.session',KEY=BASE;
+function userKey(email){return BASE+'.u.'+String(email).trim().toLowerCase()}
+function getSession(){try{return localStorage.getItem(SESSION)||''}catch(e){return ''}}
+var DEF={loans:[{id:'l1',name:'My loan',amount:20000000,rate:9,years:3,perYear:2,start:'2025-08-01',currency:''}],
+  contact:{email:'',tgUser:'',tgToken:'',tgChat:'',ejService:'',ejTemplate:'',ejKey:''},removed:{},mailLast:null,
+  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1},reminders:[],paid:{},sent:{},sim:'',init:false,showPaid:false,count:12};
+var S={loans:[],contact:{},alerts:{},reminders:[],paid:{},sent:{},removed:{},sim:'',init:true,showPaid:false,count:12};
+function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  var loans=s.loans||(s.loan?[Object.assign({id:'l1'},s.loan)]:DEF.loans),paid=s.paid||{};
+  Object.keys(paid).forEach(function(k){var m=/^L(\d+)$/.exec(k);if(m){paid['l1-'+m[1]]=paid[k];delete paid[k]}});
+  return {loans:loans,contact:Object.assign({},DEF.contact,s.contact),alerts:Object.assign({},DEF.alerts,s.alerts),reminders:s.reminders||[],paid:paid,sent:s.sent||{},removed:s.removed||{},mailLast:s.mailLast||null,sim:'',init:!!s.init,showPaid:!!s.showPaid,count:s.count||12}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ============ helpers ============ */
+var PEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 7.5l3 3"/></svg>';
+var PLUS='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+var $=function(id){return document.getElementById(id)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function money(n,cur){var s=(Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');return s}
+function fm(n){return Math.abs(Math.round(+n||0)).toLocaleString('en-US')}
+function pn(v){return +String(v==null?'':v).replace(/,/g,'')||0}
+function fmtIn(v){return (v===''||v==null||isNaN(+v))?'':Number(v).toLocaleString('en-US',{maximumFractionDigits:2})}
+function numFmt(el){var raw=el.value,pos=el.selectionStart,before=raw.slice(0,pos).replace(/,/g,'').length;
+  var clean=raw.replace(/[^0-9.]/g,''),parts=clean.split('.');parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  el.value=parts.length>1?parts[0]+'.'+parts.slice(1).join(''):parts[0];
+  var c=0,np=0;for(;np<el.value.length&&c<before;np++){if(el.value[np]!==',')c++}try{el.setSelectionRange(np,np)}catch(e){}}
+function thr(){var a=S.alerts,R=Math.max(1,parseInt(a.r,10)||1),O=Math.max(R,parseInt(a.o,10)||3),Y=Math.max(O,parseInt(a.y,10)||7);return{Y:Y,O:O,R:R}}
+function tierOf(d){var t=thr();return d<=0?'d':d<=t.R?'r':d<=t.O?'o':d<=t.Y?'y':''}
+function pad(n){return n<10?'0'+n:''+n}
+function isoOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function today(){return S.sim||isoOf(new Date())}
+function dn(iso){var p=iso.split('-').map(Number);return Math.round(Date.UTC(p[0],p[1]-1,p[2])/864e5)}
+function nice(iso){var p=iso.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
+function toast(m,undo){var t=$('toast');t.innerHTML=esc(m)+(undo?' <button class="xs" onclick="undoDel()">Undo</button>':'');t.className='toast show';clearTimeout(toast.h);toast.h=setTimeout(function(){t.className='toast'},undo?7000:5200)}
+function leads(){var a=String(S.alerts.leads).split(/[,\s;]+/).map(function(x){return parseInt(x,10)}).filter(function(n){return !isNaN(n)&&n>=0&&n<=365});
+  a=a.filter(function(v,i){return a.indexOf(v)===i}).sort(function(x,y){return x-y});return a.length?a:[0]}
+
+/* ============ loan maths (same as your sheet) ============ */
+function schedule(L){
+  var n=Math.round(L.years*L.perYear);if(!(L.amount>0)||!(n>0)||!L.start)return[];
+  var r=L.rate/100/L.perYear,pmt=r?L.amount*r/(1-Math.pow(1+r,-n)):L.amount/n,bal=L.amount,p=L.start.split('-').map(Number),out=[];
+  for(var k=1;k<=n;k++){
+    var d=new Date(p[0],p[1]-1+k*12/L.perYear,p[2]),it=bal*r,pay=(k===n)?bal+it:pmt,pr=pay-it;
+    out.push({id:L.id+'-'+k,kind:'loan',loan:L.id,no:k,title:L.name+' #'+k,cur:L.currency,date:isoOf(d),amount:pay,principal:pr,interest:it,beg:bal,end:Math.max(0,bal-pr)});bal-=pr;
+  }return out}
+function items(){
+  var t=dn(today()),all=[];
+  S.loans.forEach(function(L){all=all.concat(schedule(L).filter(function(i){return !S.removed[i.id]}))});
+  S.reminders.forEach(function(r){all.push({id:r.id,kind:'rem',title:r.title,cur:'',date:r.date,amount:+r.amount||0})});
+  all.forEach(function(i){i.days=dn(i.date)-t;i.paid=!!S.paid[i.id]});
+  all.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0});return all}
+
+/* ============ alerts: sound, desktop, phone, email, telegram ============ */
+var audio=null,beepTimer=null,snooze=0,cur=null;
+function ensureAudio(){try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.resume)audio.resume();return true}catch(e){return false}}
+var TIERS={y:{ms:3000,f:[660],v:.12},o:{ms:1800,f:[780,880],v:.18},r:{ms:900,f:[880,1040,880],v:.24}},beepKey='';
+function playTier(t){if(!audio||!TIERS[t])return;var T=TIERS[t];T.f.forEach(function(fr,i){var os=audio.createOscillator(),g=audio.createGain(),at=audio.currentTime+i*.16;os.type='sine';os.frequency.value=fr;
+  g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(T.v,at+.02);g.gain.exponentialRampToValueAtTime(.0001,at+.13);os.connect(g);g.connect(audio.destination);os.start(at);os.stop(at+.15)})}
+function beep(){playTier('r')}
+function syncBeep(){var t=cur&&cur.tier,on=!!(t&&t!=='d'&&S.alerts.sound&&audio),key=on?t:'';
+  if(key!==beepKey){clearInterval(beepTimer);beepTimer=null;beepKey=key;
+    if(on){playTier(t);beepTimer=setInterval(function(){if(Date.now()>snooze)playTier(t)},TIERS[t].ms)}}}
+document.addEventListener('click',function(){if(S.alerts.sound&&!audio){ensureAudio();syncBeep()}});
+
+function emailVia(){var C=S.contact;return(C.ejService&&C.ejTemplate&&C.ejKey)?'emailjs':'formsubmit'}
+function emailOK(){return emailVia()==='emailjs'||location.protocol!=='file:'}
+function mailStatusHtml(){var m=S.mailLast;
+  if(!S.contact.email)return 'Type your Gmail address above, then press Send test email.';
+  if(!emailOK())return '<b>Blocked:</b> this page was opened as a file and the default email service (FormSubmit) refuses that. Fill in the EmailJS box below (works from a file), or open the page with start-loan-alerts.bat.';
+  if(!m)return 'Nothing sent yet. Press Send test email to check it.';
+  return (m.ok?'<b>Last result:</b> ':'<b>Failed:</b> ')+esc(m.msg)+' <span style="opacity:.6">('+esc(m.t)+')</span>'}
+function setMail(ok,msg){S.mailLast={ok:ok,msg:msg,t:new Date().toLocaleString([],{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};save();
+  var b=$('mailStatus');if(b)b.innerHTML=mailStatusHtml();toast((ok?'Email: ':'Email problem: ')+msg)}
+function postEmail(title,body){
+  var C=S.contact,to=C.email.trim();
+  if(emailVia()==='emailjs'){
+    return fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({service_id:C.ejService.trim(),template_id:C.ejTemplate.trim(),user_id:C.ejKey.trim(),template_params:{to_email:to,subject:title,message:body}})})
+     .then(function(r){return r.text().then(function(t){return{ok:r.ok,t:t}})})
+     .then(function(x){x.ok?setMail(true,'sent to '+to+' from your Gmail (EmailJS)'):setMail(false,'EmailJS replied: '+x.t)})
+     .catch(function(){setMail(false,'could not reach EmailJS (offline?)')})}
+  return fetch('https://formsubmit.co/ajax/'+encodeURIComponent(to),{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify({_subject:title,name:'Loan Alerts',message:body,_template:'box',_captcha:'false'})})
+   .then(function(r){return r.json()})
+   .then(function(j){(j&&(j.success===true||j.success==='true'))?setMail(true,'accepted by FormSubmit. First time? Open the confirmation email FormSubmit sent you (check Spam), click confirm, then send again.'):setMail(false,'FormSubmit replied: '+((j&&j.message)||'no details'))})
+   .catch(function(){setMail(false,'FormSubmit refused or could not be reached. Use the EmailJS box in settings, or open the page with start-loan-alerts.bat.')})}
+function readMail(){var C=S.contact;if($('m_email'))C.email=$('m_email').value.trim();if($('m_ejs')){C.ejService=$('m_ejs').value.trim();C.ejTemplate=$('m_ejt').value.trim();C.ejKey=$('m_ejk').value.trim()}save()}
+function sendTestEmail(){readMail();if(!S.contact.email)return toast('Type your Gmail address first');
+  if(!emailOK()){$('mailStatus').innerHTML=mailStatusHtml();return}
+  $('mailStatus').textContent='Sending...';postEmail('Loan Alerts - test email','This is a test email from your Loan Alerts page. If you can read this, email alerts work.')}
+function postTelegram(text){
+  return fetch('https://api.telegram.org/bot'+S.contact.tgToken.trim()+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:S.contact.tgChat.trim(),text:text})})
+   .then(function(r){return r.json()}).then(function(j){if(!j.ok)toast('Telegram: '+j.description)}).catch(function(){toast('Telegram could not be reached (offline?)')})}
+function notify(title,body,urgent){
+  var sent=[],C=S.contact;
+  try{if(S.alerts.browser&&'Notification' in window&&Notification.permission==='granted'){new Notification(title,{body:body,requireInteraction:!!urgent,tag:title+body});sent.push('desktop')}}catch(e){}
+  if(S.sim)return sent;   // test dates: pop-ups and sound only, no email/Telegram/phone
+  if(S.alerts.ntfy){try{fetch('https://ntfy.sh/'+encodeURIComponent(S.alerts.ntfy.trim()),{method:'POST',body:body,headers:{Title:title.replace(/[^\x20-\x7E]/g,''),Priority:urgent?'urgent':'default',Tags:urgent?'rotating_light':'bell'}});sent.push('phone')}catch(e){}}
+  if(C.email&&emailOK()){postEmail(title,body);sent.push('email')}
+  if(C.tgToken&&C.tgChat){postTelegram(title+'\n'+body);sent.push('telegram')}
+  return sent}
+function describe(i){var a=Math.abs(i.days);
+  if(i.days<0)return 'OVERDUE by '+fm(a)+' day'+(a===1?'':'s');if(i.days===0)return 'DUE TODAY';if(i.days===1)return 'Due TOMORROW';return 'Due in '+fm(i.days)+' days'}
+function message(i){return describe(i)+' - '+i.title+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
+
+function evaluate(){
+  var all=items(),un=all.filter(function(i){return !i.paid}),L=leads(),ord={y:1,o:2,r:3},top='',anyDue=false;
+  all.forEach(function(i){i.tier=i.paid?'':tierOf(i.days);if(i.tier==='d')anyDue=true;else if(i.tier&&(ord[i.tier]>(ord[top]||0)))top=i.tier});
+  var ft=top||(anyDue?'d':''),fi=un.filter(function(i){return i.tier===ft})[0]||un[0]||null;
+  cur={all:all,un:un,tier:ft,focus:fi,overdue:un.filter(function(i){return i.days<0}).length};
+  var td=today(),changed=false,M=S.sim?(S.sentSim=S.sentSim||{}):S.sent;
+  un.forEach(function(i){
+    var key=null;if(i.days<0)key=i.id+'|od|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
+    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
+  var ks=Object.keys(M);if(ks.length>200){ks.slice(0,ks.length-200).forEach(function(k){delete M[k]});changed=true}
+  if(changed)save()}
+
+/* ============ render ============ */
+function render(){
+  evaluate();var c=cur,f=c.focus;
+  document.body.className=(c.tier==='r'||c.tier==='d')?'critical':'';
+  var loanItems=c.all.filter(function(i){return i.kind==='loan'}),paidN=loanItems.filter(function(i){return i.paid}).length,pct=loanItems.length?Math.round(paidN/loanItems.length*100):0;
+  var nextLoan=loanItems.filter(function(i){return !i.paid})[0];
+  /* balance left, grouped by currency */
+  var by={};S.loans.forEach(function(L){var n=loanItems.filter(function(i){return i.loan===L.id&&!i.paid})[0];if(n){by['']=(by['']||0)+n.beg}});
+  var bal=Object.keys(by).map(function(k){return money(by[k],k)}).join('<br>')||money(0,'');
+  var head=!f?(S.loans.length||S.reminders.length?'All clear':'Nothing yet'):describe(f);
+  var sub=!f?(S.loans.length||S.reminders.length?'Nothing left to pay.':'Tap + to add a loan.'):esc(f.title)+'<br>'+esc(nice(f.date))+' · <b>'+esc(money(f.amount,f.cur))+'</b>';
+  var snoozed=Date.now()<snooze,sb;
+  if(!S.alerts.sound)sb='<button class="xs" onclick="setSound(true)">Sound on</button>';
+  else if(!audio)sb='<button class="xs '+(c.tier==='r'?'danger':'')+'" onclick="setSound(true)">Enable sound</button>';
+  else if(c.tier&&c.tier!=='d')sb=snoozed?'<button class="xs" onclick="snooze=0;syncBeep();render()">Resume</button>':'<button class="xs" onclick="snooze=Date.now()+36e5;syncBeep();render()">Silence 1h</button>';
+  else sb='<button class="xs" onclick="setSound(false)">Mute</button>';
+  var C=S.contact,configured=C.email||C.tgUser||S.alerts.ntfy||(C.tgToken&&C.tgChat);
+
+  var h='<div class="top"><h1>Loan <span>Alerts</span></h1><span class="chip" id="clock"></span><button class="chip" onclick="toggleTest()">Test dates</button>'
+    +(configured?'':'<span class="chip nudge" onclick="openModal(\'contact\')">Set up alerts</span>')+'<span class="chip" id="instChip" style="cursor:pointer;'+(installEvt?'':'display:none')+'" onclick="installApp()">Install app</span><button class="chip" onclick="logout()" title="Sign out">'+esc(S.account||'')+' · Sign out</button></div>';
+
+  h+='<div class="card left status '+(c.tier?'t-'+c.tier:'')+'"><button class="gear" onclick="openModal(\'alerts\')" title="Edit alerts">'+PEN+'</button>'
+    +'<div><span class="dot"></span></div><div class="ct" style="margin-top:7px">'+(c.tier==='d'?'DUE':c.tier==='r'?'ALERT':c.tier?'Heads up':'Status')+'</div>'
+    +'<div class="big">'+esc(head)+'</div><div class="sm">'+sub+'</div>'
+    +(c.overdue>1?'<div class="sm" style="color:var(--red);font-weight:700;margin-top:3px">'+fm(c.overdue)+' overdue</div>':'')
+    +'<div class="sep"></div><div class="ct">Balance left</div><div class="mid" style="font-size:19px">'+bal+'</div>'
+    +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="sm">'+fm(paidN)+' of '+fm(loanItems.length)+' paid · '+pct+'%</div>'
+    +'<div class="btns">'+sb+(f?'<button class="xs primary" onclick="paid(\''+f.id+'\',true)">Mark paid</button>':'')+'</div></div>';
+
+  var upAll=c.all.filter(function(i){return S.showPaid||!i.paid}),up=upAll.slice(0,S.count);
+  h+='<div class="card mainc" id="cUp" data-total="'+upAll.length+'"><button class="gear" onclick="openModal(\'schedule\')" title="Edit list">'+PEN+'</button><div class="ct">Upcoming</div><div class="rows">'
+    +(up.length?up.map(function(i){return rowHtml(i,true)}).join(''):'<div class="empty">Nothing upcoming.</div>')+'</div><div class="more">&nbsp;</div></div>';
+
+  var rem=S.reminders.slice().sort(function(a,b){return a.date<b.date?-1:1}).slice(0,8),totalRem=S.reminders.length;
+  h+='<div class="card right" id="cRem" data-total="'+totalRem+'"><button class="gear" onclick="openModal(\'reminders\')" title="Edit reminders">'+PEN+'</button><div class="ct">My reminders</div><div class="rows">'
+    +(rem.length?rem.map(function(r){return rowHtml(c.all.filter(function(x){return x.id===r.id})[0])}).join(''):'<div class="empty">Tap the pen to add a bill, rent, tax…</div>')+'</div><div class="more">&nbsp;</div></div>';
+
+  h+='<div class="card dock"><div><div class="ct">Next payment</div>'
+    +(nextLoan?'<div class="mid">'+esc(money(nextLoan.amount,nextLoan.cur))+'</div><div class="sm">'+esc(nextLoan.title)+' · '+esc(nice(nextLoan.date))+' · '+(nextLoan.days<0?'overdue '+fm(nextLoan.days)+'d':nextLoan.days===0?'today':'in '+fm(nextLoan.days)+'d')+'</div>'
+      :'<div class="mid">—</div><div class="sm">'+(S.loans.length?'No loan payments left':'No loans yet. Tap + to add one.')+'</div>')
+    +'</div><button class="gold plus" onclick="openModal(\'loan\')" title="Add a loan">'+PLUS+'</button></div>';
+
+  $('app').innerHTML=h;fit('cUp');fit('cRem');tick();renderTester();syncBeep()}
+function fit(id){var card=$(id);if(!card)return;var box=card.querySelector('.rows'),rows=box.querySelectorAll('.row'),n=rows.length,total=+card.dataset.total;
+  while(box.scrollHeight>box.clientHeight+1&&n>1&&window.innerWidth>880){rows[--n].remove()}
+  var m=card.querySelector('.more');if(m&&total>n)m.textContent='+ '+(total-n)+' more'}
+function rowHtml(i,del){
+  if(!i)return '';
+  var t=i.paid?'':i.tier,tag=i.paid?'<span class="tag ok">Paid</span>':'<span class="tag t-'+t+'">'+(i.days<0?'overdue '+fm(i.days)+'d':i.days===0?'due today':'in '+fm(i.days)+'d')+'</span>';
+  return '<div class="row '+(t?'t-'+t:'')+(del?' hasdel':'')+'"><div><b>'+esc(i.title)+'</b><span>'+esc(nice(i.date))+' · '+esc(money(i.amount,i.cur))+'</span></div>'+tag
+    +'<button class="xs" onclick="paid(\''+i.id+'\','+(!i.paid)+')">'+(i.paid?'Undo':'Paid')+'</button>'+(del?'<button class="xs del" onclick="delItem(\''+i.id+'\')">Delete</button>':'')+'</div>'}
+function tick(){var c=$('clock');if(c)c.textContent=''+(S.sim?'SIM '+S.sim+' ':'')+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function paid(id,v){if(v)S.paid[id]=today();else delete S.paid[id];save();render();toast(v?'Marked paid':'Re-opened')}
+function setSound(v){S.alerts.sound=v;if(v)ensureAudio();save();syncBeep();render()}
+
+/* ============ pop-ups ============ */
+var editing=null;
+function loanForm(L){L=L||{name:'',amount:'',rate:'',years:'',perYear:2,start:today(),currency:''};
+  return '<label>Loan name</label><input type="text" id="m_name" value="'+esc(L.name)+'" placeholder="e.g. Car loan">'
+   +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="m_amt" class="num" oninput="numFmt(this)" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div><div><label>Yearly rate %</label><input type="number" step="0.01" id="m_rate" value="'+esc(L.rate)+'"></div></div>'
+   +'<div class="two"><div><label>Years</label><input type="number" step="0.5" id="m_years" value="'+esc(L.years)+'"></div><div><label>Payments / year</label><select id="m_per">'+[1,2,4,12].map(function(n){return '<option'+(L.perYear==n?' selected':'')+'>'+n+'</option>'}).join('')+'</select></div></div>'
+   +'<label>Start date</label><input type="date" id="m_start" value="'+esc(L.start)+'">'
+   +'<label class="sw"><input type="checkbox" id="m_past" checked><i></i> Mark past payments as paid</label>'}
+function openModal(k,arg){
+  var h='',A=S.alerts,C=S.contact;
+  if(k==='loan'){editing=arg||null;var L=arg?S.loans.filter(function(x){return x.id===arg})[0]:null;
+    h='<h2>'+(L?'Edit loan':'Add a loan')+'</h2><div class="sm">Numbers from your loan agreement or sheet.</div>'+loanForm(L)
+     +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveLoan()">'+(L?'Save changes':'Add loan')+'</button></div>'
+     +(S.loans.length?'<label>Your loans</label><div class="rows">'+S.loans.map(function(l){return '<div class="row"><div><b>'+esc(l.name)+'</b><span>'+esc(money(l.amount,l.currency))+' · '+esc(l.rate)+'% · '+esc(l.years)+' yrs</span></div><button class="xs" onclick="openModal(\'loan\',\''+l.id+'\')">'+PEN+'</button><button class="xs" onclick="delLoan(\''+l.id+'\')">Delete</button></div>'}).join('')+'</div>':'')}
+  if(k==='contact')h='<h2>Email &amp; Telegram</h2><div class="sm">Where your alerts get sent. Saving sends you a test message.</div>'
+    +'<label>Your Gmail</label><input type="email" id="m_email" value="'+esc(C.email)+'" placeholder="you@gmail.com">'
+    +'<div class="hint mailbox" id="mailStatus">'+mailStatusHtml()+'</div><div class="btns"><button class="xs" onclick="sendTestEmail()">Send test email</button></div>'
+    +'<details'+((C.ejService||C.ejTemplate||C.ejKey||!emailOK()||(S.mailLast&&!S.mailLast.ok))?' open':'')+'><summary>Email setup with EmailJS (sends from your Gmail, works from a file)</summary>'
+      +'<div class="hint" style="text-align:left">Without this, email goes through FormSubmit, which only works from a web address and needs one confirmation click. <b>1)</b> Sign up free at emailjs.com. <b>2)</b> Email Services, Add service, Gmail, connect your account, copy the <b>Service ID</b>. <b>3)</b> Email Templates, Create: set <b>To email</b> to {{to_email}}, <b>Subject</b> to {{subject}}, and the content to {{message}}. Save and copy the <b>Template ID</b>. <b>4)</b> Account, General: copy the <b>Public Key</b>. <b>5)</b> Paste the three values here, then press Send test email.</div>'
+      +'<label>Service ID</label><input type="text" id="m_ejs" value="'+esc(C.ejService)+'" placeholder="service_xxxxxxx">'
+      +'<label>Template ID</label><input type="text" id="m_ejt" value="'+esc(C.ejTemplate)+'" placeholder="template_xxxxxxx">'
+      +'<label>Public key</label><input type="text" id="m_ejk" value="'+esc(C.ejKey)+'" placeholder="xxxxxxxxxxxxxxx"></details>'
+    +'<label>Telegram username</label><input type="text" id="m_tg" value="'+esc(C.tgUser)+'" placeholder="@yourname">'
+    +'<details'+((C.tgToken||C.tgUser)&&!(C.tgToken&&C.tgChat)?' open':'')+'><summary>Telegram bot (needed to send)</summary>'
+      +'<div class="hint" style="text-align:left">Telegram does not let anyone message a username directly. You need a free bot: <b>1)</b> in Telegram open <b>@BotFather</b>, then /newbot, then copy the token. <b>2)</b> open your new bot and press Start, say “hi”. <b>3)</b> paste the token below and press Find my chat ID.</div>'
+      +'<label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken)+'" autocomplete="off" placeholder="123456:ABC-DEF…">'
+      +'<label>Chat ID</label><input type="text" id="m_chat" value="'+esc(C.tgChat)+'" placeholder="auto-filled"><div class="btns"><button class="xs" onclick="findChat()">Find my chat ID</button></div></details>'
+    +'<details><summary>Backup</summary><div class="btns"><button class="xs" onclick="exportData()">Export backup</button><button class="xs" onclick="$(\'imp\').click()">Import</button></div><input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">'
+      +'</details>'
+    +'<div class="hint" style="margin-top:10px">Alerts only go out while this page is open, so pin the tab.</div>'
+    +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveContact()">Save &amp; send setup message</button></div>';
+  if(k==='alerts')h='<h2>Alerts</h2><div class="sm">When and how you get reminded.</div>'
+    +'<label>Remind me (days before)</label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">0 = due day. Overdue alerts repeat daily.</div>'
+    +'<label>Row warning colors - days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="number" id="m_y" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="number" id="m_o" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="number" id="m_r" min="1" value="'+esc(A.r)+'"></div></div>'
+    +'<div class="hint">Rows beep yellow slowly, then orange faster, then red fastest. On the due date the row stops beeping and stays solid red.</div>'
+    +'<label class="sw"><input type="checkbox" id="m_sound" '+(A.sound?'checked':'')+'><i></i> Beeping alarm sound</label>'
+    +'<label class="sw"><input type="checkbox" id="m_br" '+(A.browser?'checked':'')+'><i></i> Desktop pop-up notifications</label>'
+    +'<div class="hint" id="m_perm">'+permText()+'</div><div class="btns"><button class="xs" onclick="askPerm()">Allow pop-ups</button></div>'
+    +'<label>Phone push (optional)</label><input type="text" id="m_ntfy" value="'+esc(A.ntfy)+'" placeholder="my-secret-topic">'
+    +'<div class="hint">Free: install the <b>ntfy</b> app, subscribe to the same topic. Pick a hard-to-guess name.</div>'
+    +'<div class="btns"><button onclick="saveAlerts();testNotify()">Send test alert</button></div>'
+    +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>';
+  if(k==='schedule')h='<h2>Upcoming list</h2>'
+    +'<label>Max rows (auto-fits the screen)</label><select id="m_count">'+[4,6,8,12].map(function(n){return '<option'+(S.count==n?' selected':'')+'>'+n+'</option>'}).join('')+'</select>'
+    +'<label class="sw"><input type="checkbox" id="m_sp" '+(S.showPaid?'checked':'')+'><i></i> Show paid items</label>'
+    +'<label>All loan payments</label><div class="rows" style="max-height:210px;overflow:auto">'+items().filter(function(i){return i.kind==='loan'}).map(function(i){return '<div class="row"><div><b>'+esc(i.title)+' · '+esc(nice(i.date))+'</b><span>'+esc(money(i.amount,i.cur))+' · interest '+esc(money(i.interest,i.cur))+'</span></div><span></span><button class="xs" onclick="paid(\''+i.id+'\','+(!i.paid)+');openModal(\'schedule\')">'+(i.paid?'Undo':'Mark')+'</button></div>'}).join('')+'</div>'
+    +'<div class="btns">'+(Object.keys(S.removed).length?'<button class="xs" onclick="restoreAll()">Restore '+Object.keys(S.removed).length+' deleted</button>':'')+'<button class="xs" onclick="markPast()">Mark all past as paid</button><button class="xs" onclick="if(confirm(\'Clear every paid mark?\')){S.paid={};save();closeModal();render()}">Reset paid</button></div>'
+    +'<div class="btns"><button class="primary" onclick="S.count=+$(\'m_count\').value;S.showPaid=$(\'m_sp\').checked;save();closeModal();render()">Save</button></div>';
+  if(k==='reminders')h='<h2>Reminders</h2><div class="sm">Anything with a date: rent, tax, insurance…</div>'
+    +'<label>What</label><input type="text" id="m_rt" placeholder="e.g. House rent">'
+    +'<div class="two"><div><label>Date</label><input type="date" id="m_rd" value="'+today()+'"></div><div><label>Amount</label><input type="text" inputmode="decimal" id="m_ra" class="num" oninput="numFmt(this)" placeholder="0"></div></div>'
+    +'<div class="btns"><button class="primary" onclick="addRem()">Add reminder</button></div>'
+    +(S.reminders.length?'<label>Your reminders</label><div class="rows">'+S.reminders.map(function(r){return '<div class="row"><div><b>'+esc(r.title)+'</b><span>'+esc(nice(r.date))+'</span></div><span></span><button class="xs" onclick="delRem(\''+r.id+'\')">Delete</button></div>'}).join('')+'</div>':'')
+    +'<div class="btns"><button onclick="closeModal()">Close</button></div>';
+  $('modal').innerHTML=h;$('ov').className='ov on'}
+function closeModal(){$('ov').className='ov'}
+function permText(){if(!('Notification' in window))return 'This browser has no desktop notifications.';return Notification.permission==='granted'?'Pop-ups are allowed':Notification.permission==='denied'?'Blocked. Click the lock icon in the address bar to allow them':'Not allowed yet - press the button.'}
+function askPerm(){if(!('Notification' in window))return toast('Not supported here');Notification.requestPermission().then(function(){if($('m_perm'))$('m_perm').textContent=permText();toast(permText())})}
+
+function saveLoan(){
+  var L={id:editing||('l'+Date.now()),name:$('m_name').value.trim()||'Loan',amount:pn($('m_amt').value),rate:+$('m_rate').value||0,years:+$('m_years').value,perYear:+$('m_per').value,start:$('m_start').value,currency:''};
+  if(!(L.amount>0)||!(L.years>0)||!L.start)return toast('Enter amount, years and start date');
+  if(editing)S.loans=S.loans.map(function(x){return x.id===editing?L:x});else S.loans.push(L);
+  if($('m_past').checked){var t=dn(today());schedule(L).forEach(function(i){if(dn(i.date)<t)S.paid[i.id]=today()})}
+  save();closeModal();render();toast(editing?'Loan updated':'Loan added')}
+function delLoan(id){if(!confirm('Delete this loan and its schedule?'))return;S.loans=S.loans.filter(function(l){return l.id!==id});Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();openModal('loan')}
+function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if(A.sound)ensureAudio();save();render()}
+function saveContact(){
+  var C=S.contact;readMail();C.tgUser=$('m_tg').value.trim().replace(/^@?/,'@').replace(/^@$/,'');C.tgToken=$('m_tok').value.trim();C.tgChat=$('m_chat').value.trim();
+  save();closeModal();render();
+  if(!C.email&&!C.tgUser&&!(C.tgToken&&C.tgChat))return toast('Saved');
+  var nx=cur.focus,body='Setup done. Loan Alerts will remind you before every payment.'+(nx?' Next up: '+message(nx):'');
+  var sent=notify('Loan Alerts - setup complete',body,false),notes=[];
+  if(C.email&&!emailOK())notes.push('Email is blocked, see the status box in settings');
+  if(C.tgToken&&C.tgChat)notes.push('Telegram sent');
+  else if(C.tgUser)notes.push('Telegram: add a bot token + chat ID so it can deliver');
+  toast(notes.join(' · ')||('Setup message sent via '+sent.join(', ')))}
+function findChat(){var t=$('m_tok').value.trim();if(!t)return toast('Paste your bot token first');
+  fetch('https://api.telegram.org/bot'+t+'/getUpdates').then(function(r){return r.json()}).then(function(j){
+    if(!j.ok)return toast('Telegram: '+j.description);var ids={};(j.result||[]).forEach(function(u){var m=u.message||u.channel_post||u.edited_message;if(m&&m.chat)ids[m.chat.id]=m.chat.first_name||m.chat.title||'chat'});
+    var k=Object.keys(ids);if(!k.length)return toast('No messages yet - open your bot, press Start, say hi, try again');$('m_chat').value=k[0];toast('Found: '+ids[k[0]]+'')}).catch(function(){toast('Could not reach Telegram (offline?)')})}
+function markPast(){var t=dn(today());items().forEach(function(i){if(i.kind==='loan'&&dn(i.date)<t)S.paid[i.id]=today()});save();closeModal();render();toast('Past payments marked paid')}
+function addRem(){var t=$('m_rt').value.trim(),d=$('m_rd').value;if(!t||!d)return toast('Add a name and a date');S.reminders.push({id:'R'+Date.now(),title:t,date:d,amount:pn($('m_ra').value)});save();render();openModal('reminders');toast('Reminder added')}
+function delRem(id){S.reminders=S.reminders.filter(function(r){return r.id!==id});delete S.paid[id];save();render();openModal('reminders')}
+function testNotify(){var s=notify('Loan Alert TEST','This is a test alert from your Loan Alerts page.',true);toast(s.length?'Test sent via '+s.join(' + '):'Nothing enabled yet - allow pop-ups or add a contact');if(S.alerts.sound){ensureAudio();beep()}}
+function exportData(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='loan-alerts-backup.json';a.click()}
+function importData(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{localStorage.setItem(KEY,r.result);S=load();closeModal();render();toast('Imported')}catch(e){toast('Not a valid backup file')}};r.readAsText(f)}
+
+/* ============ delete / restore ============ */
+var lastDel=null;
+function delItem(id){
+  var rem=S.reminders.filter(function(r){return r.id===id})[0]||null;
+  lastDel={id:id,rem:rem,paid:S.paid[id]||null};
+  if(rem){S.reminders=S.reminders.filter(function(r){return r.id!==id})}else{S.removed[id]=1}
+  delete S.paid[id];save();render();toast('Deleted',true)}
+function undoDel(){if(!lastDel)return;var d=lastDel;lastDel=null;
+  if(d.rem)S.reminders.push(d.rem);else delete S.removed[d.id];
+  if(d.paid)S.paid[d.id]=d.paid;save();render();toast('Restored')}
+function restoreAll(){S.removed={};save();closeModal();render();toast('Deleted payments restored')}
+
+/* ============ test dates ============ */
+var testOpen=false;
+function addDays(iso,n){var p=iso.split('-').map(Number);return isoOf(new Date(p[0],p[1]-1,p[2]+n))}
+function setSim(iso){S.sim=iso||'';S.sentSim={};save();render()}
+function stepSim(n){setSim(addDays(today(),n))}
+function jumpSim(n){var real=isoOf(new Date()),un=items().filter(function(i){return !i.paid});
+  var base=un.filter(function(i){return i.date>=real})[0]||un[0];if(!base)return toast('Add a loan or a reminder first');setSim(addDays(base.date,-n))}
+function toggleTest(){testOpen=!testOpen;renderTester()}
+function renderTester(){var t=$('tester');if(!t)return;t.className='tester'+(testOpen?' on':'');if(!testOpen)return;
+  t.innerHTML='<div class="th"><span>Test dates</span><button class="xs" onclick="toggleTest()">Close</button></div>'
+   +'<div class="td">'+esc(nice(today()))+'</div><div class="sm">'+(S.sim?'Pretend date':'Real date')+'</div>'
+   +'<div class="btns"><button class="xs" onclick="stepSim(-1)">- 1 day</button><button class="xs" onclick="stepSim(1)">+ 1 day</button></div>'
+   +'<div class="sm" style="margin-top:8px">Jump to the next payment:</div>'
+   +'<div class="btns" style="margin-top:5px"><button class="xs" onclick="jumpSim(7)">7 days before</button><button class="xs" onclick="jumpSim(3)">3 days before</button><button class="xs" onclick="jumpSim(1)">1 day before</button><button class="xs" onclick="jumpSim(0)">Due day</button><button class="xs" onclick="jumpSim(-2)">2 days late</button></div>'
+   +'<input type="date" value="'+esc(S.sim)+'" onchange="setSim(this.value)">'
+   +'<div class="btns"><button class="xs primary" onclick="setSim(\'\')">Back to real date</button></div>'
+   +'<div class="hint" style="text-align:center">Test mode shows pop-ups and sound only. No email or Telegram is sent.</div>'}
+
+/* ============ sign-in (separate data per email) ============ */
+var timers=[];
+function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)}
+function doLogin(){
+  var e=$('li_email').value.trim().toLowerCase();
+  if(!validEmail(e)){$('li_note').textContent='Type a valid email address.';return}
+  try{
+    localStorage.setItem(SESSION,e);
+    var legacy=localStorage.getItem(BASE);
+    if(legacy&&!localStorage.getItem(userKey(e))&&!localStorage.getItem(BASE+'.migrated')){
+      localStorage.setItem(userKey(e),legacy);localStorage.setItem(BASE+'.migrated',e);localStorage.removeItem(BASE)}
+  }catch(x){$('li_note').textContent='This browser blocks storage, so sign-in cannot work.';return}
+  boot(e)}
+function logout(){try{localStorage.removeItem(SESSION)}catch(e){}
+  clearInterval(beepTimer);beepTimer=null;beepKey='';timers.forEach(clearInterval);timers=[];closeModal();
+  $('app').innerHTML='';$('tester').className='tester';$('li_email').value='';$('login').className='login on'}
+function boot(email){
+  KEY=userKey(email);S=load();
+  if(!S.contact.email)S.contact.email=email;
+  S.account=email;
+  if(!S.init){var t0=dn(today());S.loans.forEach(function(L){schedule(L).forEach(function(i){if(dn(i.date)<t0)S.paid[i.id]=today()})});S.init=true}
+  save();$('login').className='login';
+  timers.forEach(clearInterval);timers=[];
+  render();timers.push(setInterval(render,30000))}
+
+/* ============ PWA: install + service worker ============ */
+var installEvt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e;var c=$('instChip');if(c)c.style.display=''});
+window.addEventListener('appinstalled',function(){installEvt=null;var c=$('instChip');if(c)c.style.display='none';toast('Installed. Open it from your apps.')});
+function installApp(){if(installEvt){installEvt.prompt();installEvt=null}
+  else toast('Use your browser menu: Install app / Add to Home Screen')}
+if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+
+var sess=getSession();
+if(sess&&validEmail(sess))boot(sess);else $('login').className='login on';
+</script>
+</body>
+</html>
