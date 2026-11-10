@@ -166,6 +166,11 @@
     .loans{grid-template-columns:1fr}
     body{font-size:16.5px}
   }
+  .pair{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:6px}.pair select{padding-left:10px;padding-right:26px;background-position:calc(100% - 15px) 50%,calc(100% - 9px) 50%}
+  .lbrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}.lbrow label{margin:12px 0 5px}.cal{display:flex;gap:6px;margin-top:6px}.cal .chip{min-height:30px;padding:0 11px;font-size:13px}
+  .three{display:grid;grid-template-columns:.8fr 1.5fr 1fr;gap:6px}.three select{padding-left:8px;padding-right:26px;background-position:calc(100% - 15px) 50%,calc(100% - 9px) 50%}
+  .tgbox{background:#EAF5FF;border:1px solid #BFE0FA;border-radius:14px;padding:12px;margin-top:10px;font-size:14.5px}
+  a.btn{text-decoration:none;color:inherit}a.btn.primary{color:#fff}
   @media(max-width:360px){.two{grid-template-columns:1fr}.hero .big{font-size:28px}}
   @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
@@ -191,6 +196,11 @@
 </div></div>
 
 <script>
+/* ============ settings you may change ============ */
+/* Telegram bot token (from @BotFather). Anyone who can read this file can use the bot,
+   so keep your repo private, or revoke the token in @BotFather with /revoke if it leaks. */
+var DEFAULT_BOT_TOKEN='8954189101:AAGPLZEIVLvgUAkcFJ543K1zAATcxD5yW8E';
+
 /* ============ logo ============ */
 var LOGO_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <defs> <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE9EC"/><stop offset="1" stop-color="#F4C9D3"/></linearGradient> <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E4AA"/><stop offset="1" stop-color="#C49A3C"/></linearGradient> <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34343d"/><stop offset="1" stop-color="#0c0c10"/></linearGradient> </defs> <rect width="512" height="512" rx="112" fill="url(#bg)"/> <circle cx="400" cy="112" r="120" fill="#BFE2FF" opacity=".55"/> <!-- bank: roof, columns, base --> <path d="M256 92 L96 186 L416 186 Z" fill="url(#ink)" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round"/> <circle cx="256" cy="150" r="17" fill="url(#gold)"/> <rect x="124" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="200" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="264" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="340" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="104" y="360" width="304" height="26" rx="10" fill="url(#ink)"/> <rect x="84" y="396" width="344" height="28" rx="12" fill="url(#ink)"/> <!-- reminder bell badge --> <circle cx="392" cy="392" r="62" fill="#FF3B30" stroke="#fff" stroke-width="10"/> <path d="M392 352c-18 0-30 14-30 32v14l-10 14h80l-10-14v-14c0-18-12-32-30-32z" fill="#fff"/> <circle cx="392" cy="426" r="8" fill="#fff"/> </svg>';
 var LOGO='data:image/svg+xml;utf8,'+encodeURIComponent(LOGO_SVG);
@@ -202,16 +212,24 @@ function userKey(e){return BASE+'.u.'+String(e).trim().toLowerCase()}
 function getSession(){try{return localStorage.getItem(SESSION)||''}catch(e){return ''}}
 var DEF={contact:{email:'',tgUser:'',tgToken:'',tgChat:'',ejService:'',ejTemplate:'',ejKey:''},
   alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1}};
-function blank(){return{loans:[],contact:Object.assign({},DEF.contact),alerts:Object.assign({},DEF.alerts),reminders:[],paid:{},sent:{},removed:{},mailLast:null,sim:'',init:false,showPaid:false,account:''}}
+function blank(){return{cal:'g',loans:[],contact:Object.assign({},DEF.contact),alerts:Object.assign({},DEF.alerts),reminders:[],paid:{},sent:{},removed:{},mailLast:null,sim:'',init:false,showPaid:false,account:''}}
 var S=blank();
 function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
   var loans=s.loans||(s.loan?[Object.assign({id:'l1'},s.loan)]:[]),paid=s.paid||{};
   Object.keys(paid).forEach(function(k){var m=/^L(\d+)$/.exec(k);if(m){paid['l1-'+m[1]]=paid[k];delete paid[k]}});
-  return{loans:loans,contact:Object.assign({},DEF.contact,s.contact),alerts:Object.assign({},DEF.alerts,s.alerts),reminders:s.reminders||[],paid:paid,sent:s.sent||{},removed:s.removed||{},mailLast:s.mailLast||null,sim:'',init:!!s.init,showPaid:!!s.showPaid,account:s.account||''}}
+  return{cal:s.cal==='e'?'e':'g',loans:loans,contact:Object.assign({},DEF.contact,s.contact),alerts:Object.assign({},DEF.alerts,s.alerts),reminders:s.reminders||[],paid:paid,sent:s.sent||{},removed:s.removed||{},mailLast:s.mailLast||null,sim:'',init:!!s.init,showPaid:!!s.showPaid,account:s.account||''}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 /* ============ helpers ============ */
 var $=function(id){return document.getElementById(id)};
+/* Ethiopian (Amharic) calendar */
+var AMM=['መስከረም','ጥቅምት','ኅዳር','ታኅሣሥ','ጥር','የካቲት','መጋቢት','ሚያዝያ','ግንቦት','ሰኔ','ሐምሌ','ነሐሴ','ጳጉሜን'],
+    AMW=['እሑድ','ሰኞ','ማክሰኞ','ረቡዕ','ሐሙስ','ዓርብ','ቅዳሜ'];
+function gregToJdn(y,m,d){var a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045}
+function jdnToGreg(j){var a=j+32044,b=Math.floor((4*a+3)/146097),c=a-Math.floor(146097*b/4),d=Math.floor((4*c+3)/1461),e=c-Math.floor(1461*d/4),m=Math.floor((5*e+2)/153);
+  return{d:e-Math.floor((153*m+2)/5)+1,m:m+3-12*Math.floor(m/10),y:100*b+d-4800+Math.floor(m/10)}}
+function ethToJdn(y,m,d){return 1724220+365*(y-1)+Math.floor(y/4)+30*(m-1)+d}
+function toEth(gy,gm,gd){var j=gregToJdn(gy,gm,gd),y=Math.floor((j-1724221)/365.25)+1;while(ethToJdn(y+1,1,1)<=j)y++;while(ethToJdn(y,1,1)>j)y--;var r=j-ethToJdn(y,1,1);return{y:y,m:Math.floor(r/30)+1,d:r%30+1}}
 function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function money(n,cur){var s=(Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');return (cur?cur+' ':'')+s}
 function fm(n){return Math.abs(Math.round(+n||0)).toLocaleString('en-US')}
@@ -227,7 +245,23 @@ function pad(n){return n<10?'0'+n:''+n}
 function isoOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function today(){return S.sim||isoOf(new Date())}
 function dn(iso){var p=iso.split('-').map(Number);return Math.round(Date.UTC(p[0],p[1]-1,p[2])/864e5)}
-function nice(iso){var p=iso.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+function nice(iso){var p=iso.split('-').map(Number),d=new Date(p[0],p[1]-1,p[2]);
+  if(S.cal==='e'){var e=toEth(p[0],p[1],p[2]);return AMW[d.getDay()]+' '+e.d+' '+AMM[e.m-1]+' '+e.y+' ዓ.ም'}
+  return d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+function dateField(id,iso){
+  if(S.cal!=='e')return '<input type="date" id="'+id+'" value="'+esc(iso||'')+'" onchange="preview()">';
+  var e=null;if(iso){var p=iso.split('-').map(Number);e=toEth(p[0],p[1],p[2])}
+  var t=today().split('-').map(Number),y0=toEth(t[0],t[1],t[2]).y,o1='<option value="">ቀን</option>',o2='<option value="">ወር</option>',o3='<option value="">ዓ.ም</option>',i;
+  for(i=1;i<=30;i++)o1+='<option value="'+i+'"'+(e&&e.d===i?' selected':'')+'>'+i+'</option>';
+  for(i=1;i<=13;i++)o2+='<option value="'+i+'"'+(e&&e.m===i?' selected':'')+'>'+AMM[i-1]+'</option>';
+  for(i=y0-25;i<=y0+15;i++)o3+='<option value="'+i+'"'+(e&&e.y===i?' selected':'')+'>'+i+'</option>';
+  return '<div class="three"><select id="'+id+'_d" onchange="preview()">'+o1+'</select><select id="'+id+'_m" onchange="preview()">'+o2+'</select><select id="'+id+'_y" onchange="preview()">'+o3+'</select></div>'}
+function dateVal(id){
+  if(S.cal!=='e')return($(id)||{}).value||'';
+  var d=+($(id+'_d')||{}).value,m=+($(id+'_m')||{}).value,y=+($(id+'_y')||{}).value;if(!d||!m||!y)return '';
+  if(m===13)d=Math.min(d,y%4===3?6:5);
+  var g=jdnToGreg(ethToJdn(y,m,d));return g.y+'-'+pad(g.m)+'-'+pad(g.d)}
+function twoCls(){return S.cal==='e'?' style="grid-template-columns:1fr"':''}
 function toast(m,undo){var t=$('toast');t.innerHTML=esc(m)+(undo?' <button onclick="undoDel()">Undo</button>':'');t.className='toast show';clearTimeout(toast.h);toast.h=setTimeout(function(){t.className='toast'},undo?7000:5200)}
 function leads(){var a=String(S.alerts.leads).split(/[,\s;]+/).map(function(x){return parseInt(x,10)}).filter(function(n){return !isNaN(n)&&n>=0&&n<=365});
   a=a.filter(function(v,i){return a.indexOf(v)===i}).sort(function(x,y){return x-y});return a.length?a:[0]}
@@ -235,9 +269,12 @@ function leads(){var a=String(S.alerts.leads).split(/[,\s;]+/).map(function(x){r
 /* ============ loan maths ============ */
 function addMonths(y,m,d,add){var t=new Date(y,m+add,1),last=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();return new Date(t.getFullYear(),t.getMonth(),Math.min(d,last))}
 function lname(L){var b=L.bank||'',n=L.name||'';return b?(n&&n!==b?b+' · '+n:b):(n||'Loan')}
+function stepOf(L){if(+L.every>0)return Math.max(1,Math.round(+L.every))*(L.everyUnit==='years'?12:1);return 12/(+L.perYear||12)}
+function termMonths(L){if(L.termVal!=null&&L.termVal!=='')return(+L.termVal||0)*(L.termUnit==='months'?1:12);return(+L.years||0)*12}
+function freqText(L){var st=stepOf(L);if(st%12===0){var y=st/12;return y===1?'Every year':'Every '+y+' years'}return st===1?'Every month':'Every '+st+' months'}
 function schedule(L){
-  var per=+L.perYear||12,n=Math.round((+L.years||0)*per);if(!(+L.amount>0)||!(n>0)||!L.start)return[];
-  var r=(+L.rate||0)/100/per,g=Math.min(Math.max(0,parseInt(L.grace,10)||0),n-1),m=n-g,fee=+L.fee||0,step=12/per,method=L.method||'annuity';
+  var step=stepOf(L),n=Math.ceil(termMonths(L)/step-1e-9);if(!(+L.amount>0)||!(n>0)||!L.start||!(step>0))return[];
+  var r=(+L.rate||0)/100*step/12,g=Math.min(Math.max(0,parseInt(L.grace,10)||0),n-1),m=n-g,fee=+L.fee||0,method=L.method||'annuity';
   var pmt=r?L.amount*r/(1-Math.pow(1+r,-m)):L.amount/m,eqp=L.amount/m,bal=+L.amount,out=[];
   var st=L.start.split('-').map(Number),fp=L.first?L.first.split('-').map(Number):null;
   for(var k=1;k<=n;k++){
@@ -295,16 +332,49 @@ function readMail(){var C=S.contact;if($('m_email'))C.email=$('m_email').value.t
 function sendTestEmail(){readMail();if(!S.contact.email)return toast('Type your Gmail address first');
   if(!emailOK()){$('mailStatus').innerHTML=mailStatusHtml();return}
   $('mailStatus').textContent='Sending...';postEmail('Loan Alerts - test email','This is a test email from your Loan Alerts page. If you can read this, email alerts work.')}
+function tgToken(){return String((S.contact&&S.contact.tgToken)||DEFAULT_BOT_TOKEN||'').trim()}
+function tgCall(method,params){return fetch('https://api.telegram.org/bot'+tgToken()+'/'+method,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(params||{})}).then(function(r){return r.json()})}
 function postTelegram(text){
-  return fetch('https://api.telegram.org/bot'+S.contact.tgToken.trim()+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:S.contact.tgChat.trim(),text:text})})
-   .then(function(r){return r.json()}).then(function(j){if(!j.ok)toast('Telegram: '+j.description)}).catch(function(){toast('Telegram could not be reached (offline?)')})}
+  return tgCall('sendMessage',{chat_id:S.contact.tgChat,text:text}).then(function(j){if(!j.ok)toast('Telegram: '+j.description)}).catch(function(){toast('Telegram could not be reached (offline?)')})}
+function tgStatusHtml(){var C=S.contact;return C.tgChat?'<b>Connected</b>'+(C.tgName?' as '+esc(C.tgName):'')+'. Every payment reminder will arrive in Telegram.':'Not connected yet. Press <b>Connect Telegram</b>, then press Start in the chat that opens.'}
+var tgPoll=null,tgCode='';
+function tgStop(){clearInterval(tgPoll);tgPoll=null}
+function tgDone(){var a=$('tgStatus');if(a)a.innerHTML=tgStatusHtml();render()}
+function tgConnect(){
+  var box=$('tgBox');tgStop();box.className='tgbox';box.textContent='Connecting…';
+  tgCall('getMe').then(function(j){
+    if(!j.ok){box.textContent='Bot problem: '+(j.description||'token not accepted');return}
+    var u=j.result.username,code='LA'+Math.random().toString(36).slice(2,8).toUpperCase(),tries=0;tgCode=code;
+    box.innerHTML='<b>Step 1.</b> Tap the button, then press <b>Start</b> in Telegram.<div class="mbtns"><a class="btn primary" target="_blank" rel="noopener" href="https://t.me/'+esc(u)+'?start='+code+'">Open Telegram</a></div>'
+      +'<div class="hint">Button does not work? Open <b>@'+esc(u)+'</b> and send this message: <b>/start '+code+'</b><br>This page is waiting and connects by itself.</div>';
+    tgPoll=setInterval(function(){
+      if(++tries>80){tgStop();box.textContent='Timed out. Press Connect Telegram to try again.';return}
+      tgCall('getUpdates',{timeout:0,allowed_updates:['message']}).then(function(r){
+        if(!r.ok){tgStop();box.textContent='Telegram: '+(r.description||'error');return}
+        var hit=(r.result||[]).filter(function(x){var m=x.message;return m&&m.text&&m.text.trim().toUpperCase().indexOf('/START '+code)===0}).pop();
+        if(!hit)return;
+        tgStop();var ch=hit.message.chat;S.contact.tgChat=String(ch.id);S.contact.tgName=[ch.first_name,ch.last_name].filter(Boolean).join(' ')||ch.title||ch.username||'';save();
+        tgCall('sendMessage',{chat_id:ch.id,text:'✅ Loan Alerts is connected.\nYou will get a message before every payment on your loans until the last one is paid.'}).catch(function(){});
+        box.className='';box.textContent='';tgDone();toast('Telegram connected')
+      }).catch(function(){})
+    },2500)
+  }).catch(function(){box.textContent='Could not reach Telegram (offline?)'})}
+function tgTest(){if(!S.contact.tgChat)return toast('Connect Telegram first');postTelegram('✅ Test alert from Loan Alerts. Telegram works.').then(function(){toast('Test sent')})}
+function tgDisconnect(){S.contact.tgChat='';S.contact.tgName='';save();tgDone();openModal('contact')}
+function tgLoanSummary(L){
+  var its=schedule(L);if(!its.length||!S.contact.tgChat||S.sim)return;
+  var lead=leads().filter(function(x){return x>0}).map(function(x){return x+'d'}).join(', ');
+  var lines=its.slice(0,30).map(function(i){return i.no+'. '+nice(i.date)+' — '+money(i.amount,i.cur)});
+  var t='✅ Loan added: '+lname(L)+'\nAmount: '+money(L.amount,L.currency)+' at '+(+L.rate||0)+'% per year\n'+freqText(L)+', '+its.length+' payments\nFirst: '+nice(its[0].date)+'\nLast: '+nice(its[its.length-1].date)
+   +'\n\nI will remind you '+(lead?lead+' before and ':'')+'on the due day for every payment until the loan ends.\n\nSchedule:\n'+lines.join('\n')+(its.length>30?'\n… and '+(its.length-30)+' more':'');
+  postTelegram(t.slice(0,4000))}
 function notify(title,body,urgent){
   var sent=[],C=S.contact;
   try{if(S.alerts.browser&&'Notification' in window&&Notification.permission==='granted'){new Notification(title,{body:body,requireInteraction:!!urgent,tag:title+body});sent.push('desktop')}}catch(e){}
   if(S.sim)return sent;
   if(S.alerts.ntfy){try{fetch('https://ntfy.sh/'+encodeURIComponent(S.alerts.ntfy.trim()),{method:'POST',body:body,headers:{Title:title.replace(/[^\x20-\x7E]/g,''),Priority:urgent?'urgent':'default',Tags:urgent?'rotating_light':'bell'}});sent.push('phone')}catch(e){}}
   if(C.email&&emailOK()){postEmail(title,body);sent.push('email')}
-  if(C.tgToken&&C.tgChat){postTelegram(title+'\n'+body);sent.push('telegram')}
+  if(tgToken()&&C.tgChat){postTelegram('🔔 '+title+'\n'+body);sent.push('telegram')}
   return sent}
 function describe(i){var a=Math.abs(i.days);
   if(i.days<0)return 'OVERDUE by '+fm(a)+' day'+(a===1?'':'s');if(i.days===0)return 'DUE TODAY';if(i.days===1)return 'Due TOMORROW';return 'Due in '+fm(i.days)+' days'}
@@ -352,7 +422,7 @@ function rowHtml(i){
 function loanCard(L,c){
   var its=c.all.filter(function(i){return i.loan===L.id}),next=its.filter(function(i){return !i.paid})[0],pd=its.filter(function(i){return i.paid}).length,pct=its.length?Math.round(pd/its.length*100):0;
   var cu=L.currency||'';
-  return '<div class="loan"><div class="nm">'+esc(L.bank||L.name||'Loan')+'</div><div class="muted">'+esc([L.name&&L.name!==L.bank?L.name:'',L.type||'',L.ref?'Acc '+L.ref:''].filter(Boolean).join(' · ')||money(L.amount,cu))+'</div>'
+  return '<div class="loan"><div class="nm">'+esc(L.bank||L.name||'Loan')+'</div><div class="muted">'+esc([L.name&&L.name!==L.bank?L.name:'',L.type||'',freqText(L),L.ref?'Acc '+L.ref:''].filter(Boolean).join(' · ')||money(L.amount,cu))+'</div>'
    +'<div class="kv"><div><span class="muted">Balance left</span><b>'+esc(money(next?next.beg:0,cu))+'</b></div>'
    +'<div><span class="muted">Next payment</span><b>'+(next?esc(money(next.amount,cu)):'—')+'</b><span class="muted">'+(next?esc(nice(next.date)):'Fully paid')+'</span></div></div>'
    +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="muted">'+pd+' of '+its.length+' paid · '+pct+'%</div>'
@@ -377,6 +447,7 @@ function render(){
     +'<button class="btn icon" onclick="openModal(\'menu\')" title="Menu" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>';
   if(S.sim)h+='<div class="sim"><span>Pretend date: <b>'+esc(nice(S.sim))+'</b> (test mode)</span><button class="btn sm" onclick="setSim(\'\')">Back to real date</button></div>';
   h+='<div class="cols"><div class="col">'+heroHtml(c,f);
+  if(!S.contact.tgChat)h+='<div class="card" style="background:#EAF5FF;border-color:#BFE0FA"><b>Get every reminder on Telegram</b><div class="muted" style="margin:4px 0 10px">Connect once and your phone will buzz before each payment.</div><button class="btn primary" onclick="openModal(\'contact\');tgConnect()">Connect Telegram</button></div>';
   if(S.loans.length)h+='<div class="card"><div class="tot"><div><div class="muted">Total balance left</div><div class="v">'+balTxt+'</div></div><div><div class="muted">Paid so far</div><div class="v">'+paidN+' of '+loanItems.length+'</div></div></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
   h+='<div class="card"><div class="hd"><h2>My loans</h2><button class="btn sm gold" onclick="openModal(\'loan\')">+ Add loan</button></div>'
     +(S.loans.length?'<div class="loans">'+S.loans.map(function(L){return loanCard(L,c)}).join('')+'</div>':'<div class="empty">No loans yet.<br>Tap <b>+ Add loan</b> for each bank loan you have.</div>')+'</div></div>';
@@ -391,62 +462,63 @@ function setSound(v){S.alerts.sound=v;if(v)ensureAudio();save();syncBeep();rende
 /* ============ pop-ups ============ */
 var editing=null,modalKind='',modalArg=null;
 function opt(v,t,sel){return '<option value="'+esc(v)+'"'+(String(sel)===String(v)?' selected':'')+'>'+esc(t)+'</option>'}
-function loanForm(L){
-  var N=!L;L=L||{bank:'',name:'',type:'Personal',ref:'',currency:'',amount:'',rate:'',termVal:'',termUnit:'years',perYear:12,method:'annuity',start:today(),first:'',grace:'',fee:'',col:'',notes:''};
-  var tv=L.termVal!=null&&L.termVal!==''?L.termVal:(L.years||''),tu=L.termUnit||'years';
+function freqParts(L){var st=stepOf(L);return st%12===0?{n:st/12,u:'years'}:{n:st,u:'months'}}
+function loanForm(L,N){
+  L=L||{bank:'',name:'',type:'Personal',ref:'',currency:'',amount:'',rate:'',termVal:'',termUnit:'years',method:'annuity',start:today(),first:'',grace:'',fee:'',col:'',notes:''};
+  var tv=L.termVal!=null&&L.termVal!==''?L.termVal:(L.years||''),tu=L.termUnit||'years',fq=L.every?{n:L.every,u:L.everyUnit||'months'}:freqParts(L);
   var banks=[];S.loans.forEach(function(x){var b=x.bank||x.name;if(b&&banks.indexOf(b)<0)banks.push(b)});
   var types=['Personal','Car / vehicle','Home / mortgage','Business','Education','Overdraft / credit line','Other'];
-  return '<h3>Lender</h3>'
-   +'<label>Bank or lender name</label><input type="text" id="f_bank" list="bankList" value="'+esc(L.bank)+'" placeholder="e.g. your bank&#39;s name" autocomplete="off"><datalist id="bankList">'+banks.map(function(b){return '<option value="'+esc(b)+'">'}).join('')+'</datalist>'
-   +'<div class="two"><div><label>Loan type</label><select id="f_type">'+types.map(function(t){return opt(t,t,L.type)}).join('')+'</select></div>'
-   +'<div><label>Loan name <small>(optional)</small></label><input type="text" id="f_name" value="'+esc(L.name&&L.name!==L.bank?L.name:'')+'" placeholder="e.g. My car"></div></div>'
-   +'<h3>Amount &amp; terms</h3>'
+  var past=L.past!==undefined?L.past:N,more=!!(L.name||L.currency||L.first||L.grace||L.fee||L.ref||L.col||L.notes||(L.type&&L.type!=='Personal')||(L.method&&L.method!=='annuity'));
+  return '<label>Bank name</label><input type="text" id="f_bank" list="bankList" value="'+esc(L.bank)+'" placeholder="e.g. your bank&#39;s name" autocomplete="off"><datalist id="bankList">'+banks.map(function(b){return '<option value="'+esc(b)+'">'}).join('')+'</datalist>'
    +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="f_amt" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div>'
-   +'<div><label>Currency <small>(optional)</small></label><input type="text" id="f_cur" value="'+esc(L.currency)+'" placeholder="e.g. USD" maxlength="6" oninput="preview()"></div></div>'
-   +'<div class="two"><div><label>Interest rate % per year</label><input type="number" inputmode="decimal" step="0.01" id="f_rate" oninput="preview()" value="'+esc(L.rate)+'"></div>'
-   +'<div><label>How often you pay</label><select id="f_per" onchange="preview()">'+[[12,'Every month'],[4,'Every 3 months'],[2,'Every 6 months'],[1,'Once a year']].map(function(a){return opt(a[0],a[1],L.perYear)}).join('')+'</select></div></div>'
-   +'<div class="two"><div><label>Loan length</label><input type="number" inputmode="decimal" step="0.5" id="f_term" oninput="preview()" value="'+esc(tv)+'"></div>'
-   +'<div><label>&nbsp;</label><select id="f_unit" onchange="preview()">'+opt('years','Years',tu)+opt('months','Months',tu)+'</select></div></div>'
-   +'<label>How the bank calculates payments</label><select id="f_method" onchange="preview()">'+opt('annuity','Same amount every time (most common)',L.method||'annuity')+opt('declining','Equal principal, interest on balance (payments shrink)',L.method)+'</select>'
-   +'<h3>Dates</h3>'
-   +'<div class="two"><div><label>Loan start date</label><input type="date" id="f_start" onchange="preview()" value="'+esc(L.start)+'"></div>'
-   +'<div><label>First payment date <small>(optional)</small></label><input type="date" id="f_first" onchange="preview()" value="'+esc(L.first||'')+'"></div></div>'
-   +'<div class="hint">Leave the first payment date empty and payments start one period after the start date.</div>'
-   +'<details'+((L.ref||L.grace||L.fee||L.col||L.notes)?' open':'')+'><summary>More details (optional)</summary>'
-     +'<label>Loan account / reference number</label><input type="text" id="f_ref" value="'+esc(L.ref||'')+'">'
-     +'<div class="two"><div><label>Grace period <small>(interest-only payments)</small></label><input type="number" inputmode="numeric" min="0" step="1" id="f_grace" oninput="preview()" value="'+esc(L.grace||'')+'" placeholder="0"></div>'
-     +'<div><label>Extra fee per payment <small>(insurance, service)</small></label><input type="text" inputmode="decimal" id="f_fee" class="num" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.fee))+'" placeholder="0"></div></div>'
-     +'<label>Collateral / guarantor</label><input type="text" id="f_col" value="'+esc(L.col||'')+'" placeholder="e.g. car, house, guarantor name">'
-     +'<label>Notes</label><textarea id="f_notes">'+esc(L.notes||'')+'</textarea></details>'
+   +'<div><label>Interest % per year</label><input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" id="f_rate" placeholder="e.g. 12.5" oninput="this.value=this.value.replace(\',\',\'.\').replace(/[^0-9.]/g,\'\');preview()" value="'+esc(L.rate)+'"></div></div>'
+   +'<div class="two"><div><label>Loan length</label><div class="pair"><input type="text" inputmode="decimal" id="f_term" placeholder="3" oninput="this.value=this.value.replace(/[^0-9.]/g,\'\');preview()" value="'+esc(tv)+'"><select id="f_unit" onchange="preview()">'+opt('years','Years',tu)+opt('months','Months',tu)+'</select></div></div>'
+   +'<div><label>Pay every</label><div class="pair"><input type="text" inputmode="numeric" pattern="[0-9]*" id="f_every" oninput="this.value=this.value.replace(/[^0-9]/g,\'\');preview()" value="'+esc(fq.n)+'"><select id="f_eunit" onchange="preview()">'+opt('months','Months',fq.u)+opt('years','Years',fq.u)+'</select></div></div></div>'
+   +'<div class="hint">Payments fall on the same day each time. Every 3 months from Jan 1 gives Apr 1, Jul 1, Oct 1…</div>'
+   +'<div class="lbrow"><label>Start date</label><span class="cal"><button class="chip'+(S.cal==='g'?' on':'')+'" onclick="switchCal(\'g\')">Gregorian</button><button class="chip'+(S.cal==='e'?' on':'')+'" onclick="switchCal(\'e\')">አማርኛ</button></span></div>'+dateField('f_start',L.start)
    +'<div class="pv" id="pv"></div>'
-   +'<label class="sw"><input type="checkbox" id="f_past" '+(N?'checked':'')+'><i></i> Mark payments before today as paid</label>'}
+   +'<details'+(more?' open':'')+'><summary>More options</summary>'
+     +'<div class="two"><div><label>Loan type</label><select id="f_type">'+types.map(function(t){return opt(t,t,L.type)}).join('')+'</select></div>'
+     +'<div><label>Currency</label><input type="text" id="f_cur" value="'+esc(L.currency)+'" placeholder="e.g. ETB" maxlength="6" oninput="preview()"></div></div>'
+     +'<label>Loan name</label><input type="text" id="f_name" value="'+esc(L.name&&L.name!==L.bank?L.name:'')+'" placeholder="e.g. My car">'
+     +'<label>First payment date <small>(if different)</small></label>'+dateField('f_first',L.first||'')
+     +'<label>How the bank calculates payments</label><select id="f_method" onchange="preview()">'+opt('annuity','Same amount every time',L.method||'annuity')+opt('declining','Payments shrink over time',L.method)+'</select>'
+     +'<div class="two"><div><label>Grace payments <small>(interest only)</small></label><input type="text" inputmode="numeric" pattern="[0-9]*" id="f_grace" oninput="this.value=this.value.replace(/[^0-9]/g,\'\');preview()" value="'+esc(L.grace||'')+'" placeholder="0"></div>'
+     +'<div><label>Fee per payment</label><input type="text" inputmode="decimal" id="f_fee" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.fee))+'" placeholder="0"></div></div>'
+     +'<label>Account number</label><input type="text" id="f_ref" value="'+esc(L.ref||'')+'">'
+     +'<label>Collateral / guarantor</label><input type="text" id="f_col" value="'+esc(L.col||'')+'">'
+     +'<label>Notes</label><textarea id="f_notes">'+esc(L.notes||'')+'</textarea></details>'
+   +'<label class="sw"><input type="checkbox" id="f_past" '+(past?'checked':'')+'><i></i> Mark past payments as paid</label>'}
 function readLoan(){
-  var unit=$('f_unit').value,tv=+$('f_term').value||0;
+  var unit=$('f_unit').value,tv=+$('f_term').value||0,ev=Math.max(1,parseInt($('f_every').value,10)||1),eu=$('f_eunit').value;
   return{id:editing||('l'+Date.now()),bank:$('f_bank').value.trim(),name:$('f_name').value.trim(),type:$('f_type').value,ref:$('f_ref').value.trim(),currency:$('f_cur').value.trim().toUpperCase(),
-    amount:pn($('f_amt').value),rate:+$('f_rate').value||0,termVal:tv,termUnit:unit,years:unit==='months'?tv/12:tv,perYear:+$('f_per').value,method:$('f_method').value,
-    start:$('f_start').value,first:$('f_first').value,grace:parseInt($('f_grace').value,10)||0,fee:pn($('f_fee').value),col:$('f_col').value.trim(),notes:$('f_notes').value.trim()}}
+    amount:pn($('f_amt').value),rate:+$('f_rate').value||0,termVal:tv,termUnit:unit,years:unit==='months'?tv/12:tv,every:ev,everyUnit:eu,perYear:12/(ev*(eu==='years'?12:1)),method:$('f_method').value,
+    start:dateVal('f_start'),first:dateVal('f_first'),grace:parseInt($('f_grace').value,10)||0,fee:pn($('f_fee').value),col:$('f_col').value.trim(),notes:$('f_notes').value.trim()}}
+function switchCal(c){var d=null;if(modalKind==='loan'&&$('f_bank')){d=readLoan();d.past=$('f_past').checked}S.cal=c;save();render();openModal('loan',editing,d)}
+function setCal(c){S.cal=c;save();render()}
 function preview(){
   var box=$('pv');if(!box)return;var L=readLoan(),s=schedule(L);
   if(!s.length){box.textContent='Fill in amount, rate, length and start date to see an estimate.';return}
   var g=Math.min(L.grace||0,s.length-1),tot=s.reduce(function(a,i){return a+i.interest},0),cu=L.currency;
-  box.innerHTML='<b>'+esc(money(s[g].amount,cu))+'</b> per payment · '+s.length+' payments<br>Total interest about <b>'+esc(money(tot,cu))+'</b> · last payment '+esc(nice(s[s.length-1].date))}
-function openModal(k,arg){
+  box.innerHTML='<b>'+esc(money(s[g].amount,cu))+'</b> per payment · '+s.length+' payments · '+esc(freqText(L).toLowerCase())+'<br>First: '+esc(nice(s[0].date))+'<br>Last: '+esc(nice(s[s.length-1].date))+'<br>Total interest about <b>'+esc(money(tot,cu))+'</b>'}
+function openModal(k,arg,draft){
   modalKind=k;modalArg=arg;
   var h='',A=S.alerts,C=S.contact;
   if(k==='menu')h='<h2>Menu</h2><div class="sub">Signed in as <b>'+esc(S.account)+'</b></div><div class="menu">'
     +'<button class="btn" onclick="openModal(\'alerts\')">Alerts &amp; sound <span>›</span></button>'
     +'<button class="btn" onclick="openModal(\'contact\')">Email &amp; Telegram <span>›</span></button>'
+    +'<button class="btn" onclick="setCal(S.cal===\'e\'?\'g\':\'e\');openModal(\'menu\')">Calendar <span>'+(S.cal==='e'?'አማርኛ · Ethiopian':'Gregorian')+' ⇄</span></button>'
     +'<button class="btn" onclick="openModal(\'test\')">Test dates <span>›</span></button>'
     +'<button class="btn" onclick="openModal(\'backup\')">Backup <span>›</span></button>'
     +'<button class="btn" onclick="installApp()">Install app <span>›</span></button>'
     +'<button class="btn warn" onclick="closeModal();logout()">Sign out</button></div>'
     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
-  if(k==='loan'){editing=arg||null;var L=arg?S.loans.filter(function(x){return x.id===arg})[0]:null;
-    h='<h2>'+(L?'Edit loan':'Add a loan')+'</h2><div class="sub">Add one for each bank loan you have. Use the numbers from your loan agreement.</div>'+loanForm(L)
-     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveLoan()">'+(L?'Save changes':'Add loan')+'</button></div>'}
+  if(k==='loan'){editing=arg||null;var L=arg?S.loans.filter(function(x){return x.id===arg})[0]:null,isNew=!arg;
+    h='<h2>'+(isNew?'Add a loan':'Edit loan')+'</h2><div class="sub">One form per bank loan. Only the first fields are needed.</div>'+loanForm(draft||L,isNew)
+     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveLoan()">'+(isNew?'Add loan':'Save changes')+'</button></div>'}
   if(k==='reminder')h='<h2>Add a reminder</h2><div class="sub">Anything with a date: rent, tax, insurance, a bill…</div>'
     +'<label>What</label><input type="text" id="m_rt" placeholder="e.g. House rent">'
-    +'<div class="two"><div><label>Date</label><input type="date" id="m_rd" value="'+today()+'"></div><div><label>Amount <small>(optional)</small></label><input type="text" inputmode="decimal" id="m_ra" oninput="numFmt(this)" placeholder="0"></div></div>'
+    +'<div class="two"'+twoCls()+'><div><label>Date</label>'+dateField('m_rd',today())+'</div><div><label>Amount <small>(optional)</small></label><input type="text" inputmode="decimal" id="m_ra" oninput="numFmt(this)" placeholder="0"></div></div>'
     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addRem()">Add reminder</button></div>';
   if(k==='payments'){var LL=S.loans.filter(function(x){return x.id===arg})[0];var its=items().filter(function(i){return i.loan===arg});
     h='<h2>All payments</h2><div class="sub">'+esc(LL?lname(LL):'')+'</div>'
@@ -454,24 +526,23 @@ function openModal(k,arg){
      +'<div class="mbtns">'+(Object.keys(S.removed).some(function(k){return k.indexOf(arg+'-')===0})?'<button class="btn" onclick="restoreAll()">Restore deleted</button>':'')
      +'<button class="btn" onclick="markPast(\''+arg+'\')">Mark past as paid</button><button class="btn" onclick="resetPaid(\''+arg+'\')">Clear paid marks</button></div>'
      +'<div class="mbtns"><button class="btn primary" onclick="closeModal()">Done</button></div>'}
-  if(k==='contact')h='<h2>Email &amp; Telegram</h2><div class="sub">Where your alerts get sent. Saving sends you a test message.</div>'
-    +'<label>Your Gmail</label><input type="email" id="m_email" value="'+esc(C.email)+'" placeholder="you@gmail.com">'
+  if(k==='contact')h='<h2>Email &amp; Telegram</h2><div class="sub">Where your alerts get sent.</div>'
+    +'<h3>Telegram</h3><div class="hint" id="tgStatus">'+tgStatusHtml()+'</div>'
+    +'<div class="mbtns"><button class="btn primary" onclick="tgConnect()">'+(C.tgChat?'Reconnect Telegram':'Connect Telegram')+'</button>'+(C.tgChat?'<button class="btn" onclick="tgTest()">Send test</button><button class="btn warn" onclick="tgDisconnect()">Disconnect</button>':'')+'</div>'
+    +'<div id="tgBox"></div>'
+    +'<details><summary>Bot settings</summary><label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken||'')+'" autocomplete="off" placeholder="Uses the built-in bot when empty"><div class="hint">Leave empty to use the built-in bot.</div></details>'
+    +'<h3>Email</h3><label>Your Gmail</label><input type="email" id="m_email" value="'+esc(C.email)+'" placeholder="you@gmail.com">'
     +'<div class="mailbox" id="mailStatus">'+mailStatusHtml()+'</div><div class="mbtns"><button class="btn sm" onclick="sendTestEmail()">Send test email</button></div>'
-    +'<details'+((C.ejService||C.ejTemplate||C.ejKey||!emailOK()||(S.mailLast&&!S.mailLast.ok))?' open':'')+'><summary>Email setup with EmailJS (sends from your Gmail)</summary>'
+    +'<details'+((C.ejService||C.ejTemplate||C.ejKey||(S.mailLast&&!S.mailLast.ok))?' open':'')+'><summary>Email setup with EmailJS (sends from your Gmail)</summary>'
       +'<div class="hint">Without this, email goes through FormSubmit, which only works from a web address and needs one confirmation click. <b>1)</b> Sign up free at emailjs.com. <b>2)</b> Email Services, Add service, Gmail, connect your account, copy the <b>Service ID</b>. <b>3)</b> Email Templates, Create: set <b>To email</b> to {{to_email}}, <b>Subject</b> to {{subject}}, and the content to {{message}}. Save and copy the <b>Template ID</b>. <b>4)</b> Account, General: copy the <b>Public Key</b>. <b>5)</b> Paste the three values here, then press Send test email.</div>'
       +'<label>Service ID</label><input type="text" id="m_ejs" value="'+esc(C.ejService)+'" placeholder="service_xxxxxxx">'
       +'<label>Template ID</label><input type="text" id="m_ejt" value="'+esc(C.ejTemplate)+'" placeholder="template_xxxxxxx">'
       +'<label>Public key</label><input type="text" id="m_ejk" value="'+esc(C.ejKey)+'" placeholder="xxxxxxxxxxxxxxx"></details>'
-    +'<label>Telegram username</label><input type="text" id="m_tg" value="'+esc(C.tgUser)+'" placeholder="@yourname">'
-    +'<details'+((C.tgToken||C.tgUser)&&!(C.tgToken&&C.tgChat)?' open':'')+'><summary>Telegram bot (needed to send)</summary>'
-      +'<div class="hint">Telegram does not let anyone message a username directly. You need a free bot: <b>1)</b> in Telegram open <b>@BotFather</b>, then /newbot, then copy the token. <b>2)</b> open your new bot and press Start, say “hi”. <b>3)</b> paste the token below and press Find my chat ID.</div>'
-      +'<label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken)+'" autocomplete="off" placeholder="123456:ABC-DEF…">'
-      +'<label>Chat ID</label><input type="text" id="m_chat" value="'+esc(C.tgChat)+'" placeholder="auto-filled"><div class="mbtns"><button class="btn sm" onclick="findChat()">Find my chat ID</button></div></details>'
     +'<div class="hint" style="margin-top:12px">Alerts only go out while the app is open, so keep it open on your device.</div>'
-    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveContact()">Save &amp; send setup message</button></div>';
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveContact()">Save</button></div>';
   if(k==='alerts')h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
     +'<label>Remind me this many days before <small>(0 = due day)</small></label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">Overdue alerts repeat daily.</div>'
-    +'<label>Warning colors: days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="number" id="m_y" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="number" id="m_o" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="number" id="m_r" min="1" value="'+esc(A.r)+'"></div></div>'
+    +'<label>Warning colors: days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="text" id="m_y" inputmode="numeric" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="text" id="m_o" inputmode="numeric" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="text" id="m_r" inputmode="numeric" min="1" value="'+esc(A.r)+'"></div></div>'
     +'<div class="hint">Yellow pulses slowly, orange faster, red fastest. On the due date it stays solid red.</div>'
     +'<label class="sw"><input type="checkbox" id="m_sound" '+(A.sound?'checked':'')+'><i></i> Beeping alarm sound</label>'
     +'<label class="sw"><input type="checkbox" id="m_br" '+(A.browser?'checked':'')+'><i></i> Pop-up notifications</label>'
@@ -492,7 +563,7 @@ function openModal(k,arg){
     +'<div class="mbtns"><button class="btn" onclick="setSim(\'\');openModal(\'test\')">Back to real date</button><button class="btn primary" onclick="closeModal()">Done</button></div>'}
   $('modal').innerHTML=h;$('ov').className='ov on';
   if(k==='loan')preview()}
-function closeModal(){$('ov').className='ov'}
+function closeModal(){tgStop();$('ov').className='ov'}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
 function permText(){if(!('Notification' in window))return 'This browser has no desktop notifications.';return Notification.permission==='granted'?'Pop-ups are allowed':Notification.permission==='denied'?'Blocked. Click the lock icon in the address bar to allow them':'Not allowed yet - press the button.'}
 function askPerm(){if(!('Notification' in window))return toast('Not supported here');Notification.requestPermission().then(function(){if($('m_perm'))$('m_perm').textContent=permText();toast(permText())})}
@@ -505,28 +576,17 @@ function saveLoan(){
   if(!L.start)return toast('Pick the start date');
   if(editing)S.loans=S.loans.map(function(x){return x.id===editing?L:x});else S.loans.push(L);
   if($('f_past').checked){var t=dn(today());schedule(L).forEach(function(i){if(dn(i.date)<t)S.paid[i.id]=today()})}
-  var was=editing;save();closeModal();filter='all';render();toast(was?'Loan updated':'Loan added')}
+  var was=editing;save();closeModal();filter='all';render();toast(was?'Loan updated':'Loan added');if(!was)tgLoanSummary(L)}
 function delLoan(id){var L=S.loans.filter(function(l){return l.id===id})[0];if(!confirm('Delete '+(L?lname(L):'this loan')+' and all its payments?'))return;
   S.loans=S.loans.filter(function(l){return l.id!==id});
   Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();toast('Loan deleted')}
 function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if(A.sound)ensureAudio();save();render()}
 function saveContact(){
-  var C=S.contact;readMail();C.tgUser=$('m_tg').value.trim().replace(/^@?/,'@').replace(/^@$/,'');C.tgToken=$('m_tok').value.trim();C.tgChat=$('m_chat').value.trim();
-  save();closeModal();render();
-  if(!C.email&&!C.tgUser&&!(C.tgToken&&C.tgChat))return toast('Saved');
-  var nx=cur.focus,body='Setup done. Loan Alerts will remind you before every payment.'+(nx?' Next up: '+message(nx):'');
-  var sent=notify('Loan Alerts - setup complete',body,false),notes=[];
-  if(C.email&&!emailOK())notes.push('Email is blocked, see the status box in settings');
-  if(C.tgToken&&C.tgChat)notes.push('Telegram sent');
-  else if(C.tgUser)notes.push('Telegram: add a bot token + chat ID so it can deliver');
-  toast(notes.join(' · ')||('Setup message sent via '+sent.join(', ')))}
-function findChat(){var t=$('m_tok').value.trim();if(!t)return toast('Paste your bot token first');
-  fetch('https://api.telegram.org/bot'+t+'/getUpdates').then(function(r){return r.json()}).then(function(j){
-    if(!j.ok)return toast('Telegram: '+j.description);var ids={};(j.result||[]).forEach(function(u){var m=u.message||u.channel_post||u.edited_message;if(m&&m.chat)ids[m.chat.id]=m.chat.first_name||m.chat.title||'chat'});
-    var k=Object.keys(ids);if(!k.length)return toast('No messages yet - open your bot, press Start, say hi, try again');$('m_chat').value=k[0];toast('Found: '+ids[k[0]])}).catch(function(){toast('Could not reach Telegram (offline?)')})}
+  var C=S.contact;readMail();if($('m_tok'))C.tgToken=$('m_tok').value.trim();
+  save();closeModal();render();toast('Saved')}
 function markPast(loanId){var t=dn(today());items().forEach(function(i){if(i.kind==='loan'&&(!loanId||i.loan===loanId)&&dn(i.date)<t)S.paid[i.id]=today()});save();render();openModal('payments',loanId);toast('Past payments marked paid')}
 function resetPaid(loanId){if(!confirm('Clear every paid mark for this loan?'))return;Object.keys(S.paid).forEach(function(k){if(k.indexOf(loanId+'-')===0)delete S.paid[k]});save();render();openModal('payments',loanId)}
-function addRem(){var t=$('m_rt').value.trim(),d=$('m_rd').value;if(!t||!d)return toast('Add a name and a date');S.reminders.push({id:'R'+Date.now(),title:t,date:d,amount:pn($('m_ra').value)});save();closeModal();render();toast('Reminder added')}
+function addRem(){var t=$('m_rt').value.trim(),d=dateVal('m_rd');if(!t||!d)return toast('Add a name and a date');S.reminders.push({id:'R'+Date.now(),title:t,date:d,amount:pn($('m_ra').value)});save();closeModal();render();toast('Reminder added')}
 function testNotify(){var s=notify('Loan Alert TEST','This is a test alert from your Loan Alerts page.',true);toast(s.length?'Test sent via '+s.join(' + '):'Nothing enabled yet - allow pop-ups or add a contact');if(S.alerts.sound){ensureAudio();beep()}}
 function exportData(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='loan-alerts-backup.json';a.click()}
 function importData(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);o.account=S.account;localStorage.setItem(KEY,JSON.stringify(o));S=load();S.account=o.account;closeModal();render();toast('Imported')}catch(e){toast('Not a valid backup file')}};r.readAsText(f)}
