@@ -2,233 +2,221 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Loan Alerts</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#FFF6F0">
+<meta name="theme-color" content="#FAF7F4">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Loan Alerts">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAwFBMVEXr2eXu3edhW1Lp3Orv2uX/YVmtl2LYx6FZTjeKdkqDajGegDz/vbnUvcMjIB+fnZ+84/+/4f/31Nv84ub53OLZ3fD1zdYnJy0UFBkAAADa4PHNp1H++/vYuWvt15j/OzDmyowcHCLEnVBANSCcipHhxn3syarw1bXfwnjTsV704KXOq2q5oqj/opy6nFq3nqT74Nf/Rjz///85NC/YuYjhvZT/gXr1y9X+5um94v/J4Pn2y9T/5+mllGva1c7/k42JheNXAAAAQHRSTlNhpP8mz///////////////LoD+/v7+/v//AP7//////////////////////////////wH/////0NNJqCwu////yxE94gAAAzVJREFUeNqll+l2qjAURoPg0OFOhwC9ZbLeCm3tYB3bauv7v9XNyYCESbTfnxwW2dskBFkhf2VmW8N4s+tCea55HMexPv68m4IjEif1sOKvM57l2iBmTrBtxCt4jPE+U4KtfQLvOB9oQAE5zNsVPBq44MTf57P4zQSzt5N5xyEmOTABmptAmWeTILPDz4/W8mwIZHuYp/W880GMwzyt5x2rScDQaZoCFzh1IU37H9Ko04nSJt4hTXz0Ofe8eS8C5wQBheGk4/F0ev2vowWQ9CXOFYv+cQKahGcSVaMI+0cIIMTJYz6j6FNU81741VIAi8ngRsQbj8d3nrwY9BZfLQRs7QZXKjd+GPrZ1dVgsjgoSPwzb09czS8u5rnLn2d+YSmoLoDJc75/RbzeRJsHEA0fnf87mPPRJDcATZD4o7o859Pr73kg1e9fOVWPkPEFAb5/GCSAR7VARX8o8LoA+QcM4ygvHlTLDCAKndcE/HcjDAp4EamWdU1FoeGagE9V9EqbBdkENQFtJ0hBDymsfzrEoIAXQ9WiQNyqEdBvCrLHnY4xKODFmIJoWdeEF0mlYL9fkjtMwipe3AGoFuStKkFuwyUhBgW8CAFUC/JWhYB+U0CPEgxLAv2dSe4xbPEpL+4BVAtDcasoKLx0Qx+DAl74AKoFeet0wZIXS513iwLZi232akGY2jTPlwX8D2jJOvG/J3/fwnLkpwGPvedLAneCcdnNBRaLfQvJMIDVaxy/diGgii8JRKAqdvAUyzxxg1srqOQB+W4SBEkXDZIvCHIf5FIegY3e5kvA5jG13SpBA+8FqzjeiUXcxfEqqBxBw2epE7DfvRSCSzaWaoH7WMhLlh8BWzxXCFxWBrQkgJfbhjyiAIQAqgUvTSvg4RS6gUw3NwUrE9zeNAUXcfcks2OLKPg1MTLBD6/xw/4LxB4Su0k9RiMnqNk/2kaKY9sWW1HNgJhteaDc0O2KrSz30YbMrJY8Gqb8ZVpNM37NTiykLc/fJ/k6u2oj45HHas2Di5/tjGYDmOGhy2zPF7MRxz7zG7w4eJqn8WR/9DWt4/n1Rj98W8fxawkqAY7CMKx2/Nogmwz7D3sgdSBRfqSAAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAABgFBMVEWxoqec7v9taXCrmGj51t/4195BP0B+foGIeoK/4///v//avsTV4Pb31Nv84ub63OLZ3fD0zdUAAAAUFBknJy7Np1H+/v7/OzDYuGns1pXa4PIcHCLlyocODhPEmj3x2qnhxHzewHb04afqyKzGnUExMTdaU1ubipFMQ0a+4f/TsF314cXIqGH/RDrXuYP/d2//WE/ZxI7B4f3ivZXK4Pj/mZPS3vT/uLT/qqX/a2PZ1tTzy9X/5um94///ZFv1y9X95upPRTBxZkyJeVT/gXr0y9X0zNX/5+n+5um2o3DWy7P/TkSEbDe1llCvpKi+4v/52eH/5uhFPCtrWDCoi0j1zNX0y9T819f419352eD/5ur95ur///8uJx6IenCbhVHTxMjN3vbvydX52N341t363OH62+F4YzRmYmaSdzmYi2itm23A4v//ioT5197/1+j62uD52uAiHRg9OkJcUDdjXVB8cFShjJO/3/+/3//BqrHd07zC6//C4//B4v//qv+z9pQLAAAAgHRSTlP/CP//a4r///9cBP/Z/v7+/v4A//////////7//////////////////4v//////////5H/rP/T/////ywtK/+oq/////9V0lXR////////bisO////b48QqFFujgL/////uhAtzqzS//////9s/1kPb5D///////8MMP//GS5cAxyNQ78AAAnmSURBVHja3d35Q9s2HwZwd8e7991eWXYxwS3ZDCShvCUHKeW+oaVAKWe5em69u9677/3rs+zYlmX5lmznfX7ZajvOJ+IbSbEDEs4H5t78jbvLGxsii0BvLrojofx38urVK/9DubL7K10lBIjn7yyL7OIRixdpZjOTHffrhXNx0Pt3NkSRo9lDxs0oFycN9+5CZPT8sihyNV8MMxvtbbBf/xIJzZwshpJpZqNMEHshHP3urlgUs9Xaf/0Sgr4hFsmsBzX27h9B6P27vM1STLPZ2FcW/NHzG8Uzm42NqwXepSGGlka42SyRX+nowpol6Ru8E8HRd4prdleIkGU7i8nNZoX8QaL5m2Eas6HePedGzxfdbKj/40LvbxTeLEl6f/0njl7mboapzdKkXtbnHPSNbjAbBfKXjd7vDrNRIAsWmvu8LnzOH7lAdu+Z6HnuZsjGbBTIgole5m6GjMyoqV/fE3g0ND+z0dR/ChwaOuK1gsRNvSuw7zooZpGZGXUgVwTmkzsY2tCpzGiSqqM3uJshQ7MkIfR8l5n1+hDYVgcMRac26/UhnF/mboZMzXr/Idzjb4ZMzXp9CPOczKNDQ6MeNBOzdFW4wcWsk1FGeZilb4S7HMxgyA7A0IzM0qSwzMGs6Wmv/thG/wU2WmKH3mBtBtoFPd/W9DxA/6cBxmZJEhjfTzHJr/6lGKl9bLAltmZJYGs2yM1hxc5I02AzNbNB282MgO01xZXVtlEjRUMTxawQqT0oI/ZsodA4eXNEoWRk0yzt4qCtyiiXy81VxSc/NvXdF0BR0A65vKYE5Kc2Ys8WAm1WBiK/qimBqX2LjtIKgDa6OYRRh5XQjNTRkb/njUbNXB4YGFB/UiJlVdUPLs/miu6QBx/SKmOE2pGsDeoPaM/mh9aLeWBwcHBzxWs72ESTpU3Ki1l5pT9kcCsvtF7M+tOrtG5uBA0nesq01h6u6w9r/54LGpRVPWtKvzdK+0InberuVfTIFDWSFA0q6Ilv1fppWSvbWaMeULttsLNFQw096eYP/fTUB+xs+hyy8jE6w1aGaICeUC9mH1C/OmhH9Tumf7WOTjKbEdos5oe+ZL2lVTt1/6OUtaQ1EhsNzWJe6QnIQwf9MOi4g1vJaiQuWlMvX77ce9gTmJVeOwfBR/7Qq58uLhvGQ4MmgqwpPSHZtszbYUcqxqHNWKUNhFjFjJ7gdq0nPM+r6NDq8wiH1m6jQ2OUNoyDrtT1kwcXs5P7h9vbh/ejHbtyC7G3OKCBis78vIdLDtG5I3Z/EERFg3F02pf3ezjl/kujtCNVdEQ0rBjFfNDDMQcRSxtGRGuomKuHPV9yjVna9a3who6ABmpVz8vvvuSe77bRMwWXNoyErlS/yjjVrRBzOFr9KvM0Q8zhaFDvZZd6pMwGFjSI3OX53gOKmXQfaEE8NIQFUIN4aAgLoAbx0OzIILkaxEMzNOuBqc1R0NjXNkbxABeHvgtg24c6T9lRux8RYfCOg8ZkQ0Sodw7t24e0zY6aPFcMczga+suGQMgu79aOGkreXRFLIwoakjc18ThojboLeDdbbO+5ojZzOBpyQoPIaC85DE289y8QAe77h55dngdgaM8DIpND0JAfWouCppOD0TBXtJ84GA1D0RovNAwQB6JhxmjXsAmSoWHGaA1EjxBjvlF0NOxCNH2OphUa7TOx1MpENP9dJtrzAAftvysZGnYhGvJDV3ihITM0yAwNE6HLFDTwosv281ZYooM+4WkDRDA0uQsYAxu5FUOTuyrJ0ZAZGmSGhl2IDrkAoA0SqThocpd5dnIrhvacKyEadiE69FKLphLB0OQu8+zkVgztOVcidPj1oUrh0LAL0bAL0bAL0bAL0TAr9Dg7NOxCNGSAbkZDN1mho1/Hr1wmgqHJXebZya0Y2nOuOOgYNx8q5G1BDE3uMs9ObnXQZc+5/s/RMi+0bJydC1pOhy7HRasM0DIztJoZWmaGBrHR4wnRMjM0yAwtM0ODzNAyMzRIj25XNLFUKqFv7Ecwp0OP2xfuU6BVreSKGGpOjwbp0O3Rkic+7S0nQ1eJlO0bJCq5y0STWzG0+W8Rb18xsLXlZGjgkUG3wYk1jBObsakpOqhTGGBiptFnZKw15ceWE6Jh2fV1t+o49mN0f6nM6gsqva7NKoYYr/aalTE91udKC9DUcmI0BBUswF16rl3UrbLbYdimbvZ50jLrxNccE+39nkziQKM5W320NKYJtcwMnd4Mbvb5pOVSy8zQqcxGbcgNrHHHFsfwlzCD1bXMDJ3OjKoWOOZrsvnmw96UhhpSzYnRIHVxiHbDLgJnYJmyX8mbToHIidHyziWWQQ3dctevFWA39pRRIHJi9G/f11jmI9SkdjsTg7hdNTeNfyVGyzWFaWZ1jVUcDZGcekxbL2cCNXVi9A5b8zApI2IVSMPoYpKiL7FF72CwPtGLtl/QtE99REP3M43uBK6ejciotXPMpz4ioQWm5ppOmQioDuLHkBT9BdPfaHmhS2bwfs0T197EXd4DluhLusQeQmQauoX/HJKPiDsvRphF0Au1LxB9DR93YMphHDBJCXsfhqAX06NB5uix1GgAuqWlv/73R8OM83X0mp5JhP6N8azDGhDxn7839g/iWpLeA3zP3qxccoaPBqCi7bEnUZcncDArL5yeeLrkk0WneGiDy7MMZ0qd2LPplp+5JDasaR5l7rEegu7nEeud2AD+X96esF4UFf00CP0zF/Rn+EgdFJle0kvCh8AOj8vvACuunto/fjPTY+Esu5mSnR1vUzemSuIbAj1F76Xl68JecEf9s8LhN4Br9lvNBXSmpM7nA9qnrTnh89CxW2YfEf9QZcT9Ocv+xEtraPlv4fzTLOYbtKtirgIZxccU+11I/Sy+pP+l7/c5mM2L/jPEFUdXxUz7XvU40tF7OZgp6sWJCY+ZWhzyHPqb6s9yMHcuqb/x6ewasr953fiT++/zMAfcCLBuBYj0N/GRgT7JxdxRlyYanjHF/IQOfXqeE3Nxg6e5mO1bcK47RY1W52OBn3mps4zEXj7mzj0MVAhTE63FscWZaxOyfUfOr4ufs9a+eJqP2XW/0xXoOywt2UujPM7LTGfDgLF0zlnP5UNeZuRwuUUxcNpwjK2cc5Kj2QjoPHHYpOURvtzPWb7mqLnuXg3qtBvMx8S6W++eFd+8/ohcLGyv8Gaz53AvFnZWdPN12gJ4b7vF7FoA732RzUd+izqedUU7k4s6nnWFmVw+c+9JIfu6ueAlYfc/FM+8dBK6ju3bgo7dwYvvnnxaJPPxo4hrMz8+LYp5aS7G0t17p0Uw08kBS3e/++RJvub1o0d+tqBF0h9/cpqXeeloLgAmhCxH//jtp6dPnmRnXl9fOr4+93ew6h8BxT5ti5VWUgAAAABJRU5ErkJggg==">
 <style>
   :root{
-    --cream:#FFF6F0;--pink:#F9DDE3;--pink2:#F4C9D3;--sky:#BFE2FF;--sky2:#8CCBFF;--skyd:#2F86D6;
-    --gold:#C49A3C;--gold2:#EBD28F;--goldd:#9A7424;--ink:#15151B;--muted:#80737F;
-    --red:#FF3B30;--orange:#F59A0B;--green:#2FB36B;
-    --glass:rgba(255,255,255,.58);--strong:rgba(255,255,255,.82);--edge:rgba(255,255,255,.9);
-    --shadow:0 12px 36px rgba(120,80,110,.14);
+    --bg:#FAF7F4;--card:#fff;--ink:#1B1B22;--muted:#6B6672;--line:#E9E2DC;
+    --gold:#B8892D;--gold2:#EBD28F;--blue:#2F86D6;--green:#1FA463;
+    --y:#E5A800;--o:#F08A00;--r:#E5362B;
+    --shadow:0 2px 14px rgba(60,40,50,.08);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;height:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);text-align:center;background:var(--cream);overflow:hidden}
-  .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(1100px 700px at 15% -10%,#FFE9EC,transparent 60%),radial-gradient(900px 600px at 100% 100%,#E3F1FF,transparent 60%),linear-gradient(160deg,#FFF8F2,#FCE9EC)}
-  .blob{position:absolute;border-radius:50%;filter:blur(64px);animation:float 20s ease-in-out infinite;transition:background .6s,opacity .6s}
-  .b1{width:430px;height:430px;left:-120px;top:-90px;background:radial-gradient(circle at 30% 30%,#fff,var(--pink2));opacity:.85}
-  .b2{width:380px;height:380px;right:-100px;top:120px;background:radial-gradient(circle at 40% 40%,#e6f4ff,var(--sky2));opacity:.75;animation-delay:-7s}
-  .b3{width:340px;height:340px;left:34%;bottom:-170px;background:radial-gradient(circle,#fff1c9,var(--gold2));opacity:.55;animation-delay:-12s}
-  body.critical .b1{background:radial-gradient(circle at 30% 30%,#ffd0cb,#ff6a5f);opacity:.6}
-  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(34px,24px) scale(1.07)}}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;min-height:100dvh;font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);
+    background:linear-gradient(180deg,#FFF1EF 0,var(--bg) 320px) var(--bg);background-attachment:scroll}
+  body.critical{background:linear-gradient(180deg,#FFE2DE 0,var(--bg) 320px) var(--bg)}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 14px calc(100px + env(safe-area-inset-bottom))}
 
-  .app{position:relative;z-index:1;height:100dvh;max-width:1180px;margin:0 auto;padding:14px 18px 14px;display:grid;
-    grid-template-columns:270px minmax(0,1fr) 285px;grid-template-rows:auto minmax(0,1fr) auto;gap:14px}
-  .top{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;min-height:42px}
-  .top h1{font-size:22px;margin:0;letter-spacing:-.02em}
-  .top h1 span{color:var(--gold)}
-  .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--strong);border:1px solid var(--edge);box-shadow:inset 0 1px 0 #fff}
-  .chip.nudge{background:linear-gradient(180deg,#fff7de,#f3dd9c);border-color:#fff;color:#5b4310;cursor:pointer;animation:nudge 2s infinite}
-  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(196,154,60,.5)}60%{box-shadow:0 0 0 10px rgba(196,154,60,0)}}
-  .topgear{position:fixed;top:12px;right:14px;z-index:5}
+  /* header */
+  .head{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:10px 0;margin-bottom:6px;background:rgba(250,247,244,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .head img{width:38px;height:38px;border-radius:10px}
+  .head h1{margin:0;font-size:20px;letter-spacing:-.01em;flex:1}
+  .head h1 span{color:var(--gold)}
+  .sim{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;background:#FFF3C9;border:1px solid #F0D777;border-radius:14px;padding:8px 12px;margin-bottom:12px;font-size:14px}
 
-  .card{position:relative;background:var(--glass);border-radius:26px;padding:16px 14px 14px;-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);
-    border:1px solid var(--edge);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -1.5px 0 rgba(235,210,143,.35),var(--shadow);overflow:hidden;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,0) 40%,rgba(255,255,255,0) 72%,rgba(255,255,255,.3))}
-  .card>*{position:relative;width:100%}
-  .left{grid-column:1;grid-row:2;align-self:center}
-  .mainc{grid-column:2;grid-row:2;justify-content:flex-start}
-  .right{grid-column:3;grid-row:2;justify-content:flex-start}
-  .dock{grid-column:1/-1;grid-row:3;justify-self:center;width:min(470px,100%);flex-direction:row;gap:14px;padding:12px 18px;justify-content:space-between}
-  .dock>div{width:auto;flex:1}
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 18px;border-radius:14px;border:1px solid var(--line);background:#fff;font-weight:650;font-size:15px;cursor:pointer;transition:transform .12s,filter .12s}
+  .btn:hover{filter:brightness(.98)}.btn:active{transform:scale(.97)}
+  .btn.sm{min-height:36px;padding:0 13px;font-size:13.5px;border-radius:11px}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn.gold{background:linear-gradient(180deg,#F6E4AA,#D2A949);border-color:#D2A949;color:#2c2108}
+  .btn.danger{background:var(--r);border-color:var(--r);color:#fff}
+  .btn.warn{color:#B3261E}
+  .btn.icon{width:44px;padding:0}
+  .fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:6;width:60px;height:60px;border-radius:50%;padding:0;font-size:32px;line-height:1;box-shadow:0 8px 22px rgba(120,90,30,.4)}
+  .hide-m{display:none}
 
-  .ct{font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
-  .big{font-size:26px;font-weight:800;letter-spacing:-.03em;margin:4px 0 2px;line-height:1.1}
-  .mid{font-size:22px;font-weight:780;letter-spacing:-.02em;margin:3px 0 1px}
-  .sm{font-size:12.5px;color:var(--muted)}
-  .gear{position:absolute!important;top:9px;right:9px;width:32px!important;height:32px;border-radius:50%;padding:0!important;display:grid;place-items:center;font-size:16px;z-index:2}
-  button{font:inherit;font-weight:600;font-size:13.5px;border:1px solid var(--edge);cursor:pointer;border-radius:999px;padding:9px 16px;color:var(--ink);background:var(--strong);
-    box-shadow:inset 0 1.5px 0 #fff,0 4px 14px rgba(120,80,110,.10);transition:transform .15s,filter .15s}
-  button:hover{transform:translateY(-1px);filter:brightness(1.03)}button:active{transform:scale(.96)}
-  button.primary{color:#fff;background:linear-gradient(180deg,#34343d,#0c0c10);border-color:rgba(235,210,143,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 7px 18px rgba(20,20,30,.35)}
-  button.gold{color:#2c2108;background:linear-gradient(180deg,#f6e4aa,#d2a949);border-color:#fff;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),0 7px 18px rgba(196,154,60,.4)}
-  button.danger{color:#fff;background:linear-gradient(180deg,#ff6b60,#FF3B30);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 7px 20px rgba(255,59,48,.35)}
-  button.xs{padding:4px 10px;font-size:11.5px}
-  button.plus{width:46px;height:46px;padding:0;font-size:26px;line-height:1;display:grid;place-items:center;flex:none}
-  .btns{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:10px}
+  /* layout */
+  .cols{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+  .col{display:grid;gap:14px;align-content:start;min-width:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+  .card h2{margin:0;font-size:17px}
+  .card .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .muted,.sub{color:var(--muted);font-size:14px}
+  .eyebrow{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .empty{color:var(--muted);text-align:center;padding:18px 8px;font-size:15px}
 
-  /* status */
-  .dot{width:13px;height:13px;border-radius:50%;background:var(--sky2);display:inline-block;animation:ping 2.6s infinite}
-  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(140,203,255,.7)}70%,100%{box-shadow:0 0 0 16px rgba(140,203,255,0)}}
-  .status .big{color:var(--skyd)}
-  .status.warn .big{color:var(--goldd)}.status.warn .dot{background:var(--gold)}
-  .status.critical{background:linear-gradient(180deg,rgba(255,232,229,.9),rgba(255,255,255,.55));border-color:rgba(255,140,130,.9);animation:glow 1.2s infinite}
-  .status.critical .big{color:var(--red)}
-  .status.critical .dot{background:var(--red);animation:blink 1.2s infinite}
-  @keyframes blink{0%,45%{opacity:1;box-shadow:0 0 0 0 rgba(255,59,48,.8),0 0 14px 4px rgba(255,59,48,.7)}50%,100%{opacity:.25;box-shadow:0 0 0 18px rgba(255,59,48,0)}}
-  @keyframes glow{0%,100%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 rgba(255,59,48,.5),var(--shadow)}40%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 12px rgba(255,59,48,0),0 0 50px rgba(255,59,48,.45)}}
-  .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(196,154,60,.5),transparent);margin:12px 0 10px}
-  .bar{height:8px;border-radius:99px;background:rgba(47,134,214,.14);margin:8px auto 5px;max-width:170px;overflow:hidden}
+  /* hero */
+  .hero{padding:20px}
+  .hero .big{font-size:clamp(30px,7vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:8px 0 6px;color:var(--blue)}
+  .hero .who{font-size:16px;font-weight:650}
+  .hero .amt{font-size:24px;font-weight:800;margin:6px 0 2px}
+  .hero .od{color:var(--r);font-weight:700;margin-top:6px}
+  .hero .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .hero.ok .big{color:var(--green)}
+  .dot{width:12px;height:12px;border-radius:50%;background:var(--blue);display:inline-block;flex:none}
+  .hero.t-y{--c:var(--y);--g:rgba(229,168,0,.5);--spd:2.6s;background:#FFF9DF;border-color:#F1D467}.hero.t-y .big{color:#9A7400}
+  .hero.t-o{--c:var(--o);--g:rgba(240,138,0,.45);--spd:1.5s;background:#FFF0DC;border-color:#F4BC73}.hero.t-o .big{color:#C96A00}
+  .hero.t-r{--c:var(--r);--g:rgba(229,54,43,.5);--spd:.8s;background:#FFE6E3;border-color:#F2A19A}.hero.t-r .big{color:var(--r)}
+  .hero.t-d{background:#FFDAD6;border-color:var(--r)}.hero.t-d .big{color:var(--r)}
+  .hero.t-y,.hero.t-o,.hero.t-r{animation:pulse var(--spd) ease-in-out infinite}
+  .hero.t-y .dot,.hero.t-o .dot,.hero.t-r .dot{background:var(--c)}.hero.t-d .dot{background:var(--r);box-shadow:0 0 10px 3px rgba(229,54,43,.5)}
+  .hero.ok .dot{background:var(--green)}
+  @keyframes pulse{0%,100%{box-shadow:var(--shadow)}12%{box-shadow:0 0 0 5px var(--g),var(--shadow)}34%{box-shadow:var(--shadow)}}
+
+  /* totals */
+  .tot{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tot .v{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-top:2px;word-break:break-word}
+  .bar{height:10px;border-radius:99px;background:#EFE8E2;overflow:hidden;margin:10px 0 4px}
   .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold2),var(--gold))}
 
-  .rows{display:flex;flex-direction:column;gap:6px;margin-top:9px;min-height:0;overflow:hidden}
-  .row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:15px;background:rgba(255,255,255,.62);border:1px solid var(--edge);text-align:left;font-size:12.5px}
-  .row b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row span{color:var(--muted);font-size:11.5px}
-  .row>div{min-width:0}
-  .row.bad{border-color:rgba(255,120,110,.8);background:rgba(255,232,229,.8)}
-  .tag{padding:4px 9px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(140,203,255,.3);color:var(--skyd);white-space:nowrap}
-  .tag.bad{background:rgba(255,59,48,.14);color:var(--red);animation:b2 1.2s infinite}.tag.ok{background:rgba(47,179,107,.14);color:var(--green)}
-  @keyframes b2{50%{opacity:.45}}
-  .empty{color:var(--muted);font-size:12.5px;padding:12px 6px}
-  .more{font-size:11.5px;color:var(--muted);margin-top:2px}
+  /* loans */
+  .loans{display:grid;gap:10px}
+  .loan{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
+  .loan .nm{font-size:17px;font-weight:750;word-break:break-word}
+  .loan .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .loan .kv b{display:block;font-size:16px}
+  .loan .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 
+  /* chips + rows */
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:0 0 10px;margin-bottom:2px;-webkit-overflow-scrolling:touch}
+  .chip{flex:none;min-height:36px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:#fff;font-weight:650;font-size:14px;cursor:pointer}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .rows{display:grid;gap:8px}
+  .row{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:12px;border-radius:16px;border:1px solid var(--line);background:#fff;border-left:5px solid var(--line)}
+  .row>*{position:relative;z-index:1}
+  .row .tx{grid-column:1;min-width:0}
+  .row .tx b{display:block;font-size:15px;overflow-wrap:anywhere}
+  .row .tx span{display:block;color:var(--muted);font-size:13.5px}
+  .row .tag{grid-column:2}
+  .row .act{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{padding:5px 11px;border-radius:99px;font-size:12.5px;font-weight:750;white-space:nowrap;background:#E7F1FB;color:var(--blue)}
+  .tag.ok{background:#E2F5EA;color:var(--green)}
+  .tag.t-y{background:#FFF0B8;color:#8A6A00}.tag.t-o{background:#FFE2BC;color:#B85F00}.tag.t-r{background:#FFD9D5;color:var(--r)}.tag.t-d{background:var(--r);color:#fff}
+  .row.t-y{--c:var(--y);--spd:2.6s;border-left-color:var(--y)}
+  .row.t-o{--c:var(--o);--spd:1.5s;border-left-color:var(--o)}
+  .row.t-r{--c:var(--r);--spd:.8s;border-left-color:var(--r)}
+  .row.t-d{border-left-color:var(--r);background:#FFE6E3}
+  .row.paid{opacity:.7;border-left-color:var(--green)}
+  .row.t-y::after,.row.t-o::after,.row.t-r::after{content:"";position:absolute;inset:0;background:var(--c);opacity:.03;animation:rowBeep var(--spd) ease-in-out infinite;pointer-events:none;z-index:0}
+  @keyframes rowBeep{0%,100%{opacity:.03}12%{opacity:.30}34%{opacity:.04}}
+  .more{display:flex;justify-content:center;margin-top:10px}
 
-  /* warning waves: yellow slow -> orange faster -> red fastest -> still red on due date */
-  .row{position:relative;overflow:hidden}.row>*{position:relative;z-index:1}
-  .row.t-y{--c:#FFCC00;--spd:2.6s;border-color:rgba(230,180,0,.8)}
-  .row.t-o{--c:#FF9500;--spd:1.5s;border-color:rgba(245,140,0,.85)}
-  .row.t-r{--c:#FF3B30;--spd:.8s;border-color:rgba(255,80,70,.9)}
-  .row.t-d{border-color:rgba(255,70,60,.95);background:rgba(255,214,210,.92)}
-  .row.t-y::after,.row.t-o::after,.row.t-r::after{content:"";position:absolute;inset:0;background:var(--c);opacity:.04;animation:rowBeep var(--spd) ease-in-out infinite;pointer-events:none;z-index:0}
-  @keyframes rowBeep{0%,100%{opacity:.04}12%{opacity:.55}34%{opacity:.05}}
-  .tag.t-y{background:rgba(255,204,0,.3);color:#8a6a00}.tag.t-o{background:rgba(255,149,0,.22);color:#b85f00}.tag.t-r{background:rgba(255,59,48,.16);color:var(--red)}
-  .tag.t-d{background:var(--red);color:#fff}
-  .status.t-y{--c:#FFCC00;--g:rgba(255,204,0,.55);--spd:2.6s;background:linear-gradient(180deg,rgba(255,246,205,.9),rgba(255,255,255,.55));border-color:rgba(235,190,40,.9)}
-  .status.t-o{--c:#FF9500;--g:rgba(255,149,0,.5);--spd:1.5s;background:linear-gradient(180deg,rgba(255,234,206,.9),rgba(255,255,255,.55));border-color:rgba(250,150,20,.9)}
-  .status.t-r{--c:#FF3B30;--g:rgba(255,59,48,.55);--spd:.8s;background:linear-gradient(180deg,rgba(255,226,222,.92),rgba(255,255,255,.55));border-color:rgba(255,120,110,.95)}
-  .status.t-d{background:linear-gradient(180deg,rgba(255,214,210,.95),rgba(255,236,233,.6));border-color:rgba(255,70,60,.95)}
-  .status.t-y,.status.t-o,.status.t-r{animation:cardBeep var(--spd) ease-in-out infinite}
-  @keyframes cardBeep{0%,100%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 transparent,var(--shadow)}12%{box-shadow:inset 0 1.5px 0 #fff,0 0 42px 6px var(--g),var(--shadow)}34%{box-shadow:inset 0 1.5px 0 #fff,0 0 0 0 transparent,var(--shadow)}}
-  .status.t-y .big{color:#9a7400}.status.t-o .big{color:#d97500}.status.t-r .big,.status.t-d .big{color:var(--red)}
-  .status.t-y .dot,.status.t-o .dot,.status.t-r .dot{background:var(--c);animation:dotBeep var(--spd) ease-in-out infinite}
-  .status.t-d .dot{background:var(--red);animation:none;box-shadow:0 0 12px 3px rgba(255,59,48,.6)}
-  @keyframes dotBeep{0%,100%{opacity:.35;box-shadow:0 0 0 0 transparent}12%{opacity:1;box-shadow:0 0 16px 5px var(--g)}34%{opacity:.4;box-shadow:0 0 0 0 transparent}}
-  .num{letter-spacing:.01em}
-
-  .gear svg{width:15px;height:15px}
-  .row.hasdel{grid-template-columns:1fr auto auto auto}.row .del{color:#b83a2e}
-  .toast button{margin-left:10px}
-  .mailbox{background:rgba(255,255,255,.7);border-radius:12px;padding:8px 10px;text-align:left;margin-top:7px}
-  .tester{position:fixed;right:14px;bottom:14px;z-index:6;width:238px;padding:12px 12px 10px;border-radius:22px;display:none;background:rgba(255,252,248,.82);-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);border:1px solid #fff;box-shadow:inset 0 1.5px 0 #fff,inset 0 -1.5px 0 rgba(235,210,143,.4),var(--shadow)}
-  .tester.on{display:block}
-  .tester .th{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px}
-  .tester .td{font-size:15px;font-weight:700;margin:6px 0 2px}
-  .tester .btns{margin-top:7px}
-  .tester input[type=date]{padding:7px 8px;font-size:13px;margin-top:7px}
   /* modal */
-  .ov{position:fixed;inset:0;z-index:20;background:rgba(40,25,40,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:14px}
+  .ov{position:fixed;inset:0;z-index:20;background:rgba(30,20,30,.4);display:none;align-items:flex-end;justify-content:center}
   .ov.on{display:flex}
-  .modal{width:100%;max-width:440px;max-height:92vh;overflow:auto;background:rgba(255,250,246,.86);-webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%);
-    border:1px solid #fff;border-radius:30px;padding:20px 18px;box-shadow:inset 0 1.5px 0 #fff,inset 0 -2px 0 rgba(235,210,143,.4),0 30px 80px rgba(40,25,40,.35);animation:pop .25s}
-  @keyframes pop{from{transform:scale(.94);opacity:0}}
-  .modal h2{margin:0 0 3px;font-size:18px}
-  label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
-  input[type=text],input[type=number],input[type=date],input[type=password],input[type=email],select{width:100%;font:inherit;font-size:14.5px;text-align:center;color:var(--ink);padding:10px 12px;border-radius:15px;outline:0;
-    background:rgba(255,255,255,.9);border:1px solid #fff;box-shadow:inset 0 2px 6px rgba(120,80,110,.1)}
-  input:focus,select:focus{box-shadow:0 0 0 4px rgba(196,154,60,.25)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
-  .sw{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:11px;cursor:pointer;font-weight:600;font-size:13.5px;text-transform:none;letter-spacing:0;color:var(--ink)}
-  .sw input{display:none}.sw i{width:44px;height:27px;border-radius:99px;background:rgba(120,110,130,.35);position:relative;transition:.25s;flex:none}
-  .sw i::after{content:"";position:absolute;top:2px;left:2px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.25);transition:.25s}
-  .sw input:checked+i{background:#15151B}.sw input:checked+i::after{left:19px}
-  details{margin-top:12px;background:rgba(255,255,255,.5);border-radius:16px;padding:8px 12px;border:1px solid #fff}
-  summary{cursor:pointer;font-weight:650;font-size:13px}
-  .toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,40px);opacity:0;z-index:30;padding:11px 20px;border-radius:99px;font-weight:600;font-size:13.5px;background:rgba(21,21,27,.94);color:#fff;transition:.35s;max-width:92vw;border:1px solid rgba(235,210,143,.6)}
-  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .modal{width:100%;max-width:540px;max-height:92dvh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom));animation:up .22s ease-out;box-shadow:0 -10px 50px rgba(30,20,30,.25)}
+  @keyframes up{from{transform:translateY(30px);opacity:0}}
+  .modal h2{margin:0 0 4px;font-size:21px}
+  .modal h3{margin:18px 0 0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  label{display:block;font-size:14px;font-weight:650;margin:12px 0 5px}
+  label small{font-weight:500;color:var(--muted)}
+  input[type=text],input[type=number],input[type=date],input[type=password],input[type=email],select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);min-height:46px;padding:10px 12px;border-radius:13px;outline:0;background:#fff;border:1.5px solid #DDD5CF;appearance:none;-webkit-appearance:none}
+  select{background-image:linear-gradient(45deg,transparent 50%,#777 50%),linear-gradient(135deg,#777 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:34px}
+  textarea{min-height:70px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(184,137,45,.18)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .hint{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .mbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .mbtns .btn{flex:1 1 140px}
+  .pv{background:#FFF8E6;border:1px solid #F1DFA6;border-radius:14px;padding:12px;margin-top:16px;font-size:14.5px}
+  .mailbox{background:#F6F2EE;border-radius:12px;padding:10px;margin-top:8px;font-size:13px}
+  .sw{display:flex;align-items:center;gap:12px;margin-top:14px;cursor:pointer;font-weight:600;font-size:15px}
+  .sw input{display:none}.sw i{width:48px;height:29px;border-radius:99px;background:#CFC8D3;position:relative;transition:.2s;flex:none}
+  .sw i::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.25);transition:.2s}
+  .sw input:checked+i{background:var(--ink)}.sw input:checked+i::after{left:22px}
+  details{margin-top:14px;background:#FAF7F4;border-radius:14px;padding:10px 12px;border:1px solid var(--line)}
+  summary{cursor:pointer;font-weight:650;font-size:15px}
+  .menu{display:grid;gap:8px;margin-top:14px}
+  .menu .btn{justify-content:space-between;width:100%;min-height:52px;font-size:16px}
+  .prow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .prow:last-child{border-bottom:0}
+  .prow div{min-width:0}.prow b{display:block;font-size:14.5px}.prow span{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translate(-50%,40px);opacity:0;z-index:30;padding:12px 20px;border-radius:99px;font-weight:600;font-size:14.5px;background:rgba(27,27,34,.95);color:#fff;transition:.3s;max-width:92vw;text-align:center;pointer-events:none}
+  .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .toast button{margin-left:8px;min-height:30px;padding:0 12px;background:#fff;color:var(--ink);border-radius:99px;border:0;font-weight:700;cursor:pointer}
 
-  /* small screens: allow normal scrolling stack */
-  @media(max-width:880px){
-    body{overflow:auto}.app{height:auto;min-height:100dvh;grid-template-columns:1fr;grid-template-rows:none}
-    .left,.mainc,.right,.dock{grid-column:1;grid-row:auto}.two{grid-template-columns:1fr}
-  }
-  @media(max-height:640px) and (min-width:881px){.big{font-size:22px}.row{padding:5px 9px}.sep{margin:8px 0 6px}}
-  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
-
-  .login{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:16px;background:radial-gradient(900px 600px at 15% -10%,#FFE9EC,transparent 60%),radial-gradient(800px 600px at 100% 100%,#E3F1FF,transparent 60%),linear-gradient(160deg,#FFF8F2,#FCE9EC)}
+  /* login */
+  .login{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:16px;overflow:auto;background:linear-gradient(160deg,#FFF1EF,#F0F7FF)}
   .login.on{display:flex}
-  .login .box{width:100%;max-width:380px;background:var(--glass);border:1px solid var(--edge);border-radius:30px;padding:26px 20px;box-shadow:inset 0 1.5px 0 #fff,var(--shadow);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+  .login .box{width:100%;max-width:400px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px 20px;box-shadow:var(--shadow);text-align:center}
   .login img{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 26px rgba(120,80,110,.25)}
-  .login h2{margin:12px 0 4px;font-size:22px}
-  .login .btns{margin-top:16px}
+  .login h2{margin:12px 0 4px;font-size:24px}
+  .login label{text-align:left}
+  .login .mbtns{margin-top:16px}
+
+  /* wide screens */
+  @media(min-width:700px){
+    .hide-m{display:inline-flex}.fab{display:none}
+    .ov{align-items:center}.modal{border-radius:26px}
+    .loans{grid-template-columns:1fr 1fr}
+  }
+  @media(min-width:960px){
+    .cols{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}
+    .loans{grid-template-columns:1fr}
+    body{font-size:16.5px}
+  }
+  @media(max-width:360px){.two{grid-template-columns:1fr}.hero .big{font-size:28px}}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
-<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-<button class="topgear" id="topgear" title="Email &amp; Telegram settings" onclick="openModal('contact')" style="width:42px;height:42px;padding:0;border-radius:50%;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
-<div class="tester" id="tester"></div>
-<div class="app" id="app"></div>
+<div id="app"></div>
+<button class="btn gold fab" id="fab" onclick="openModal('loan')" title="Add a loan" aria-label="Add a loan" style="display:none">+</button>
 <div class="ov" id="ov" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 <div class="login" id="login"><div class="box">
-  <svg viewBox="0 0 512 512" width="84" height="84" style="border-radius:22px;box-shadow:0 10px 26px rgba(120,80,110,.25)" role="img" aria-label="Loan Alerts">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE9EC"/><stop offset="1" stop-color="#F4C9D3"/></linearGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E4AA"/><stop offset="1" stop-color="#C49A3C"/></linearGradient>
-    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34343d"/><stop offset="1" stop-color="#0c0c10"/></linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <circle cx="400" cy="112" r="120" fill="#BFE2FF" opacity=".55"/>
-  <!-- bank: roof, columns, base -->
-  <path d="M256 92 L96 186 L416 186 Z" fill="url(#ink)" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round"/>
-  <circle cx="256" cy="150" r="17" fill="url(#gold)"/>
-  <rect x="124" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
-  <rect x="200" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
-  <rect x="264" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
-  <rect x="340" y="206" width="48" height="136" rx="8" fill="url(#gold)"/>
-  <rect x="104" y="360" width="304" height="26" rx="10" fill="url(#ink)"/>
-  <rect x="84" y="396" width="344" height="28" rx="12" fill="url(#ink)"/>
-  <!-- reminder bell badge -->
-  <circle cx="392" cy="392" r="62" fill="#FF3B30" stroke="#fff" stroke-width="10"/>
-  <path d="M392 352c-18 0-30 14-30 32v14l-10 14h80l-10-14v-14c0-18-12-32-30-32z" fill="#fff"/>
-  <circle cx="392" cy="426" r="8" fill="#fff"/>
-</svg>
+  <img id="lg" alt="Loan Alerts">
   <h2>Loan <span style="color:var(--gold)">Alerts</span></h2>
-  <div class="sm">Sign in with your email and password. Each email keeps its own private loans and reminders on this device.</div>
+  <div class="sub">Sign in with your email and password. Each email keeps its own loans and reminders on this device.</div>
   <label>Your email</label>
-  <input type="email" id="li_email" placeholder="you@gmail.com" autocomplete="username" oninput="$('li_cw').style.display='none'">
+  <input type="email" id="li_email" placeholder="you@gmail.com" autocomplete="username" oninput="document.getElementById('li_cw').style.display='none'">
   <label>Password</label>
   <input type="password" id="li_pw" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
   <div id="li_cw" style="display:none"><label>Repeat password</label>
   <input type="password" id="li_pw2" placeholder="Repeat password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-  <div class="btns"><button class="primary" onclick="doLogin()">Continue</button></div>
-  <div class="hint" id="li_note">New email? Just type it with a password and press Continue to create your account.</div>
-  <div class="btns" style="margin-top:6px"><button class="xs" onclick="forgotPw()">Forgot password?</button></div>
+  <div class="mbtns"><button class="btn primary" onclick="doLogin()">Continue</button></div>
+  <div class="hint" id="li_note">New email? Type it with a password and press Continue to create your account.</div>
+  <div class="mbtns" style="margin-top:6px"><button class="btn sm" onclick="forgotPw()">Forgot password?</button></div>
 </div></div>
 
 <script>
-/* ============ storage ============ */
+/* ============ logo ============ */
+var LOGO_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <defs> <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE9EC"/><stop offset="1" stop-color="#F4C9D3"/></linearGradient> <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E4AA"/><stop offset="1" stop-color="#C49A3C"/></linearGradient> <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34343d"/><stop offset="1" stop-color="#0c0c10"/></linearGradient> </defs> <rect width="512" height="512" rx="112" fill="url(#bg)"/> <circle cx="400" cy="112" r="120" fill="#BFE2FF" opacity=".55"/> <!-- bank: roof, columns, base --> <path d="M256 92 L96 186 L416 186 Z" fill="url(#ink)" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round"/> <circle cx="256" cy="150" r="17" fill="url(#gold)"/> <rect x="124" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="200" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="264" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="340" y="206" width="48" height="136" rx="8" fill="url(#gold)"/> <rect x="104" y="360" width="304" height="26" rx="10" fill="url(#ink)"/> <rect x="84" y="396" width="344" height="28" rx="12" fill="url(#ink)"/> <!-- reminder bell badge --> <circle cx="392" cy="392" r="62" fill="#FF3B30" stroke="#fff" stroke-width="10"/> <path d="M392 352c-18 0-30 14-30 32v14l-10 14h80l-10-14v-14c0-18-12-32-30-32z" fill="#fff"/> <circle cx="392" cy="426" r="8" fill="#fff"/> </svg>';
+var LOGO='data:image/svg+xml;utf8,'+encodeURIComponent(LOGO_SVG);
+document.getElementById('lg').src=LOGO;
+
+/* ============ storage (one slot per email) ============ */
 var BASE='loanAlerts.v1',SESSION='loanAlerts.session',KEY=BASE;
-function userKey(email){return BASE+'.u.'+String(email).trim().toLowerCase()}
+function userKey(e){return BASE+'.u.'+String(e).trim().toLowerCase()}
 function getSession(){try{return localStorage.getItem(SESSION)||''}catch(e){return ''}}
-var DEF={loans:[{id:'l1',name:'My loan',amount:20000000,rate:9,years:3,perYear:2,start:'2025-08-01',currency:''}],
-  contact:{email:'',tgUser:'',tgToken:'',tgChat:'',ejService:'',ejTemplate:'',ejKey:''},removed:{},mailLast:null,
-  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1},reminders:[],paid:{},sent:{},sim:'',init:false,showPaid:false,count:12};
-var S={loans:[],contact:{},alerts:{},reminders:[],paid:{},sent:{},removed:{},sim:'',init:true,showPaid:false,count:12};
+var DEF={contact:{email:'',tgUser:'',tgToken:'',tgChat:'',ejService:'',ejTemplate:'',ejKey:''},
+  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1}};
+function blank(){return{loans:[],contact:Object.assign({},DEF.contact),alerts:Object.assign({},DEF.alerts),reminders:[],paid:{},sent:{},removed:{},mailLast:null,sim:'',init:false,showPaid:false,account:''}}
+var S=blank();
 function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
-  var loans=s.loans||(s.loan?[Object.assign({id:'l1'},s.loan)]:DEF.loans),paid=s.paid||{};
+  var loans=s.loans||(s.loan?[Object.assign({id:'l1'},s.loan)]:[]),paid=s.paid||{};
   Object.keys(paid).forEach(function(k){var m=/^L(\d+)$/.exec(k);if(m){paid['l1-'+m[1]]=paid[k];delete paid[k]}});
-  return {loans:loans,contact:Object.assign({},DEF.contact,s.contact),alerts:Object.assign({},DEF.alerts,s.alerts),reminders:s.reminders||[],paid:paid,sent:s.sent||{},removed:s.removed||{},mailLast:s.mailLast||null,sim:'',init:!!s.init,showPaid:!!s.showPaid,count:s.count||12}}
+  return{loans:loans,contact:Object.assign({},DEF.contact,s.contact),alerts:Object.assign({},DEF.alerts,s.alerts),reminders:s.reminders||[],paid:paid,sent:s.sent||{},removed:s.removed||{},mailLast:s.mailLast||null,sim:'',init:!!s.init,showPaid:!!s.showPaid,account:s.account||''}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 /* ============ helpers ============ */
-var PEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 7.5l3 3"/></svg>';
-var PLUS='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
 var $=function(id){return document.getElementById(id)};
 function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function money(n,cur){var s=(Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');return s}
+function money(n,cur){var s=(Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');return (cur?cur+' ':'')+s}
 function fm(n){return Math.abs(Math.round(+n||0)).toLocaleString('en-US')}
 function pn(v){return +String(v==null?'':v).replace(/,/g,'')||0}
-function fmtIn(v){return (v===''||v==null||isNaN(+v))?'':Number(v).toLocaleString('en-US',{maximumFractionDigits:2})}
+function fmtIn(v){return(v===''||v==null||isNaN(+v))?'':Number(v).toLocaleString('en-US',{maximumFractionDigits:2})}
 function numFmt(el){var raw=el.value,pos=el.selectionStart,before=raw.slice(0,pos).replace(/,/g,'').length;
   var clean=raw.replace(/[^0-9.]/g,''),parts=clean.split('.');parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
   el.value=parts.length>1?parts[0]+'.'+parts.slice(1).join(''):parts[0];
@@ -239,23 +227,33 @@ function pad(n){return n<10?'0'+n:''+n}
 function isoOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function today(){return S.sim||isoOf(new Date())}
 function dn(iso){var p=iso.split('-').map(Number);return Math.round(Date.UTC(p[0],p[1]-1,p[2])/864e5)}
-function nice(iso){var p=iso.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
-function toast(m,undo){var t=$('toast');t.innerHTML=esc(m)+(undo?' <button class="xs" onclick="undoDel()">Undo</button>':'');t.className='toast show';clearTimeout(toast.h);toast.h=setTimeout(function(){t.className='toast'},undo?7000:5200)}
+function nice(iso){var p=iso.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+function toast(m,undo){var t=$('toast');t.innerHTML=esc(m)+(undo?' <button onclick="undoDel()">Undo</button>':'');t.className='toast show';clearTimeout(toast.h);toast.h=setTimeout(function(){t.className='toast'},undo?7000:5200)}
 function leads(){var a=String(S.alerts.leads).split(/[,\s;]+/).map(function(x){return parseInt(x,10)}).filter(function(n){return !isNaN(n)&&n>=0&&n<=365});
   a=a.filter(function(v,i){return a.indexOf(v)===i}).sort(function(x,y){return x-y});return a.length?a:[0]}
 
-/* ============ loan maths (same as your sheet) ============ */
+/* ============ loan maths ============ */
+function addMonths(y,m,d,add){var t=new Date(y,m+add,1),last=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();return new Date(t.getFullYear(),t.getMonth(),Math.min(d,last))}
+function lname(L){var b=L.bank||'',n=L.name||'';return b?(n&&n!==b?b+' · '+n:b):(n||'Loan')}
 function schedule(L){
-  var n=Math.round(L.years*L.perYear);if(!(L.amount>0)||!(n>0)||!L.start)return[];
-  var r=L.rate/100/L.perYear,pmt=r?L.amount*r/(1-Math.pow(1+r,-n)):L.amount/n,bal=L.amount,p=L.start.split('-').map(Number),out=[];
+  var per=+L.perYear||12,n=Math.round((+L.years||0)*per);if(!(+L.amount>0)||!(n>0)||!L.start)return[];
+  var r=(+L.rate||0)/100/per,g=Math.min(Math.max(0,parseInt(L.grace,10)||0),n-1),m=n-g,fee=+L.fee||0,step=12/per,method=L.method||'annuity';
+  var pmt=r?L.amount*r/(1-Math.pow(1+r,-m)):L.amount/m,eqp=L.amount/m,bal=+L.amount,out=[];
+  var st=L.start.split('-').map(Number),fp=L.first?L.first.split('-').map(Number):null;
   for(var k=1;k<=n;k++){
-    var d=new Date(p[0],p[1]-1+k*12/L.perYear,p[2]),it=bal*r,pay=(k===n)?bal+it:pmt,pr=pay-it;
-    out.push({id:L.id+'-'+k,kind:'loan',loan:L.id,no:k,title:L.name+' #'+k,cur:L.currency,date:isoOf(d),amount:pay,principal:pr,interest:it,beg:bal,end:Math.max(0,bal-pr)});bal-=pr;
-  }return out}
+    var d=fp?addMonths(fp[0],fp[1]-1,fp[2],(k-1)*step):addMonths(st[0],st[1]-1,st[2],k*step);
+    var it=bal*r,pr,pay;
+    if(k<=g){pr=0;pay=it}
+    else if(k===n){pr=bal;pay=bal+it}
+    else if(method==='declining'){pr=eqp;pay=pr+it}
+    else{pay=pmt;pr=pay-it}
+    out.push({id:L.id+'-'+k,kind:'loan',loan:L.id,no:k,n:n,title:lname(L),bank:L.bank||L.name||'Loan',cur:L.currency||'',date:isoOf(d),amount:pay+fee,principal:pr,interest:it,fee:fee,beg:bal,end:Math.max(0,bal-pr)});
+    bal-=pr}
+  return out}
 function items(){
   var t=dn(today()),all=[];
   S.loans.forEach(function(L){all=all.concat(schedule(L).filter(function(i){return !S.removed[i.id]}))});
-  S.reminders.forEach(function(r){all.push({id:r.id,kind:'rem',title:r.title,cur:'',date:r.date,amount:+r.amount||0})});
+  S.reminders.forEach(function(r){all.push({id:r.id,kind:'rem',title:r.title,bank:'',cur:r.cur||'',date:r.date,amount:+r.amount||0})});
   all.forEach(function(i){i.days=dn(i.date)-t;i.paid=!!S.paid[i.id]});
   all.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0});return all}
 
@@ -266,10 +264,10 @@ var TIERS={y:{ms:3000,f:[660],v:.12},o:{ms:1800,f:[780,880],v:.18},r:{ms:900,f:[
 function playTier(t){if(!audio||!TIERS[t])return;var T=TIERS[t];T.f.forEach(function(fr,i){var os=audio.createOscillator(),g=audio.createGain(),at=audio.currentTime+i*.16;os.type='sine';os.frequency.value=fr;
   g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(T.v,at+.02);g.gain.exponentialRampToValueAtTime(.0001,at+.13);os.connect(g);g.connect(audio.destination);os.start(at);os.stop(at+.15)})}
 function beep(){playTier('r')}
-function syncBeep(){var t=cur&&cur.tier,on=!!(t&&t!=='d'&&S.alerts.sound&&audio),key=on?t:'';
+function syncBeep(){var t=cur&&cur.tier,on=!!(t&&t!=='d'&&S.alerts.sound&&audio&&S.account),key=on?t:'';
   if(key!==beepKey){clearInterval(beepTimer);beepTimer=null;beepKey=key;
     if(on){playTier(t);beepTimer=setInterval(function(){if(Date.now()>snooze)playTier(t)},TIERS[t].ms)}}}
-document.addEventListener('click',function(){if(S.alerts.sound&&!audio){ensureAudio();syncBeep()}});
+document.addEventListener('click',function(){if(S.account&&S.alerts.sound&&!audio){ensureAudio();syncBeep()}});
 
 function emailVia(){var C=S.contact;return(C.ejService&&C.ejTemplate&&C.ejKey)?'emailjs':'formsubmit'}
 function emailOK(){return emailVia()==='emailjs'||location.protocol!=='file:'}
@@ -277,7 +275,7 @@ function mailStatusHtml(){var m=S.mailLast;
   if(!S.contact.email)return 'Type your Gmail address above, then press Send test email.';
   if(!emailOK())return '<b>Blocked:</b> this page was opened as a file and the default email service (FormSubmit) refuses that. Fill in the EmailJS box below (works from a file), or open the page with start-loan-alerts.bat.';
   if(!m)return 'Nothing sent yet. Press Send test email to check it.';
-  return (m.ok?'<b>Last result:</b> ':'<b>Failed:</b> ')+esc(m.msg)+' <span style="opacity:.6">('+esc(m.t)+')</span>'}
+  return(m.ok?'<b>Last result:</b> ':'<b>Failed:</b> ')+esc(m.msg)+' <span style="opacity:.6">('+esc(m.t)+')</span>'}
 function setMail(ok,msg){S.mailLast={ok:ok,msg:msg,t:new Date().toLocaleString([],{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};save();
   var b=$('mailStatus');if(b)b.innerHTML=mailStatusHtml();toast((ok?'Email: ':'Email problem: ')+msg)}
 function postEmail(title,body){
@@ -303,14 +301,15 @@ function postTelegram(text){
 function notify(title,body,urgent){
   var sent=[],C=S.contact;
   try{if(S.alerts.browser&&'Notification' in window&&Notification.permission==='granted'){new Notification(title,{body:body,requireInteraction:!!urgent,tag:title+body});sent.push('desktop')}}catch(e){}
-  if(S.sim)return sent;   // test dates: pop-ups and sound only, no email/Telegram/phone
+  if(S.sim)return sent;
   if(S.alerts.ntfy){try{fetch('https://ntfy.sh/'+encodeURIComponent(S.alerts.ntfy.trim()),{method:'POST',body:body,headers:{Title:title.replace(/[^\x20-\x7E]/g,''),Priority:urgent?'urgent':'default',Tags:urgent?'rotating_light':'bell'}});sent.push('phone')}catch(e){}}
   if(C.email&&emailOK()){postEmail(title,body);sent.push('email')}
   if(C.tgToken&&C.tgChat){postTelegram(title+'\n'+body);sent.push('telegram')}
   return sent}
 function describe(i){var a=Math.abs(i.days);
   if(i.days<0)return 'OVERDUE by '+fm(a)+' day'+(a===1?'':'s');if(i.days===0)return 'DUE TODAY';if(i.days===1)return 'Due TOMORROW';return 'Due in '+fm(i.days)+' days'}
-function message(i){return describe(i)+' - '+i.title+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
+function label(i){return i.title+(i.kind==='loan'?' #'+i.no:'')}
+function message(i){return describe(i)+' - '+label(i)+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
 
 function evaluate(){
   var all=items(),un=all.filter(function(i){return !i.paid}),L=leads(),ord={y:1,o:2,r:3},top='',anyDue=false;
@@ -325,126 +324,191 @@ function evaluate(){
   if(changed)save()}
 
 /* ============ render ============ */
+var filter='all',upLimit=8,chipKeys=['all'];
+function setFilter(i){filter=chipKeys[i]||'all';upLimit=8;render()}
+function moreRows(){upLimit+=8;render()}
+function soundBtn(c){
+  if(!S.alerts.sound)return '<button class="btn sm" onclick="setSound(true)">Sound on</button>';
+  if(!audio)return '<button class="btn sm'+(c.tier==='r'?' danger':'')+'" onclick="setSound(true)">Enable sound</button>';
+  if(c.tier&&c.tier!=='d')return Date.now()<snooze?'<button class="btn sm" onclick="snooze=0;syncBeep();render()">Resume sound</button>':'<button class="btn sm" onclick="snooze=Date.now()+36e5;syncBeep();render()">Silence 1 hour</button>';
+  return '<button class="btn sm" onclick="setSound(false)">Mute</button>'}
+function heroHtml(c,f){
+  var any=S.loans.length||S.reminders.length;
+  if(!f)return '<div class="card hero ok"><div class="eyebrow"><span class="dot"></span>Status</div><div class="big">'+(any?'All clear':'Welcome')+'</div>'
+    +'<div class="who">'+(any?'Nothing left to pay.':'Add your first loan to start getting reminders.')+'</div>'
+    +(any?'':'<div class="acts"><button class="btn gold" onclick="openModal(\'loan\')">+ Add a loan</button></div>')+'</div>';
+  var lab=c.tier==='d'?'Due':c.tier==='r'?'Alert':c.tier?'Heads up':'Next payment';
+  return '<div class="card hero '+(c.tier?'t-'+c.tier:'')+'"><div class="eyebrow"><span class="dot"></span>'+lab+'</div>'
+    +'<div class="big">'+esc(describe(f))+'</div>'
+    +'<div class="who">'+esc(f.title)+(f.kind==='loan'?' · payment '+f.no+' of '+f.n:'')+'</div>'
+    +'<div class="amt">'+esc(money(f.amount,f.cur))+'</div><div class="sub">'+esc(nice(f.date))+'</div>'
+    +(c.overdue>1?'<div class="od">'+fm(c.overdue)+' payments overdue</div>':'')
+    +'<div class="acts"><button class="btn primary" onclick="paid(\''+f.id+'\',true)">Mark paid</button>'+soundBtn(c)+'</div></div>'}
+function rowHtml(i){
+  var t=i.paid?'':i.tier,
+  tag=i.paid?'<span class="tag ok">Paid</span>':'<span class="tag t-'+t+'">'+(i.days<0?'overdue '+fm(i.days)+'d':i.days===0?'due today':'in '+fm(i.days)+'d')+'</span>';
+  return '<div class="row '+(t?'t-'+t:'')+(i.paid?' paid':'')+'"><div class="tx"><b>'+esc(i.title)+(i.kind==='loan'?' · '+i.no+'/'+i.n:'')+'</b><span>'+esc(nice(i.date))+' · '+esc(money(i.amount,i.cur))+'</span></div>'+tag
+    +'<div class="act"><button class="btn sm'+(i.paid?'':' primary')+'" onclick="paid(\''+i.id+'\','+(!i.paid)+')">'+(i.paid?'Undo':'Mark paid')+'</button><button class="btn sm warn" onclick="delItem(\''+i.id+'\')">Delete</button></div></div>'}
+function loanCard(L,c){
+  var its=c.all.filter(function(i){return i.loan===L.id}),next=its.filter(function(i){return !i.paid})[0],pd=its.filter(function(i){return i.paid}).length,pct=its.length?Math.round(pd/its.length*100):0;
+  var cu=L.currency||'';
+  return '<div class="loan"><div class="nm">'+esc(L.bank||L.name||'Loan')+'</div><div class="muted">'+esc([L.name&&L.name!==L.bank?L.name:'',L.type||'',L.ref?'Acc '+L.ref:''].filter(Boolean).join(' · ')||money(L.amount,cu))+'</div>'
+   +'<div class="kv"><div><span class="muted">Balance left</span><b>'+esc(money(next?next.beg:0,cu))+'</b></div>'
+   +'<div><span class="muted">Next payment</span><b>'+(next?esc(money(next.amount,cu)):'—')+'</b><span class="muted">'+(next?esc(nice(next.date)):'Fully paid')+'</span></div></div>'
+   +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="muted">'+pd+' of '+its.length+' paid · '+pct+'%</div>'
+   +'<div class="acts"><button class="btn sm" onclick="openModal(\'payments\',\''+L.id+'\')">All payments</button><button class="btn sm" onclick="openModal(\'loan\',\''+L.id+'\')">Edit</button><button class="btn sm warn" onclick="delLoan(\''+L.id+'\')">Delete</button></div></div>'}
 function render(){
+  if(!S.account)return;
   evaluate();var c=cur,f=c.focus;
   document.body.className=(c.tier==='r'||c.tier==='d')?'critical':'';
   var loanItems=c.all.filter(function(i){return i.kind==='loan'}),paidN=loanItems.filter(function(i){return i.paid}).length,pct=loanItems.length?Math.round(paidN/loanItems.length*100):0;
-  var nextLoan=loanItems.filter(function(i){return !i.paid})[0];
-  /* balance left, grouped by currency */
-  var by={};S.loans.forEach(function(L){var n=loanItems.filter(function(i){return i.loan===L.id&&!i.paid})[0];if(n){by['']=(by['']||0)+n.beg}});
-  var bal=Object.keys(by).map(function(k){return money(by[k],k)}).join('<br>')||money(0,'');
-  var head=!f?(S.loans.length||S.reminders.length?'All clear':'Nothing yet'):describe(f);
-  var sub=!f?(S.loans.length||S.reminders.length?'Nothing left to pay.':'Tap + to add a loan.'):esc(f.title)+'<br>'+esc(nice(f.date))+' · <b>'+esc(money(f.amount,f.cur))+'</b>';
-  var snoozed=Date.now()<snooze,sb;
-  if(!S.alerts.sound)sb='<button class="xs" onclick="setSound(true)">Sound on</button>';
-  else if(!audio)sb='<button class="xs '+(c.tier==='r'?'danger':'')+'" onclick="setSound(true)">Enable sound</button>';
-  else if(c.tier&&c.tier!=='d')sb=snoozed?'<button class="xs" onclick="snooze=0;syncBeep();render()">Resume</button>':'<button class="xs" onclick="snooze=Date.now()+36e5;syncBeep();render()">Silence 1h</button>';
-  else sb='<button class="xs" onclick="setSound(false)">Mute</button>';
-  var C=S.contact,configured=C.email||C.tgUser||S.alerts.ntfy||(C.tgToken&&C.tgChat);
+  var by={};S.loans.forEach(function(L){var n=loanItems.filter(function(i){return i.loan===L.id&&!i.paid})[0],k=L.currency||'';by[k]=(by[k]||0)+(n?n.beg:0)});
+  var balTxt=Object.keys(by).map(function(k){return esc(money(by[k],k))}).join('<br>')||esc(money(0,''));
+  /* filters */
+  var banks=[];S.loans.forEach(function(L){var b=L.bank||L.name||'Loan';if(banks.indexOf(b)<0)banks.push(b)});
+  chipKeys=['all'].concat(banks);if(S.reminders.length)chipKeys.push('rem');
+  if(chipKeys.indexOf(filter)<0)filter='all';
+  var chips=chipKeys.length>2||S.reminders.length?'<div class="chips">'+chipKeys.map(function(k,i){return '<button class="chip'+(k===filter?' on':'')+'" onclick="setFilter('+i+')">'+esc(k==='all'?'All':k==='rem'?'Reminders':k)+'</button>'}).join('')+'</div>':'';
+  var list=c.all.filter(function(i){return(S.showPaid||!i.paid)&&(filter==='all'||(filter==='rem'?i.kind==='rem':(i.kind==='loan'&&i.bank===filter)))});
+  var shown=list.slice(0,upLimit);
 
-  var h='<div class="top"><h1>Loan <span>Alerts</span></h1><span class="chip" id="clock"></span><button class="chip" onclick="toggleTest()">Test dates</button>'
-    +(configured?'':'<span class="chip nudge" onclick="openModal(\'contact\')">Set up alerts</span>')+'<span class="chip" id="instChip" style="cursor:pointer;'+(installEvt?'':'display:none')+'" onclick="installApp()">Install app</span><button class="chip" onclick="logout()" title="Sign out">'+esc(S.account||'')+' · Sign out</button></div>';
-
-  h+='<div class="card left status '+(c.tier?'t-'+c.tier:'')+'"><button class="gear" onclick="openModal(\'alerts\')" title="Edit alerts">'+PEN+'</button>'
-    +'<div><span class="dot"></span></div><div class="ct" style="margin-top:7px">'+(c.tier==='d'?'DUE':c.tier==='r'?'ALERT':c.tier?'Heads up':'Status')+'</div>'
-    +'<div class="big">'+esc(head)+'</div><div class="sm">'+sub+'</div>'
-    +(c.overdue>1?'<div class="sm" style="color:var(--red);font-weight:700;margin-top:3px">'+fm(c.overdue)+' overdue</div>':'')
-    +'<div class="sep"></div><div class="ct">Balance left</div><div class="mid" style="font-size:19px">'+bal+'</div>'
-    +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="sm">'+fm(paidN)+' of '+fm(loanItems.length)+' paid · '+pct+'%</div>'
-    +'<div class="btns">'+sb+(f?'<button class="xs primary" onclick="paid(\''+f.id+'\',true)">Mark paid</button>':'')+'</div></div>';
-
-  var upAll=c.all.filter(function(i){return S.showPaid||!i.paid}),up=upAll.slice(0,S.count);
-  h+='<div class="card mainc" id="cUp" data-total="'+upAll.length+'"><button class="gear" onclick="openModal(\'schedule\')" title="Edit list">'+PEN+'</button><div class="ct">Upcoming</div><div class="rows">'
-    +(up.length?up.map(function(i){return rowHtml(i,true)}).join(''):'<div class="empty">Nothing upcoming.</div>')+'</div><div class="more">&nbsp;</div></div>';
-
-  var rem=S.reminders.slice().sort(function(a,b){return a.date<b.date?-1:1}).slice(0,8),totalRem=S.reminders.length;
-  h+='<div class="card right" id="cRem" data-total="'+totalRem+'"><button class="gear" onclick="openModal(\'reminders\')" title="Edit reminders">'+PEN+'</button><div class="ct">My reminders</div><div class="rows">'
-    +(rem.length?rem.map(function(r){return rowHtml(c.all.filter(function(x){return x.id===r.id})[0])}).join(''):'<div class="empty">Tap the pen to add a bill, rent, tax…</div>')+'</div><div class="more">&nbsp;</div></div>';
-
-  h+='<div class="card dock"><div><div class="ct">Next payment</div>'
-    +(nextLoan?'<div class="mid">'+esc(money(nextLoan.amount,nextLoan.cur))+'</div><div class="sm">'+esc(nextLoan.title)+' · '+esc(nice(nextLoan.date))+' · '+(nextLoan.days<0?'overdue '+fm(nextLoan.days)+'d':nextLoan.days===0?'today':'in '+fm(nextLoan.days)+'d')+'</div>'
-      :'<div class="mid">—</div><div class="sm">'+(S.loans.length?'No loan payments left':'No loans yet. Tap + to add one.')+'</div>')
-    +'</div><button class="gold plus" onclick="openModal(\'loan\')" title="Add a loan">'+PLUS+'</button></div>';
-
-  $('app').innerHTML=h;fit('cUp');fit('cRem');tick();renderTester();syncBeep()}
-function fit(id){var card=$(id);if(!card)return;var box=card.querySelector('.rows'),rows=box.querySelectorAll('.row'),n=rows.length,total=+card.dataset.total;
-  while(box.scrollHeight>box.clientHeight+1&&n>1&&window.innerWidth>880){rows[--n].remove()}
-  var m=card.querySelector('.more');if(m&&total>n)m.textContent='+ '+(total-n)+' more'}
-function rowHtml(i,del){
-  if(!i)return '';
-  var t=i.paid?'':i.tier,tag=i.paid?'<span class="tag ok">Paid</span>':'<span class="tag t-'+t+'">'+(i.days<0?'overdue '+fm(i.days)+'d':i.days===0?'due today':'in '+fm(i.days)+'d')+'</span>';
-  return '<div class="row '+(t?'t-'+t:'')+(del?' hasdel':'')+'"><div><b>'+esc(i.title)+'</b><span>'+esc(nice(i.date))+' · '+esc(money(i.amount,i.cur))+'</span></div>'+tag
-    +'<button class="xs" onclick="paid(\''+i.id+'\','+(!i.paid)+')">'+(i.paid?'Undo':'Paid')+'</button>'+(del?'<button class="xs del" onclick="delItem(\''+i.id+'\')">Delete</button>':'')+'</div>'}
-function tick(){var c=$('clock');if(c)c.textContent=''+(S.sim?'SIM '+S.sim+' ':'')+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
-function paid(id,v){if(v)S.paid[id]=today();else delete S.paid[id];save();render();toast(v?'Marked paid':'Re-opened')}
+  var h='<div class="wrap"><div class="head"><img src="'+LOGO+'" alt=""><h1>Loan <span>Alerts</span></h1>'
+    +'<button class="btn gold hide-m" onclick="openModal(\'loan\')">+ Add loan</button>'
+    +'<button class="btn icon" onclick="openModal(\'menu\')" title="Menu" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>';
+  if(S.sim)h+='<div class="sim"><span>Pretend date: <b>'+esc(nice(S.sim))+'</b> (test mode)</span><button class="btn sm" onclick="setSim(\'\')">Back to real date</button></div>';
+  h+='<div class="cols"><div class="col">'+heroHtml(c,f);
+  if(S.loans.length)h+='<div class="card"><div class="tot"><div><div class="muted">Total balance left</div><div class="v">'+balTxt+'</div></div><div><div class="muted">Paid so far</div><div class="v">'+paidN+' of '+loanItems.length+'</div></div></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+  h+='<div class="card"><div class="hd"><h2>My loans</h2><button class="btn sm gold" onclick="openModal(\'loan\')">+ Add loan</button></div>'
+    +(S.loans.length?'<div class="loans">'+S.loans.map(function(L){return loanCard(L,c)}).join('')+'</div>':'<div class="empty">No loans yet.<br>Tap <b>+ Add loan</b> for each bank loan you have.</div>')+'</div></div>';
+  h+='<div class="col"><div class="card"><div class="hd"><h2>Upcoming payments</h2><button class="btn sm" onclick="openModal(\'reminder\')">+ Reminder</button></div>'+chips
+    +'<div class="rows">'+(shown.length?shown.map(rowHtml).join(''):'<div class="empty">Nothing upcoming.</div>')+'</div>'
+    +(list.length>shown.length?'<div class="more"><button class="btn" onclick="moreRows()">Show '+Math.min(8,list.length-shown.length)+' more ('+(list.length-shown.length)+' left)</button></div>':'')
+    +'<label class="sw" style="margin-top:14px"><input type="checkbox" '+(S.showPaid?'checked':'')+' onchange="S.showPaid=this.checked;save();render()"><i></i> Show paid items</label></div></div></div></div>';
+  $('app').innerHTML=h;$('fab').style.display='';syncBeep()}
+function paid(id,v){if(v)S.paid[id]=today();else delete S.paid[id];save();render();if($('ov').className.indexOf('on')>-1&&modalKind==='payments')openModal('payments',modalArg);toast(v?'Marked paid':'Re-opened')}
 function setSound(v){S.alerts.sound=v;if(v)ensureAudio();save();syncBeep();render()}
 
 /* ============ pop-ups ============ */
-var editing=null;
-function loanForm(L){L=L||{name:'',amount:'',rate:'',years:'',perYear:2,start:today(),currency:''};
-  return '<label>Loan name</label><input type="text" id="m_name" value="'+esc(L.name)+'" placeholder="e.g. Car loan">'
-   +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="m_amt" class="num" oninput="numFmt(this)" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div><div><label>Yearly rate %</label><input type="number" step="0.01" id="m_rate" value="'+esc(L.rate)+'"></div></div>'
-   +'<div class="two"><div><label>Years</label><input type="number" step="0.5" id="m_years" value="'+esc(L.years)+'"></div><div><label>Payments / year</label><select id="m_per">'+[1,2,4,12].map(function(n){return '<option'+(L.perYear==n?' selected':'')+'>'+n+'</option>'}).join('')+'</select></div></div>'
-   +'<label>Start date</label><input type="date" id="m_start" value="'+esc(L.start)+'">'
-   +'<label class="sw"><input type="checkbox" id="m_past" checked><i></i> Mark past payments as paid</label>'}
+var editing=null,modalKind='',modalArg=null;
+function opt(v,t,sel){return '<option value="'+esc(v)+'"'+(String(sel)===String(v)?' selected':'')+'>'+esc(t)+'</option>'}
+function loanForm(L){
+  var N=!L;L=L||{bank:'',name:'',type:'Personal',ref:'',currency:'',amount:'',rate:'',termVal:'',termUnit:'years',perYear:12,method:'annuity',start:today(),first:'',grace:'',fee:'',col:'',notes:''};
+  var tv=L.termVal!=null&&L.termVal!==''?L.termVal:(L.years||''),tu=L.termUnit||'years';
+  var banks=[];S.loans.forEach(function(x){var b=x.bank||x.name;if(b&&banks.indexOf(b)<0)banks.push(b)});
+  var types=['Personal','Car / vehicle','Home / mortgage','Business','Education','Overdraft / credit line','Other'];
+  return '<h3>Lender</h3>'
+   +'<label>Bank or lender name</label><input type="text" id="f_bank" list="bankList" value="'+esc(L.bank)+'" placeholder="e.g. your bank&#39;s name" autocomplete="off"><datalist id="bankList">'+banks.map(function(b){return '<option value="'+esc(b)+'">'}).join('')+'</datalist>'
+   +'<div class="two"><div><label>Loan type</label><select id="f_type">'+types.map(function(t){return opt(t,t,L.type)}).join('')+'</select></div>'
+   +'<div><label>Loan name <small>(optional)</small></label><input type="text" id="f_name" value="'+esc(L.name&&L.name!==L.bank?L.name:'')+'" placeholder="e.g. My car"></div></div>'
+   +'<h3>Amount &amp; terms</h3>'
+   +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="f_amt" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div>'
+   +'<div><label>Currency <small>(optional)</small></label><input type="text" id="f_cur" value="'+esc(L.currency)+'" placeholder="e.g. USD" maxlength="6" oninput="preview()"></div></div>'
+   +'<div class="two"><div><label>Interest rate % per year</label><input type="number" inputmode="decimal" step="0.01" id="f_rate" oninput="preview()" value="'+esc(L.rate)+'"></div>'
+   +'<div><label>How often you pay</label><select id="f_per" onchange="preview()">'+[[12,'Every month'],[4,'Every 3 months'],[2,'Every 6 months'],[1,'Once a year']].map(function(a){return opt(a[0],a[1],L.perYear)}).join('')+'</select></div></div>'
+   +'<div class="two"><div><label>Loan length</label><input type="number" inputmode="decimal" step="0.5" id="f_term" oninput="preview()" value="'+esc(tv)+'"></div>'
+   +'<div><label>&nbsp;</label><select id="f_unit" onchange="preview()">'+opt('years','Years',tu)+opt('months','Months',tu)+'</select></div></div>'
+   +'<label>How the bank calculates payments</label><select id="f_method" onchange="preview()">'+opt('annuity','Same amount every time (most common)',L.method||'annuity')+opt('declining','Equal principal, interest on balance (payments shrink)',L.method)+'</select>'
+   +'<h3>Dates</h3>'
+   +'<div class="two"><div><label>Loan start date</label><input type="date" id="f_start" onchange="preview()" value="'+esc(L.start)+'"></div>'
+   +'<div><label>First payment date <small>(optional)</small></label><input type="date" id="f_first" onchange="preview()" value="'+esc(L.first||'')+'"></div></div>'
+   +'<div class="hint">Leave the first payment date empty and payments start one period after the start date.</div>'
+   +'<details'+((L.ref||L.grace||L.fee||L.col||L.notes)?' open':'')+'><summary>More details (optional)</summary>'
+     +'<label>Loan account / reference number</label><input type="text" id="f_ref" value="'+esc(L.ref||'')+'">'
+     +'<div class="two"><div><label>Grace period <small>(interest-only payments)</small></label><input type="number" inputmode="numeric" min="0" step="1" id="f_grace" oninput="preview()" value="'+esc(L.grace||'')+'" placeholder="0"></div>'
+     +'<div><label>Extra fee per payment <small>(insurance, service)</small></label><input type="text" inputmode="decimal" id="f_fee" class="num" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.fee))+'" placeholder="0"></div></div>'
+     +'<label>Collateral / guarantor</label><input type="text" id="f_col" value="'+esc(L.col||'')+'" placeholder="e.g. car, house, guarantor name">'
+     +'<label>Notes</label><textarea id="f_notes">'+esc(L.notes||'')+'</textarea></details>'
+   +'<div class="pv" id="pv"></div>'
+   +'<label class="sw"><input type="checkbox" id="f_past" '+(N?'checked':'')+'><i></i> Mark payments before today as paid</label>'}
+function readLoan(){
+  var unit=$('f_unit').value,tv=+$('f_term').value||0;
+  return{id:editing||('l'+Date.now()),bank:$('f_bank').value.trim(),name:$('f_name').value.trim(),type:$('f_type').value,ref:$('f_ref').value.trim(),currency:$('f_cur').value.trim().toUpperCase(),
+    amount:pn($('f_amt').value),rate:+$('f_rate').value||0,termVal:tv,termUnit:unit,years:unit==='months'?tv/12:tv,perYear:+$('f_per').value,method:$('f_method').value,
+    start:$('f_start').value,first:$('f_first').value,grace:parseInt($('f_grace').value,10)||0,fee:pn($('f_fee').value),col:$('f_col').value.trim(),notes:$('f_notes').value.trim()}}
+function preview(){
+  var box=$('pv');if(!box)return;var L=readLoan(),s=schedule(L);
+  if(!s.length){box.textContent='Fill in amount, rate, length and start date to see an estimate.';return}
+  var g=Math.min(L.grace||0,s.length-1),tot=s.reduce(function(a,i){return a+i.interest},0),cu=L.currency;
+  box.innerHTML='<b>'+esc(money(s[g].amount,cu))+'</b> per payment · '+s.length+' payments<br>Total interest about <b>'+esc(money(tot,cu))+'</b> · last payment '+esc(nice(s[s.length-1].date))}
 function openModal(k,arg){
+  modalKind=k;modalArg=arg;
   var h='',A=S.alerts,C=S.contact;
+  if(k==='menu')h='<h2>Menu</h2><div class="sub">Signed in as <b>'+esc(S.account)+'</b></div><div class="menu">'
+    +'<button class="btn" onclick="openModal(\'alerts\')">Alerts &amp; sound <span>›</span></button>'
+    +'<button class="btn" onclick="openModal(\'contact\')">Email &amp; Telegram <span>›</span></button>'
+    +'<button class="btn" onclick="openModal(\'test\')">Test dates <span>›</span></button>'
+    +'<button class="btn" onclick="openModal(\'backup\')">Backup <span>›</span></button>'
+    +'<button class="btn" onclick="installApp()">Install app <span>›</span></button>'
+    +'<button class="btn warn" onclick="closeModal();logout()">Sign out</button></div>'
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
   if(k==='loan'){editing=arg||null;var L=arg?S.loans.filter(function(x){return x.id===arg})[0]:null;
-    h='<h2>'+(L?'Edit loan':'Add a loan')+'</h2><div class="sm">Numbers from your loan agreement or sheet.</div>'+loanForm(L)
-     +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveLoan()">'+(L?'Save changes':'Add loan')+'</button></div>'
-     +(S.loans.length?'<label>Your loans</label><div class="rows">'+S.loans.map(function(l){return '<div class="row"><div><b>'+esc(l.name)+'</b><span>'+esc(money(l.amount,l.currency))+' · '+esc(l.rate)+'% · '+esc(l.years)+' yrs</span></div><button class="xs" onclick="openModal(\'loan\',\''+l.id+'\')">'+PEN+'</button><button class="xs" onclick="delLoan(\''+l.id+'\')">Delete</button></div>'}).join('')+'</div>':'')}
-  if(k==='contact')h='<h2>Email &amp; Telegram</h2><div class="sm">Where your alerts get sent. Saving sends you a test message.</div>'
+    h='<h2>'+(L?'Edit loan':'Add a loan')+'</h2><div class="sub">Add one for each bank loan you have. Use the numbers from your loan agreement.</div>'+loanForm(L)
+     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveLoan()">'+(L?'Save changes':'Add loan')+'</button></div>'}
+  if(k==='reminder')h='<h2>Add a reminder</h2><div class="sub">Anything with a date: rent, tax, insurance, a bill…</div>'
+    +'<label>What</label><input type="text" id="m_rt" placeholder="e.g. House rent">'
+    +'<div class="two"><div><label>Date</label><input type="date" id="m_rd" value="'+today()+'"></div><div><label>Amount <small>(optional)</small></label><input type="text" inputmode="decimal" id="m_ra" oninput="numFmt(this)" placeholder="0"></div></div>'
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addRem()">Add reminder</button></div>';
+  if(k==='payments'){var LL=S.loans.filter(function(x){return x.id===arg})[0];var its=items().filter(function(i){return i.loan===arg});
+    h='<h2>All payments</h2><div class="sub">'+esc(LL?lname(LL):'')+'</div>'
+     +'<div>'+(its.length?its.map(function(i){return '<div class="prow"><div><b>#'+i.no+' · '+esc(nice(i.date))+'</b><span>'+esc(money(i.amount,i.cur))+' · interest '+esc(money(i.interest,i.cur))+'</span></div><button class="btn sm'+(i.paid?'':' primary')+'" onclick="paid(\''+i.id+'\','+(!i.paid)+')">'+(i.paid?'Undo':'Mark paid')+'</button></div>'}).join(''):'<div class="empty">No payments.</div>')+'</div>'
+     +'<div class="mbtns">'+(Object.keys(S.removed).some(function(k){return k.indexOf(arg+'-')===0})?'<button class="btn" onclick="restoreAll()">Restore deleted</button>':'')
+     +'<button class="btn" onclick="markPast(\''+arg+'\')">Mark past as paid</button><button class="btn" onclick="resetPaid(\''+arg+'\')">Clear paid marks</button></div>'
+     +'<div class="mbtns"><button class="btn primary" onclick="closeModal()">Done</button></div>'}
+  if(k==='contact')h='<h2>Email &amp; Telegram</h2><div class="sub">Where your alerts get sent. Saving sends you a test message.</div>'
     +'<label>Your Gmail</label><input type="email" id="m_email" value="'+esc(C.email)+'" placeholder="you@gmail.com">'
-    +'<div class="hint mailbox" id="mailStatus">'+mailStatusHtml()+'</div><div class="btns"><button class="xs" onclick="sendTestEmail()">Send test email</button></div>'
-    +'<details'+((C.ejService||C.ejTemplate||C.ejKey||!emailOK()||(S.mailLast&&!S.mailLast.ok))?' open':'')+'><summary>Email setup with EmailJS (sends from your Gmail, works from a file)</summary>'
-      +'<div class="hint" style="text-align:left">Without this, email goes through FormSubmit, which only works from a web address and needs one confirmation click. <b>1)</b> Sign up free at emailjs.com. <b>2)</b> Email Services, Add service, Gmail, connect your account, copy the <b>Service ID</b>. <b>3)</b> Email Templates, Create: set <b>To email</b> to {{to_email}}, <b>Subject</b> to {{subject}}, and the content to {{message}}. Save and copy the <b>Template ID</b>. <b>4)</b> Account, General: copy the <b>Public Key</b>. <b>5)</b> Paste the three values here, then press Send test email.</div>'
+    +'<div class="mailbox" id="mailStatus">'+mailStatusHtml()+'</div><div class="mbtns"><button class="btn sm" onclick="sendTestEmail()">Send test email</button></div>'
+    +'<details'+((C.ejService||C.ejTemplate||C.ejKey||!emailOK()||(S.mailLast&&!S.mailLast.ok))?' open':'')+'><summary>Email setup with EmailJS (sends from your Gmail)</summary>'
+      +'<div class="hint">Without this, email goes through FormSubmit, which only works from a web address and needs one confirmation click. <b>1)</b> Sign up free at emailjs.com. <b>2)</b> Email Services, Add service, Gmail, connect your account, copy the <b>Service ID</b>. <b>3)</b> Email Templates, Create: set <b>To email</b> to {{to_email}}, <b>Subject</b> to {{subject}}, and the content to {{message}}. Save and copy the <b>Template ID</b>. <b>4)</b> Account, General: copy the <b>Public Key</b>. <b>5)</b> Paste the three values here, then press Send test email.</div>'
       +'<label>Service ID</label><input type="text" id="m_ejs" value="'+esc(C.ejService)+'" placeholder="service_xxxxxxx">'
       +'<label>Template ID</label><input type="text" id="m_ejt" value="'+esc(C.ejTemplate)+'" placeholder="template_xxxxxxx">'
       +'<label>Public key</label><input type="text" id="m_ejk" value="'+esc(C.ejKey)+'" placeholder="xxxxxxxxxxxxxxx"></details>'
     +'<label>Telegram username</label><input type="text" id="m_tg" value="'+esc(C.tgUser)+'" placeholder="@yourname">'
     +'<details'+((C.tgToken||C.tgUser)&&!(C.tgToken&&C.tgChat)?' open':'')+'><summary>Telegram bot (needed to send)</summary>'
-      +'<div class="hint" style="text-align:left">Telegram does not let anyone message a username directly. You need a free bot: <b>1)</b> in Telegram open <b>@BotFather</b>, then /newbot, then copy the token. <b>2)</b> open your new bot and press Start, say “hi”. <b>3)</b> paste the token below and press Find my chat ID.</div>'
+      +'<div class="hint">Telegram does not let anyone message a username directly. You need a free bot: <b>1)</b> in Telegram open <b>@BotFather</b>, then /newbot, then copy the token. <b>2)</b> open your new bot and press Start, say “hi”. <b>3)</b> paste the token below and press Find my chat ID.</div>'
       +'<label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken)+'" autocomplete="off" placeholder="123456:ABC-DEF…">'
-      +'<label>Chat ID</label><input type="text" id="m_chat" value="'+esc(C.tgChat)+'" placeholder="auto-filled"><div class="btns"><button class="xs" onclick="findChat()">Find my chat ID</button></div></details>'
-    +'<details><summary>Backup</summary><div class="btns"><button class="xs" onclick="exportData()">Export backup</button><button class="xs" onclick="$(\'imp\').click()">Import</button></div><input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">'
-      +'</details>'
-    +'<div class="hint" style="margin-top:10px">Alerts only go out while this page is open, so pin the tab.</div>'
-    +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveContact()">Save &amp; send setup message</button></div>';
-  if(k==='alerts')h='<h2>Alerts</h2><div class="sm">When and how you get reminded.</div>'
-    +'<label>Remind me (days before)</label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">0 = due day. Overdue alerts repeat daily.</div>'
-    +'<label>Row warning colors - days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="number" id="m_y" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="number" id="m_o" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="number" id="m_r" min="1" value="'+esc(A.r)+'"></div></div>'
-    +'<div class="hint">Rows beep yellow slowly, then orange faster, then red fastest. On the due date the row stops beeping and stays solid red.</div>'
+      +'<label>Chat ID</label><input type="text" id="m_chat" value="'+esc(C.tgChat)+'" placeholder="auto-filled"><div class="mbtns"><button class="btn sm" onclick="findChat()">Find my chat ID</button></div></details>'
+    +'<div class="hint" style="margin-top:12px">Alerts only go out while the app is open, so keep it open on your device.</div>'
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveContact()">Save &amp; send setup message</button></div>';
+  if(k==='alerts')h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
+    +'<label>Remind me this many days before <small>(0 = due day)</small></label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">Overdue alerts repeat daily.</div>'
+    +'<label>Warning colors: days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="number" id="m_y" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="number" id="m_o" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="number" id="m_r" min="1" value="'+esc(A.r)+'"></div></div>'
+    +'<div class="hint">Yellow pulses slowly, orange faster, red fastest. On the due date it stays solid red.</div>'
     +'<label class="sw"><input type="checkbox" id="m_sound" '+(A.sound?'checked':'')+'><i></i> Beeping alarm sound</label>'
-    +'<label class="sw"><input type="checkbox" id="m_br" '+(A.browser?'checked':'')+'><i></i> Desktop pop-up notifications</label>'
-    +'<div class="hint" id="m_perm">'+permText()+'</div><div class="btns"><button class="xs" onclick="askPerm()">Allow pop-ups</button></div>'
-    +'<label>Phone push (optional)</label><input type="text" id="m_ntfy" value="'+esc(A.ntfy)+'" placeholder="my-secret-topic">'
-    +'<div class="hint">Free: install the <b>ntfy</b> app, subscribe to the same topic. Pick a hard-to-guess name.</div>'
-    +'<div class="btns"><button onclick="saveAlerts();testNotify()">Send test alert</button></div>'
-    +'<div class="btns"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>';
-  if(k==='schedule')h='<h2>Upcoming list</h2>'
-    +'<label>Max rows (auto-fits the screen)</label><select id="m_count">'+[4,6,8,12].map(function(n){return '<option'+(S.count==n?' selected':'')+'>'+n+'</option>'}).join('')+'</select>'
-    +'<label class="sw"><input type="checkbox" id="m_sp" '+(S.showPaid?'checked':'')+'><i></i> Show paid items</label>'
-    +'<label>All loan payments</label><div class="rows" style="max-height:210px;overflow:auto">'+items().filter(function(i){return i.kind==='loan'}).map(function(i){return '<div class="row"><div><b>'+esc(i.title)+' · '+esc(nice(i.date))+'</b><span>'+esc(money(i.amount,i.cur))+' · interest '+esc(money(i.interest,i.cur))+'</span></div><span></span><button class="xs" onclick="paid(\''+i.id+'\','+(!i.paid)+');openModal(\'schedule\')">'+(i.paid?'Undo':'Mark')+'</button></div>'}).join('')+'</div>'
-    +'<div class="btns">'+(Object.keys(S.removed).length?'<button class="xs" onclick="restoreAll()">Restore '+Object.keys(S.removed).length+' deleted</button>':'')+'<button class="xs" onclick="markPast()">Mark all past as paid</button><button class="xs" onclick="if(confirm(\'Clear every paid mark?\')){S.paid={};save();closeModal();render()}">Reset paid</button></div>'
-    +'<div class="btns"><button class="primary" onclick="S.count=+$(\'m_count\').value;S.showPaid=$(\'m_sp\').checked;save();closeModal();render()">Save</button></div>';
-  if(k==='reminders')h='<h2>Reminders</h2><div class="sm">Anything with a date: rent, tax, insurance…</div>'
-    +'<label>What</label><input type="text" id="m_rt" placeholder="e.g. House rent">'
-    +'<div class="two"><div><label>Date</label><input type="date" id="m_rd" value="'+today()+'"></div><div><label>Amount</label><input type="text" inputmode="decimal" id="m_ra" class="num" oninput="numFmt(this)" placeholder="0"></div></div>'
-    +'<div class="btns"><button class="primary" onclick="addRem()">Add reminder</button></div>'
-    +(S.reminders.length?'<label>Your reminders</label><div class="rows">'+S.reminders.map(function(r){return '<div class="row"><div><b>'+esc(r.title)+'</b><span>'+esc(nice(r.date))+'</span></div><span></span><button class="xs" onclick="delRem(\''+r.id+'\')">Delete</button></div>'}).join('')+'</div>':'')
-    +'<div class="btns"><button onclick="closeModal()">Close</button></div>';
-  $('modal').innerHTML=h;$('ov').className='ov on'}
+    +'<label class="sw"><input type="checkbox" id="m_br" '+(A.browser?'checked':'')+'><i></i> Pop-up notifications</label>'
+    +'<div class="hint" id="m_perm">'+permText()+'</div><div class="mbtns"><button class="btn sm" onclick="askPerm()">Allow pop-ups</button></div>'
+    +'<label>Phone push <small>(optional)</small></label><input type="text" id="m_ntfy" value="'+esc(A.ntfy)+'" placeholder="my-secret-topic">'
+    +'<div class="hint">Free: install the <b>ntfy</b> app and subscribe to the same topic. Pick a hard-to-guess name.</div>'
+    +'<div class="mbtns"><button class="btn" onclick="saveAlerts();testNotify()">Send test alert</button></div>'
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>';
+  if(k==='backup')h='<h2>Backup</h2><div class="sub">Your data is stored on this device. Save a copy now and then.</div>'
+    +'<div class="mbtns"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$(\'imp\').click()">Import backup</button></div>'
+    +'<input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)"><div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
+  if(k==='test'){var simTxt=S.sim?'Pretend date':'Real date';
+    h='<h2>Test dates</h2><div class="sub">Pretend it is another day to see warnings and sounds. No email or Telegram is sent in test mode.</div>'
+    +'<div style="font-size:20px;font-weight:800;margin:12px 0 2px">'+esc(nice(today()))+'</div><div class="muted">'+simTxt+'</div>'
+    +'<div class="mbtns"><button class="btn" onclick="stepSim(-1)">- 1 day</button><button class="btn" onclick="stepSim(1)">+ 1 day</button></div>'
+    +'<h3>Jump to the next payment</h3><div class="mbtns"><button class="btn sm" onclick="jumpSim(7)">7 days before</button><button class="btn sm" onclick="jumpSim(3)">3 days before</button><button class="btn sm" onclick="jumpSim(1)">1 day before</button><button class="btn sm" onclick="jumpSim(0)">Due day</button><button class="btn sm" onclick="jumpSim(-2)">2 days late</button></div>'
+    +'<label>Or pick a date</label><input type="date" value="'+esc(S.sim)+'" onchange="setSim(this.value);openModal(\'test\')">'
+    +'<div class="mbtns"><button class="btn" onclick="setSim(\'\');openModal(\'test\')">Back to real date</button><button class="btn primary" onclick="closeModal()">Done</button></div>'}
+  $('modal').innerHTML=h;$('ov').className='ov on';
+  if(k==='loan')preview()}
 function closeModal(){$('ov').className='ov'}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
 function permText(){if(!('Notification' in window))return 'This browser has no desktop notifications.';return Notification.permission==='granted'?'Pop-ups are allowed':Notification.permission==='denied'?'Blocked. Click the lock icon in the address bar to allow them':'Not allowed yet - press the button.'}
 function askPerm(){if(!('Notification' in window))return toast('Not supported here');Notification.requestPermission().then(function(){if($('m_perm'))$('m_perm').textContent=permText();toast(permText())})}
 
 function saveLoan(){
-  var L={id:editing||('l'+Date.now()),name:$('m_name').value.trim()||'Loan',amount:pn($('m_amt').value),rate:+$('m_rate').value||0,years:+$('m_years').value,perYear:+$('m_per').value,start:$('m_start').value,currency:''};
-  if(!(L.amount>0)||!(L.years>0)||!L.start)return toast('Enter amount, years and start date');
+  var L=readLoan();
+  if(!L.bank)return toast('Type the bank or lender name');
+  if(!(L.amount>0))return toast('Type the loan amount');
+  if(!(L.years>0))return toast('Type the loan length');
+  if(!L.start)return toast('Pick the start date');
   if(editing)S.loans=S.loans.map(function(x){return x.id===editing?L:x});else S.loans.push(L);
-  if($('m_past').checked){var t=dn(today());schedule(L).forEach(function(i){if(dn(i.date)<t)S.paid[i.id]=today()})}
-  save();closeModal();render();toast(editing?'Loan updated':'Loan added')}
-function delLoan(id){if(!confirm('Delete this loan and its schedule?'))return;S.loans=S.loans.filter(function(l){return l.id!==id});Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();openModal('loan')}
+  if($('f_past').checked){var t=dn(today());schedule(L).forEach(function(i){if(dn(i.date)<t)S.paid[i.id]=today()})}
+  var was=editing;save();closeModal();filter='all';render();toast(was?'Loan updated':'Loan added')}
+function delLoan(id){var L=S.loans.filter(function(l){return l.id===id})[0];if(!confirm('Delete '+(L?lname(L):'this loan')+' and all its payments?'))return;
+  S.loans=S.loans.filter(function(l){return l.id!==id});
+  Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();toast('Loan deleted')}
 function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if(A.sound)ensureAudio();save();render()}
 function saveContact(){
   var C=S.contact;readMail();C.tgUser=$('m_tg').value.trim().replace(/^@?/,'@').replace(/^@$/,'');C.tgToken=$('m_tok').value.trim();C.tgChat=$('m_chat').value.trim();
@@ -459,13 +523,13 @@ function saveContact(){
 function findChat(){var t=$('m_tok').value.trim();if(!t)return toast('Paste your bot token first');
   fetch('https://api.telegram.org/bot'+t+'/getUpdates').then(function(r){return r.json()}).then(function(j){
     if(!j.ok)return toast('Telegram: '+j.description);var ids={};(j.result||[]).forEach(function(u){var m=u.message||u.channel_post||u.edited_message;if(m&&m.chat)ids[m.chat.id]=m.chat.first_name||m.chat.title||'chat'});
-    var k=Object.keys(ids);if(!k.length)return toast('No messages yet - open your bot, press Start, say hi, try again');$('m_chat').value=k[0];toast('Found: '+ids[k[0]]+'')}).catch(function(){toast('Could not reach Telegram (offline?)')})}
-function markPast(){var t=dn(today());items().forEach(function(i){if(i.kind==='loan'&&dn(i.date)<t)S.paid[i.id]=today()});save();closeModal();render();toast('Past payments marked paid')}
-function addRem(){var t=$('m_rt').value.trim(),d=$('m_rd').value;if(!t||!d)return toast('Add a name and a date');S.reminders.push({id:'R'+Date.now(),title:t,date:d,amount:pn($('m_ra').value)});save();render();openModal('reminders');toast('Reminder added')}
-function delRem(id){S.reminders=S.reminders.filter(function(r){return r.id!==id});delete S.paid[id];save();render();openModal('reminders')}
+    var k=Object.keys(ids);if(!k.length)return toast('No messages yet - open your bot, press Start, say hi, try again');$('m_chat').value=k[0];toast('Found: '+ids[k[0]])}).catch(function(){toast('Could not reach Telegram (offline?)')})}
+function markPast(loanId){var t=dn(today());items().forEach(function(i){if(i.kind==='loan'&&(!loanId||i.loan===loanId)&&dn(i.date)<t)S.paid[i.id]=today()});save();render();openModal('payments',loanId);toast('Past payments marked paid')}
+function resetPaid(loanId){if(!confirm('Clear every paid mark for this loan?'))return;Object.keys(S.paid).forEach(function(k){if(k.indexOf(loanId+'-')===0)delete S.paid[k]});save();render();openModal('payments',loanId)}
+function addRem(){var t=$('m_rt').value.trim(),d=$('m_rd').value;if(!t||!d)return toast('Add a name and a date');S.reminders.push({id:'R'+Date.now(),title:t,date:d,amount:pn($('m_ra').value)});save();closeModal();render();toast('Reminder added')}
 function testNotify(){var s=notify('Loan Alert TEST','This is a test alert from your Loan Alerts page.',true);toast(s.length?'Test sent via '+s.join(' + '):'Nothing enabled yet - allow pop-ups or add a contact');if(S.alerts.sound){ensureAudio();beep()}}
 function exportData(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='loan-alerts-backup.json';a.click()}
-function importData(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{localStorage.setItem(KEY,r.result);S=load();closeModal();render();toast('Imported')}catch(e){toast('Not a valid backup file')}};r.readAsText(f)}
+function importData(inp){var f=inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);o.account=S.account;localStorage.setItem(KEY,JSON.stringify(o));S=load();S.account=o.account;closeModal();render();toast('Imported')}catch(e){toast('Not a valid backup file')}};r.readAsText(f)}
 
 /* ============ delete / restore ============ */
 var lastDel=null;
@@ -477,31 +541,20 @@ function delItem(id){
 function undoDel(){if(!lastDel)return;var d=lastDel;lastDel=null;
   if(d.rem)S.reminders.push(d.rem);else delete S.removed[d.id];
   if(d.paid)S.paid[d.id]=d.paid;save();render();toast('Restored')}
-function restoreAll(){S.removed={};save();closeModal();render();toast('Deleted payments restored')}
+function restoreAll(){S.removed={};save();render();toast('Deleted payments restored');if(modalKind==='payments')openModal('payments',modalArg)}
 
 /* ============ test dates ============ */
-var testOpen=false;
 function addDays(iso,n){var p=iso.split('-').map(Number);return isoOf(new Date(p[0],p[1]-1,p[2]+n))}
 function setSim(iso){S.sim=iso||'';S.sentSim={};save();render()}
-function stepSim(n){setSim(addDays(today(),n))}
+function stepSim(n){setSim(addDays(today(),n));openModal('test')}
 function jumpSim(n){var real=isoOf(new Date()),un=items().filter(function(i){return !i.paid});
-  var base=un.filter(function(i){return i.date>=real})[0]||un[0];if(!base)return toast('Add a loan or a reminder first');setSim(addDays(base.date,-n))}
-function toggleTest(){testOpen=!testOpen;renderTester()}
-function renderTester(){var t=$('tester');if(!t)return;t.className='tester'+(testOpen?' on':'');if(!testOpen)return;
-  t.innerHTML='<div class="th"><span>Test dates</span><button class="xs" onclick="toggleTest()">Close</button></div>'
-   +'<div class="td">'+esc(nice(today()))+'</div><div class="sm">'+(S.sim?'Pretend date':'Real date')+'</div>'
-   +'<div class="btns"><button class="xs" onclick="stepSim(-1)">- 1 day</button><button class="xs" onclick="stepSim(1)">+ 1 day</button></div>'
-   +'<div class="sm" style="margin-top:8px">Jump to the next payment:</div>'
-   +'<div class="btns" style="margin-top:5px"><button class="xs" onclick="jumpSim(7)">7 days before</button><button class="xs" onclick="jumpSim(3)">3 days before</button><button class="xs" onclick="jumpSim(1)">1 day before</button><button class="xs" onclick="jumpSim(0)">Due day</button><button class="xs" onclick="jumpSim(-2)">2 days late</button></div>'
-   +'<input type="date" value="'+esc(S.sim)+'" onchange="setSim(this.value)">'
-   +'<div class="btns"><button class="xs primary" onclick="setSim(\'\')">Back to real date</button></div>'
-   +'<div class="hint" style="text-align:center">Test mode shows pop-ups and sound only. No email or Telegram is sent.</div>'}
+  var base=un.filter(function(i){return i.date>=real})[0]||un[0];if(!base)return toast('Add a loan or a reminder first');setSim(addDays(base.date,-n));openModal('test')}
 
-/* ============ sign-in (separate data per email) ============ */
+/* ============ sign-in (separate data per email, password protected) ============ */
 var timers=[];
 function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)}
 function authKey(e){return BASE+'.auth.'+e}
-function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(x){return('0'+x.toString(16)).slice(-2)}).join('')}
 function unhex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
 async function hashPw(pw,saltHex){
   var k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
@@ -536,11 +589,12 @@ function forgotPw(){
   $('li_cw').style.display='block';note('Account reset. Choose a new password and repeat it.')}
 function logout(){try{localStorage.removeItem(SESSION)}catch(e){}
   clearInterval(beepTimer);beepTimer=null;beepKey='';timers.forEach(clearInterval);timers=[];closeModal();
-  $('app').innerHTML='';$('tester').className='tester';$('li_email').value='';$('li_pw').value='';$('li_cw').style.display='none';$('login').className='login on'}
+  S=blank();cur=null;$('app').innerHTML='';$('fab').style.display='none';document.body.className='';
+  $('li_email').value='';$('li_pw').value='';$('li_cw').style.display='none';$('login').className='login on'}
 function boot(email){
   KEY=userKey(email);S=load();
   if(!S.contact.email)S.contact.email=email;
-  S.account=email;
+  S.account=email;filter='all';upLimit=8;
   if(!S.init){var t0=dn(today());S.loans.forEach(function(L){schedule(L).forEach(function(i){if(dn(i.date)<t0)S.paid[i.id]=today()})});S.init=true}
   save();$('login').className='login';
   timers.forEach(clearInterval);timers=[];
@@ -548,10 +602,10 @@ function boot(email){
 
 /* ============ PWA: install + service worker ============ */
 var installEvt=null;
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e;var c=$('instChip');if(c)c.style.display=''});
-window.addEventListener('appinstalled',function(){installEvt=null;var c=$('instChip');if(c)c.style.display='none';toast('Installed. Open it from your apps.')});
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e});
+window.addEventListener('appinstalled',function(){installEvt=null;toast('Installed. Open it from your apps.')});
 function installApp(){if(installEvt){installEvt.prompt();installEvt=null}
-  else toast('Use your browser menu: Install app / Add to Home Screen')}
+  else toast('Use your browser menu: Install app, or Add to Home Screen')}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 
 var sess=getSession();
