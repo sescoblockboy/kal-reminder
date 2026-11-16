@@ -260,6 +260,15 @@
   .row .tx span.l3{display:block;font-size:12px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .x{width:22px;margin-left:-6px}
   .stat b{font-size:18px}
+
+  .nagline{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit}
+  .nagline .bell{width:38px;height:38px;border-radius:12px;background:#EEF4FC;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .nagline b{display:block;font-size:15px}.nagline small{display:block;color:var(--muted);font-size:13px}
+  .nagline .chg{margin-left:auto;color:var(--blue);font-weight:700;font-size:14px;white-space:nowrap}
+  .nagbox{background:#F4F8FD;border:1px solid #D6E6F7;border-radius:16px;padding:14px;margin-top:14px}
+  .nagbox label:not(.sw){margin-top:12px}
+  input[type=time]{width:100%;font:inherit;font-size:16px;min-height:46px;padding:10px 12px;border-radius:13px;border:1.5px solid #DDD5CF;background:#fff;color:var(--ink)}
+  .head .btn.icon+.btn.icon{margin-left:-2px}
 </style>
 </head>
 <body>
@@ -297,7 +306,7 @@ var BASE='loanAlerts.v1',SESSION='loanAlerts.session',KEY=BASE;
 function userKey(e){return BASE+'.u.'+String(e).trim().toLowerCase()}
 function getSession(){try{return localStorage.getItem(SESSION)||''}catch(e){return ''}}
 var DEF={contact:{tgToken:'',tgChat:'',tgName:''},
-  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1}};
+  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1,nagOn:true,nagDays:5,nagTime:'09:00',nagEvery:0}};
 function blank(){return{cal:'g',loans:[],contact:Object.assign({},DEF.contact),alerts:Object.assign({},DEF.alerts),reminders:[],paid:{},sent:{},removed:{},mailLast:null,sim:'',init:false,showPaid:false,account:''}}
 var S=blank();
 function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
@@ -442,8 +451,14 @@ function describe(i){var a=Math.abs(i.days);
 function label(i){return i.title+(i.kind==='loan'?' #'+i.no:'')}
 function message(i){return describe(i)+' - '+label(i)+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
 
-/* Remind every day for the last NAG_DAYS days before a payment, until it is marked paid */
-var NAG_DAYS=5;
+/* Nagging: in the last nagDays days before a payment (and after it is late), remind at the chosen time,
+   then again every nagEvery hours (0 = once a day), until the payment is marked paid. */
+function nagCfg(){var A=S.alerts,t=String(A.nagTime||'09:00').split(':');
+  return{on:A.nagOn!==false,days:Math.max(1,Math.min(30,parseInt(A.nagDays,10)||5)),h:+t[0]||0,m:+t[1]||0,every:Math.max(0,+A.nagEvery||0)}}
+function nagSlot(){var c=nagCfg(),d=new Date(),now=d.getHours()*60+d.getMinutes(),start=c.h*60+c.m;
+  if(now<start)return null;return c.every>0?Math.floor((now-start)/(c.every*60)):0}
+function nagText(){var c=nagCfg();if(!c.on)return 'Off';var d=new Date(2000,0,1,c.h,c.m),tm=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  return c.days+' day'+(c.days===1?'':'s')+' before · from '+tm+' · '+(c.every?'every '+c.every+' hour'+(c.every===1?'':'s'):'once a day')}
 function evaluate(){
   var all=items(),un=all.filter(function(i){return !i.paid}),L=leads(),ord={y:1,o:2,r:3},top='',anyDue=false;
   all.forEach(function(i){i.tier=i.paid?'':tierOf(i.days);if(i.tier==='d')anyDue=true;else if(i.tier&&(ord[i.tier]>(ord[top]||0)))top=i.tier});
@@ -451,8 +466,10 @@ function evaluate(){
   cur={all:all,un:un,tier:ft,focus:fi,overdue:un.filter(function(i){return i.days<0}).length};
   var td=today(),changed=false,M=S.sim?(S.sentSim=S.sentSim||{}):S.sent;
   un.forEach(function(i){
-    var key=null;if(i.days<0)key=i.id+'|od|'+td;else if(i.days<=NAG_DAYS)key=i.id+'|nag|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
-    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i)+(i.days>=0&&i.days<=NAG_DAYS?'\nYou will be reminded every day until it is marked paid.':''),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
+    var key=null,nc=nagCfg(),inNag=nc.on&&i.days<=nc.days,sl=inNag?nagSlot():null;
+    if(inNag){if(sl!==null)key=i.id+'|nag|'+td+'|'+sl}
+    else if(i.days<0)key=i.id+'|od|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
+    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i)+(inNag?'\nYou will keep getting this reminder until you mark it paid in the app.':''),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
   var ks=Object.keys(M);if(ks.length>200){ks.slice(0,ks.length-200).forEach(function(k){delete M[k]});changed=true}
   if(changed)save()}
 
@@ -523,11 +540,13 @@ function render(){
 
   var due30=0,cur30='';c.un.forEach(function(i){if(i.days<=30){due30+=i.amount;cur30=cur30||i.cur}});
   var h='<div class="wrap"><div class="head"><img src="'+LOGO+'" alt=""><h1>Loan <span>Alerts</span></h1>'
+    +'<button class="btn icon" onclick="reloadApp()" title="Reload" aria-label="Reload"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>'
     +'<button class="btn icon" onclick="openModal(\'menu\')" title="Menu" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>';
   if(S.sim)h+='<div class="sim"><span>Pretend date: <b>'+esc(nice(S.sim))+'</b> (test mode)</span><button class="btn sm" onclick="setSim(\'\')">Back to real date</button></div>';
   h+='<div class="cols"><div class="a-hero">'+heroHtml(c,f);
   if(S.loans.length)h+='<div class="stats"><div class="stat"><span>Left to pay</span><b>'+balTxt+'</b></div><div class="stat"><span>Due in next 30 days</span><b>'+esc(money(due30,cur30))+'</b></div>'
     +'<div class="stat wide"><div class="prog"><span>'+paidN+' of '+loanItems.length+' payments done</span><span>'+pct+'%</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div></div>';
+  h+='<button class="nagline" onclick="openModal(\'alerts\')"><span class="bell">🔔</span><span><b>'+(nagCfg().on?'Nagging is on':'Nagging is off')+'</b><small>'+esc(nagText())+'</small></span><span class="chg">Change ›</span></button>';
   h+='</div>';
   h+='<div class="a-up card"><div class="hd"><h2>Payments</h2><button class="btn sm" onclick="openModal(\'reminder\')">+ Reminder</button></div>'
     +'<div class="legend"><span><i class="y"></i>'+thr().Y+' days</span><span><i class="o"></i>'+thr().O+' days</span><span><i class="r"></i>'+thr().R+' day'+(thr().R===1?'':'s')+'</span><span><i class="d"></i>Late</span></div>'+chips
@@ -643,7 +662,14 @@ function openModal(k,arg,draft){
     +'<details><summary>Bot settings</summary><label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken||'')+'" autocomplete="off" placeholder="Uses the built-in bot when empty"><div class="hint">Leave empty to use the built-in bot.</div><div class="mbtns"><button class="btn sm" onclick="saveContact()">Save token</button></div></details>'
     +'<div class="hint" style="margin-top:12px">Reminders only go out while the app is open, so keep it open on your device.</div>'
     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
-  if(k==='alerts')h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
+  if(k==='alerts'){var nc=nagCfg(),dOpt='',eOpt='',q;for(q=1;q<=14;q++)dOpt+=opt(q,q+' day'+(q===1?'':'s')+' before',nc.days);
+    [[0,'Once a day'],[1,'Every hour'],[2,'Every 2 hours'],[3,'Every 3 hours'],[6,'Every 6 hours'],[12,'Every 12 hours']].forEach(function(x){eOpt+=opt(x[0],x[1],nc.every)});
+  h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
+    +'<div class="nagbox"><label class="sw" style="margin-top:0"><input type="checkbox" id="m_nag" '+(nc.on?'checked':'')+'><i></i> Nag me until I pay</label>'
+    +'<div class="hint">Reminds you on Telegram and in the app, again and again, until you tap ✓ paid.</div>'
+    +'<label>Start reminding</label><select id="m_nagd">'+dOpt+'</select>'
+    +'<div class="two"><div><label>At what time</label><input type="time" id="m_nagt" value="'+esc(String(S.alerts.nagTime||'09:00'))+'"></div>'
+    +'<div><label>How often</label><select id="m_nage">'+eOpt+'</select></div></div></div>'
     +'<label>Remind me this many days before <small>(0 = due day)</small></label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">Overdue alerts repeat daily.</div>'
     +'<label>Warning colors: days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="text" id="m_y" inputmode="numeric" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="text" id="m_o" inputmode="numeric" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="text" id="m_r" inputmode="numeric" min="1" value="'+esc(A.r)+'"></div></div>'
     +'<div class="hint">Yellow pulses slowly, orange faster, red fastest. On the due date it stays solid red.</div>'
@@ -653,7 +679,7 @@ function openModal(k,arg,draft){
     +'<label>Phone push <small>(optional)</small></label><input type="text" id="m_ntfy" value="'+esc(A.ntfy)+'" placeholder="my-secret-topic">'
     +'<div class="hint">Free: install the <b>ntfy</b> app and subscribe to the same topic. Pick a hard-to-guess name.</div>'
     +'<div class="mbtns"><button class="btn" onclick="saveAlerts();testNotify()">Send test alert</button></div>'
-    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>';
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>'}
   if(k==='backup')h='<h2>Backup</h2><div class="sub">Your data is stored on this device. Save a copy now and then.</div>'
     +'<div class="mbtns"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$(\'imp\').click()">Import backup</button></div>'
     +'<input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)"><div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
@@ -691,7 +717,7 @@ function saveLoan(){
 function delLoan(id){var L=S.loans.filter(function(l){return l.id===id})[0];if(!confirm('Delete '+(L?lname(L):'this loan')+' and all its payments?'))return;
   S.loans=S.loans.filter(function(l){return l.id!==id});
   Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();toast('Loan deleted')}
-function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if(A.sound)ensureAudio();save();render()}
+function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if($('m_nag')){A.nagOn=$('m_nag').checked;A.nagDays=+$('m_nagd').value||5;A.nagTime=$('m_nagt').value||'09:00';A.nagEvery=+$('m_nage').value||0}if(A.sound)ensureAudio();save();render()}
 function saveContact(){
   var C=S.contact;if($('m_tok'))C.tgToken=$('m_tok').value.trim();
   save();closeModal();render();toast('Saved')}
@@ -774,6 +800,8 @@ function boot(email){
 var installEvt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e});
 window.addEventListener('appinstalled',function(){installEvt=null;toast('Installed. Open it from your apps.')});
+function reloadApp(){toast('Reloading…');var go=function(){location.reload()};
+  try{if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(function(r){return r&&r.update()}).then(go,go);else go()}catch(e){go()}}
 function installApp(){if(installEvt){installEvt.prompt();installEvt=null}
   else toast('Use your browser menu: Install app, or Add to Home Screen')}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
