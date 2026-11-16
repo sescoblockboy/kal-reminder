@@ -179,6 +179,96 @@
   a.btn{text-decoration:none;color:inherit}a.btn.primary{color:#fff}
   @media(max-width:360px){.two{grid-template-columns:1fr}.hero .big{font-size:28px}}
   @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+  /* ===== redesign ===== */
+  :root{--bg:#F6F4F1;--line:#ECE6E0;--ink:#16161D;--muted:#75707C}
+  body,body.critical{background:var(--bg)}
+  .head{background:rgba(246,244,241,.92)}
+  .card{border-radius:24px;box-shadow:0 1px 2px rgba(30,20,30,.04),0 6px 24px rgba(30,20,30,.06)}
+  .card .hd h2{font-size:19px;letter-spacing:-.01em}
+  .cols{grid-template-areas:"hero" "up" "loans"}
+  .a-hero{grid-area:hero;display:grid;gap:12px;align-content:start}.a-up{grid-area:up}.a-loans{grid-area:loans}
+  /* hero */
+  .hero{padding:22px 20px 18px;text-align:center;background:#fff}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:99px;background:#EEF4FC;color:var(--blue);font-weight:750;font-size:14px}
+  .hero.ok .pill{background:#E3F6EB;color:var(--green)}
+  .hero.t-y .pill{background:#FFEFB0;color:#7A5C00}.hero.t-o .pill{background:#FFDDB3;color:#A85400}
+  .hero.t-r .pill,.hero.t-d .pill{background:var(--r);color:#fff}.hero.t-r .dot,.hero.t-d .dot{background:#fff;box-shadow:none}
+  .hero .cd{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:14px 0 2px;flex-wrap:wrap}
+  .hero .cd .n{font-size:clamp(46px,14vw,64px);font-weight:850;letter-spacing:-.04em;line-height:1;color:var(--blue)}
+  .hero .cd .u{font-size:20px;font-weight:700;color:var(--muted)}
+  .hero.ok .cd .n{font-size:clamp(30px,8vw,40px);color:var(--green)}
+  .hero.t-y .cd .n{color:#9A7400}.hero.t-o .cd .n{color:#D06D00}.hero.t-r .cd .n,.hero.t-d .cd .n{color:var(--r)}
+  .hero .amt{font-size:30px;font-weight:850;letter-spacing:-.02em;margin:10px 0 4px}
+  .hero .who{font-size:16px;font-weight:650}.hero .who span{color:var(--muted);font-weight:500}
+  .hero .when{color:var(--muted);font-size:14.5px;margin-top:4px}
+  .btn.bigbtn{width:100%;min-height:56px;font-size:17px;border-radius:16px;margin-top:18px}
+  .hero.t-r .btn.bigbtn,.hero.t-d .btn.bigbtn{background:var(--r);border-color:var(--r)}
+  .hsub{display:flex;justify-content:center;margin-top:10px}.hsub .btn{border:0;background:transparent;color:var(--muted);min-height:32px;font-weight:600}
+  .odbar{margin-top:14px;padding:10px 12px;border-radius:14px;background:#FFE4E1;color:#A3201A;font-size:14px;font-weight:600;text-align:left}
+  /* stats */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px}
+  .stat span{display:block;color:var(--muted);font-size:13px;font-weight:600}
+  .stat b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:4px;word-break:break-word}
+  .stat.wide{grid-column:1/-1;padding:12px 14px}
+  .prog{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);font-weight:600}
+  .bar{height:8px;margin:8px 0 2px;background:#EEE8E2}
+  .bar i{background:linear-gradient(90deg,#5BC48A,var(--green))}
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin:-4px 0 12px}
+  .legend span{display:inline-flex;align-items:center;gap:5px}.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .legend .y{background:var(--y)}.legend .o{background:var(--o)}.legend .r{background:var(--r)}.legend .d{background:#8E1B14}
+  /* payment rows */
+  .rows{gap:8px}
+  .row{grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;padding:10px 10px 10px 10px;border-radius:18px;border:1px solid var(--line);border-left:1px solid var(--line);background:#fff}
+  .row.t-y,.row.t-o,.row.t-r{border-left:1px solid var(--line)}
+  .row.t-d{background:#FFF1EF;border-color:#F6C8C3}
+  .row.paid{opacity:.55}
+  .row .tx b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .tx span{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .db{width:50px;height:54px;border-radius:14px;background:#F1EEEA;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+  .db b{font-size:21px;font-weight:850}.db span{font-size:11px;font-weight:700;text-transform:uppercase;margin-top:3px;color:var(--muted);max-width:48px;overflow:hidden;white-space:nowrap}
+  .db.t-y{background:#FFF0B8}.db.t-o{background:#FFE0B8}.db.t-r{background:#FFD6D1}.db.t-d{background:var(--r);color:#fff}.db.t-d span{color:#fff}
+  .rt{text-align:right}.rt b{display:block;font-size:15px;font-weight:800;white-space:nowrap}
+  .st{font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+  .st.t-y{color:#8A6A00}.st.t-o{color:#C26100}.st.t-r,.st.t-d{color:var(--r)}.st.ok{color:var(--green)}
+  .ra{display:flex;align-items:center;gap:2px}
+  .ck{width:40px;height:40px;border-radius:50%;border:2px solid #D7D0CA;background:#fff;color:transparent;font-size:18px;font-weight:900;cursor:pointer;padding:0;transition:.15s}
+  .ck:hover{border-color:var(--green);color:var(--green)}
+  .ck.on{background:var(--green);border-color:var(--green);color:#fff}
+  .x{width:26px;height:40px;border:0;background:none;color:#B9B2BC;font-size:20px;cursor:pointer;padding:0}.x:hover{color:var(--r)}
+  .row .tx,.row .tag,.row .act{grid-column:auto}
+  /* loans */
+  .loan{border-radius:20px;padding:16px}
+  .lt{display:flex;gap:12px;align-items:center}.ic{width:42px;height:42px;border-radius:13px;background:#F5EEDD;display:flex;align-items:center;justify-content:center;font-size:21px;flex:none}
+  .ln{min-width:0}.loan .nm{font-size:16.5px;line-height:1.25}
+  .loan .kv{margin-top:14px}.loan .kv span{display:block;color:var(--muted);font-size:13px;font-weight:600}.loan .kv b{font-size:17px;margin-top:2px}.loan .kv small{color:var(--muted);font-size:12.5px}
+  .loan .acts{gap:4px;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+  .lk{border:0;background:none;padding:8px 10px;border-radius:10px;font-weight:650;font-size:14px;cursor:pointer;color:var(--ink)}.lk:hover{background:#F4F0EC}.lk.warn{color:#B3261E;margin-left:auto}
+  .fab{background:var(--ink);color:#fff}
+  @media(min-width:960px){
+    .cols{grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-areas:"hero up" "loans up"}
+  }
+  @media(max-width:380px){.row{gap:8px;padding:8px}.db{width:44px}.ck{width:36px;height:36px}}
+
+  .row{grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center}
+  .row .tx b{font-size:15.5px}
+  .row .tx .l2{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:1px}
+  .row .tx span.am{display:inline;font-weight:800;font-size:15px;color:var(--ink)}
+  .row .tx span.st{display:inline;font-size:12.5px}
+  .row .tx span.l3{display:block;font-size:12px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .x{width:22px;margin-left:-6px}
+  .stat b{font-size:18px}
+
+  .nagline{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit}
+  .nagline .bell{width:38px;height:38px;border-radius:12px;background:#EEF4FC;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .nagline b{display:block;font-size:15px}.nagline small{display:block;color:var(--muted);font-size:13px}
+  .nagline .chg{margin-left:auto;color:var(--blue);font-weight:700;font-size:14px;white-space:nowrap}
+  .nagbox{background:#F4F8FD;border:1px solid #D6E6F7;border-radius:16px;padding:14px;margin-top:14px}
+  .nagbox label:not(.sw){margin-top:12px}
+  input[type=time]{width:100%;font:inherit;font-size:16px;min-height:46px;padding:10px 12px;border-radius:13px;border:1.5px solid #DDD5CF;background:#fff;color:var(--ink)}
+  .head .btn.icon+.btn.icon{margin-left:-2px}
 </style>
 </head>
 <body>
@@ -216,7 +306,7 @@ var BASE='loanAlerts.v1',SESSION='loanAlerts.session',KEY=BASE;
 function userKey(e){return BASE+'.u.'+String(e).trim().toLowerCase()}
 function getSession(){try{return localStorage.getItem(SESSION)||''}catch(e){return ''}}
 var DEF={contact:{tgToken:'',tgChat:'',tgName:''},
-  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1}};
+  alerts:{leads:'7,3,1,0',browser:true,sound:true,ntfy:'',y:7,o:3,r:1,nagOn:true,nagDays:5,nagTime:'09:00',nagEvery:0}};
 function blank(){return{cal:'g',loans:[],contact:Object.assign({},DEF.contact),alerts:Object.assign({},DEF.alerts),reminders:[],paid:{},sent:{},removed:{},mailLast:null,sim:'',init:false,showPaid:false,account:''}}
 var S=blank();
 function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
@@ -251,8 +341,10 @@ function isoOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDa
 function today(){return S.sim||isoOf(new Date())}
 function dn(iso){var p=iso.split('-').map(Number);return Math.round(Date.UTC(p[0],p[1]-1,p[2])/864e5)}
 function nice(iso){var p=iso.split('-').map(Number),d=new Date(p[0],p[1]-1,p[2]);
-  if(S.cal==='e'){var e=toEth(p[0],p[1],p[2]);return AMW[d.getDay()]+' '+e.d+' '+AMM[e.m-1]+' '+e.y+' ዓ.ም'}
-  return d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+  var e=toEth(p[0],p[1],p[2]),et=e.d+' '+AMM[e.m-1]+' '+e.y+' ዓ.ም',
+      gr=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  if(S.cal==='e')return AMW[d.getDay()]+' '+et+' ('+gr+')';
+  return d.toLocaleDateString('en-GB',{weekday:'short'})+' '+gr+' ('+et+')'}
 function dateField(id,iso){
   if(S.cal!=='e')return '<input type="date" id="'+id+'" value="'+esc(iso||'')+'" onchange="preview()">';
   var e=null;if(iso){var p=iso.split('-').map(Number);e=toEth(p[0],p[1],p[2])}
@@ -359,6 +451,14 @@ function describe(i){var a=Math.abs(i.days);
 function label(i){return i.title+(i.kind==='loan'?' #'+i.no:'')}
 function message(i){return describe(i)+' - '+label(i)+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
 
+/* Nagging: in the last nagDays days before a payment (and after it is late), remind at the chosen time,
+   then again every nagEvery hours (0 = once a day), until the payment is marked paid. */
+function nagCfg(){var A=S.alerts,t=String(A.nagTime||'09:00').split(':');
+  return{on:A.nagOn!==false,days:Math.max(1,Math.min(30,parseInt(A.nagDays,10)||5)),h:+t[0]||0,m:+t[1]||0,every:Math.max(0,+A.nagEvery||0)}}
+function nagSlot(){var c=nagCfg(),d=new Date(),now=d.getHours()*60+d.getMinutes(),start=c.h*60+c.m;
+  if(now<start)return null;return c.every>0?Math.floor((now-start)/(c.every*60)):0}
+function nagText(){var c=nagCfg();if(!c.on)return 'Off';var d=new Date(2000,0,1,c.h,c.m),tm=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  return c.days+' day'+(c.days===1?'':'s')+' before · from '+tm+' · '+(c.every?'every '+c.every+' hour'+(c.every===1?'':'s'):'once a day')}
 function evaluate(){
   var all=items(),un=all.filter(function(i){return !i.paid}),L=leads(),ord={y:1,o:2,r:3},top='',anyDue=false;
   all.forEach(function(i){i.tier=i.paid?'':tierOf(i.days);if(i.tier==='d')anyDue=true;else if(i.tier&&(ord[i.tier]>(ord[top]||0)))top=i.tier});
@@ -366,8 +466,10 @@ function evaluate(){
   cur={all:all,un:un,tier:ft,focus:fi,overdue:un.filter(function(i){return i.days<0}).length};
   var td=today(),changed=false,M=S.sim?(S.sentSim=S.sentSim||{}):S.sent;
   un.forEach(function(i){
-    var key=null;if(i.days<0)key=i.id+'|od|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
-    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
+    var key=null,nc=nagCfg(),inNag=nc.on&&i.days<=nc.days,sl=inNag?nagSlot():null;
+    if(inNag){if(sl!==null)key=i.id+'|nag|'+td+'|'+sl}
+    else if(i.days<0)key=i.id+'|od|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
+    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i)+(inNag?'\nYou will keep getting this reminder until you mark it paid in the app.':''),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
   var ks=Object.keys(M);if(ks.length>200){ks.slice(0,ks.length-200).forEach(function(k){delete M[k]});changed=true}
   if(changed)save()}
 
@@ -380,31 +482,47 @@ function soundBtn(c){
   if(!audio)return '<button class="btn sm'+(c.tier==='r'?' danger':'')+'" onclick="setSound(true)">Enable sound</button>';
   if(c.tier&&c.tier!=='d')return Date.now()<snooze?'<button class="btn sm" onclick="snooze=0;syncBeep();render()">Resume sound</button>':'<button class="btn sm" onclick="snooze=Date.now()+36e5;syncBeep();render()">Silence 1 hour</button>';
   return '<button class="btn sm" onclick="setSound(false)">Mute</button>'}
+function dayWord(n){return n===1?'day':'days'}
+function countdown(i){var a=Math.abs(i.days);
+  if(i.days<0)return{n:fm(a),u:dayWord(a)+' late'};if(i.days===0)return{n:'Today',u:''};if(i.days===1)return{n:'Tomorrow',u:''};return{n:fm(i.days),u:dayWord(i.days)+' left'}}
+function statusTxt(i){var a=Math.abs(i.days);if(i.paid)return 'Paid';if(i.days<0)return a+' '+dayWord(a)+' late';if(i.days===0)return 'Due today';if(i.days===1)return 'Tomorrow';return 'In '+fm(i.days)+' days'}
+function heroLabel(c,f){if(f.days<0)return 'Overdue';if(f.days===0)return 'Due today';return c.tier==='r'||c.tier==='o'?'Pay soon':c.tier==='y'?'Coming up':'Next payment'}
 function heroHtml(c,f){
   var any=S.loans.length||S.reminders.length;
-  if(!f)return '<div class="card hero ok"><div class="eyebrow"><span class="dot"></span>Status</div><div class="big">'+(any?'All clear':'Welcome')+'</div>'
-    +'<div class="who">'+(any?'Nothing left to pay.':'Use the <b>+ Add loan</b> button below to start.')+'</div>'
-    +'</div>';
-  var lab=c.tier==='d'?'Due':c.tier==='r'?'Alert':c.tier?'Heads up':'Next payment';
-  return '<div class="card hero '+(c.tier?'t-'+c.tier:'')+'"><div class="eyebrow"><span class="dot"></span>'+lab+'</div>'
-    +'<div class="big">'+esc(describe(f))+'</div>'
-    +'<div class="who">'+esc(f.title)+(f.kind==='loan'?' · payment '+f.no+' of '+f.n:'')+'</div>'
-    +'<div class="amt">'+esc(money(f.amount,f.cur))+'</div><div class="sub">'+esc(nice(f.date))+'</div>'
-    +(c.overdue>1?'<div class="od">'+fm(c.overdue)+' payments overdue</div>':'')
-    +'<div class="acts"><button class="btn primary" onclick="paid(\''+f.id+'\',true)">Mark paid</button>'+soundBtn(c)+'</div></div>'}
+  if(!f)return '<div class="card hero ok"><div class="pill">'+(any?'✓ All clear':'Welcome')+'</div>'
+    +'<div class="cd"><span class="n">'+(any?'Nothing to pay':'Add your first loan')+'</span></div>'
+    +'<div class="who">'+(any?'Every payment is marked paid.':'We will remind you before every payment, on this app and on Telegram.')+'</div>'
+    +(any?'':'<button class="btn primary bigbtn" onclick="openModal(\'loan\')">+ Add a loan</button>')+'</div>';
+  var cd=countdown(f);
+  return '<div class="card hero '+(c.tier?'t-'+c.tier:'')+'"><div class="pill"><span class="dot"></span>'+heroLabel(c,f)+'</div>'
+    +'<div class="cd"><span class="n">'+esc(cd.n)+'</span>'+(cd.u?'<span class="u">'+esc(cd.u)+'</span>':'')+'</div>'
+    +'<div class="amt">'+esc(money(f.amount,f.cur))+'</div>'
+    +'<div class="who">'+esc(f.title)+(f.kind==='loan'?' <span>· payment '+f.no+' of '+f.n+'</span>':'')+'</div>'
+    +'<div class="when">📅 '+esc(nice(f.date))+'</div>'
+    +'<button class="btn primary bigbtn" onclick="paid(\''+f.id+'\',true)">✓ I paid this</button>'
+    +(c.overdue>1?'<div class="odbar">⚠ '+fm(c.overdue)+' payments are overdue. Mark them paid below if you already paid.</div>':'')
+    +'<div class="hsub">'+soundBtn(c)+'</div></div>'}
+function dateBadge(iso,t){var p=iso.split('-').map(Number),d=new Date(p[0],p[1]-1,p[2]),e=toEth(p[0],p[1],p[2]);
+  var top=S.cal==='e'?e.d:p[2],mid=S.cal==='e'?AMM[e.m-1]:d.toLocaleDateString('en-GB',{month:'short'});
+  return '<div class="db'+(t?' t-'+t:'')+'"><b>'+top+'</b><span>'+esc(mid)+'</span></div>'}
+function otherDate(iso){var p=iso.split('-').map(Number),e=toEth(p[0],p[1],p[2]),d=new Date(p[0],p[1]-1,p[2]);
+  return S.cal==='e'?d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):e.d+' '+AMM[e.m-1]+' '+e.y}
+function shortBank(b){var m=/\(([A-Za-z]{2,6})\)\s*$/.exec(b||'');return m?m[1]:(b||'')}
 function rowHtml(i){
-  var t=i.paid?'':i.tier,
-  tag=i.paid?'<span class="tag ok">Paid</span>':'<span class="tag t-'+t+'">'+(i.days<0?'overdue '+fm(i.days)+'d':i.days===0?'due today':'in '+fm(i.days)+'d')+'</span>';
-  return '<div class="row '+(t?'t-'+t:'')+(i.paid?' paid':'')+'"><div class="tx"><b>'+esc(i.title)+(i.kind==='loan'?' · '+i.no+'/'+i.n:'')+'</b><span>'+esc(nice(i.date))+' · '+esc(money(i.amount,i.cur))+'</span></div>'+tag
-    +'<div class="act"><button class="btn sm'+(i.paid?'':' primary')+'" onclick="paid(\''+i.id+'\','+(!i.paid)+')">'+(i.paid?'Undo':'Mark paid')+'</button><button class="btn sm warn" onclick="delItem(\''+i.id+'\')">Delete</button></div></div>'}
+  var t=i.paid?'':i.tier,nm=i.kind==='loan'?shortBank(i.title):i.title;
+  return '<div class="row '+(t?'t-'+t:'')+(i.paid?' paid':'')+'">'+dateBadge(i.date,t)
+    +'<div class="tx"><b>'+esc(nm)+'</b><div class="l2"><span class="am">'+esc(money(i.amount,i.cur))+'</span><span class="st'+(t?' t-'+t:'')+(i.paid?' ok':'')+'">'+esc(statusTxt(i))+'</span></div>'
+    +'<span class="l3">'+esc(otherDate(i.date))+(i.kind==='loan'?' · #'+i.no+' of '+i.n:'')+'</span></div>'
+    +'<button class="ck'+(i.paid?' on':'')+'" title="'+(i.paid?'Undo paid':'Mark paid')+'" aria-label="'+(i.paid?'Undo paid':'Mark paid')+'" onclick="paid(\''+i.id+'\','+(!i.paid)+')">✓</button>'
+    +'<button class="x" title="Remove" aria-label="Remove" onclick="delItem(\''+i.id+'\')">×</button></div>'}
 function loanCard(L,c){
   var its=c.all.filter(function(i){return i.loan===L.id}),next=its.filter(function(i){return !i.paid})[0],pd=its.filter(function(i){return i.paid}).length,pct=its.length?Math.round(pd/its.length*100):0;
   var cu=L.currency||'';
-  return '<div class="loan"><div class="nm">'+esc(L.bank||L.name||'Loan')+'</div><div class="muted">'+esc([L.name&&L.name!==L.bank?L.name:'',L.type||'',freqText(L),L.ref?'Acc '+L.ref:''].filter(Boolean).join(' · ')||money(L.amount,cu))+'</div>'
-   +'<div class="kv"><div><span class="muted">Balance left</span><b>'+esc(money(next?next.beg:0,cu))+'</b></div>'
-   +'<div><span class="muted">Next payment</span><b>'+(next?esc(money(next.amount,cu)):'—')+'</b><span class="muted">'+(next?esc(nice(next.date)):'Fully paid')+'</span></div></div>'
-   +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="muted">'+pd+' of '+its.length+' paid · '+pct+'%</div>'
-   +'<div class="acts"><button class="btn sm" onclick="openModal(\'payments\',\''+L.id+'\')">All payments</button><button class="btn sm" onclick="openModal(\'loan\',\''+L.id+'\')">Edit</button><button class="btn sm warn" onclick="delLoan(\''+L.id+'\')">Delete</button></div></div>'}
+  return '<div class="loan"><div class="lt"><div class="ic">🏦</div><div class="ln"><div class="nm">'+esc(L.bank||L.name||'Loan')+'</div><div class="muted">'+esc([L.name&&L.name!==L.bank?L.name:'',freqText(L),(+L.rate||0)+'% interest'].filter(Boolean).join(' · '))+'</div></div></div>'
+   +'<div class="kv"><div><span>Left to pay</span><b>'+esc(money(next?next.beg:0,cu))+'</b></div>'
+   +'<div><span>Next payment</span><b>'+(next?esc(money(next.amount,cu)):'Fully paid 🎉')+'</b>'+(next?'<small>'+esc(statusTxt(next))+'</small>':'')+'</div></div>'
+   +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="prog"><span>'+pd+' of '+its.length+' payments done</span><span>'+pct+'%</span></div>'
+   +'<div class="acts"><button class="lk" onclick="openModal(\'payments\',\''+L.id+'\')">All payments</button><button class="lk" onclick="openModal(\'loan\',\''+L.id+'\')">Edit</button><button class="lk warn" onclick="delLoan(\''+L.id+'\')">Delete</button></div></div>'}
 function render(){
   if(!S.account)return;
   evaluate();var c=cur,f=c.focus;
@@ -416,21 +534,28 @@ function render(){
   var banks=[];S.loans.forEach(function(L){var b=L.bank||L.name||'Loan';if(banks.indexOf(b)<0)banks.push(b)});
   chipKeys=['all'].concat(banks);if(S.reminders.length)chipKeys.push('rem');
   if(chipKeys.indexOf(filter)<0)filter='all';
-  var chips=chipKeys.length>2||S.reminders.length?'<div class="chips">'+chipKeys.map(function(k,i){return '<button class="chip'+(k===filter?' on':'')+'" onclick="setFilter('+i+')">'+esc(k==='all'?'All':k==='rem'?'Reminders':k)+'</button>'}).join('')+'</div>':'';
+  var chips=chipKeys.length>2||S.reminders.length?'<div class="chips">'+chipKeys.map(function(k,i){return '<button class="chip'+(k===filter?' on':'')+'" onclick="setFilter('+i+')">'+esc(k==='all'?'All':k==='rem'?'Reminders':shortBank(k))+'</button>'}).join('')+'</div>':'';
   var list=c.all.filter(function(i){return(S.showPaid||!i.paid)&&(filter==='all'||(filter==='rem'?i.kind==='rem':(i.kind==='loan'&&i.bank===filter)))});
   var shown=list.slice(0,upLimit);
 
+  var due30=0,cur30='';c.un.forEach(function(i){if(i.days<=30){due30+=i.amount;cur30=cur30||i.cur}});
   var h='<div class="wrap"><div class="head"><img src="'+LOGO+'" alt=""><h1>Loan <span>Alerts</span></h1>'
+    +'<button class="btn icon" onclick="reloadApp()" title="Reload" aria-label="Reload"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>'
     +'<button class="btn icon" onclick="openModal(\'menu\')" title="Menu" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>';
   if(S.sim)h+='<div class="sim"><span>Pretend date: <b>'+esc(nice(S.sim))+'</b> (test mode)</span><button class="btn sm" onclick="setSim(\'\')">Back to real date</button></div>';
-  h+='<div class="cols"><div class="col">'+heroHtml(c,f);
-  if(S.loans.length)h+='<div class="card"><div class="tot"><div><div class="muted">Total balance left</div><div class="v">'+balTxt+'</div></div><div><div class="muted">Paid so far</div><div class="v">'+paidN+' of '+loanItems.length+'</div></div></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
-  h+='<div class="card"><div class="hd"><h2>My loans</h2><button class="btn sm gold" onclick="openModal(\'loan\')">+ Add loan</button></div>'
-    +(S.loans.length?'<div class="loans">'+S.loans.map(function(L){return loanCard(L,c)}).join('')+'</div>':'<div class="empty">No loans yet.</div>')+'</div></div>';
-  h+='<div class="col"><div class="card"><div class="hd"><h2>Upcoming payments</h2><button class="btn sm" onclick="openModal(\'reminder\')">+ Reminder</button></div>'+chips
-    +'<div class="rows">'+(shown.length?shown.map(rowHtml).join(''):'<div class="empty">Nothing upcoming.</div>')+'</div>'
-    +(list.length>shown.length?'<div class="more"><button class="btn" onclick="moreRows()">Show '+Math.min(8,list.length-shown.length)+' more ('+(list.length-shown.length)+' left)</button></div>':'')
-    +'<label class="sw" style="margin-top:14px"><input type="checkbox" '+(S.showPaid?'checked':'')+' onchange="S.showPaid=this.checked;save();render()"><i></i> Show paid items</label></div></div></div></div>';
+  h+='<div class="cols"><div class="a-hero">'+heroHtml(c,f);
+  if(S.loans.length)h+='<div class="stats"><div class="stat"><span>Left to pay</span><b>'+balTxt+'</b></div><div class="stat"><span>Due in next 30 days</span><b>'+esc(money(due30,cur30))+'</b></div>'
+    +'<div class="stat wide"><div class="prog"><span>'+paidN+' of '+loanItems.length+' payments done</span><span>'+pct+'%</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div></div>';
+  h+='<button class="nagline" onclick="openModal(\'alerts\')"><span class="bell">🔔</span><span><b>'+(nagCfg().on?'Nagging is on':'Nagging is off')+'</b><small>'+esc(nagText())+'</small></span><span class="chg">Change ›</span></button>';
+  h+='</div>';
+  h+='<div class="a-up card"><div class="hd"><h2>Payments</h2><button class="btn sm" onclick="openModal(\'reminder\')">+ Reminder</button></div>'
+    +'<div class="legend"><span><i class="y"></i>'+thr().Y+' days</span><span><i class="o"></i>'+thr().O+' days</span><span><i class="r"></i>'+thr().R+' day'+(thr().R===1?'':'s')+'</span><span><i class="d"></i>Late</span></div>'+chips
+    +'<div class="rows">'+(shown.length?shown.map(rowHtml).join(''):'<div class="empty">Nothing to pay. 🎉</div>')+'</div>'
+    +(list.length>shown.length?'<div class="more"><button class="btn" onclick="moreRows()">Show more ('+(list.length-shown.length)+' left)</button></div>':'')
+    +'<label class="sw" style="margin-top:14px"><input type="checkbox" '+(S.showPaid?'checked':'')+' onchange="S.showPaid=this.checked;save();render()"><i></i> Show paid payments</label></div>';
+  h+='<div class="a-loans card"><div class="hd"><h2>My loans</h2>'+(S.loans.length?'<button class="btn sm gold" onclick="openModal(\'loan\')">+ Add loan</button>':'')+'</div>'
+    +(S.loans.length?'<div class="loans">'+S.loans.map(function(L){return loanCard(L,c)}).join('')+'</div>':'<div class="empty">No loans yet.<div style="margin-top:12px"><button class="btn gold" onclick="openModal(\'loan\')">+ Add your first loan</button></div></div>')+'</div>';
+  h+='</div></div><button class="btn primary fab" onclick="openModal(\'loan\')" aria-label="Add loan" title="Add loan">+</button>';
   $('app').innerHTML=h;syncBeep()}
 function paid(id,v){if(v)S.paid[id]=today();else delete S.paid[id];save();render();if($('ov').className.indexOf('on')>-1&&modalKind==='payments')openModal('payments',modalArg);toast(v?'Marked paid':'Re-opened')}
 function setSound(v){S.alerts.sound=v;if(v)ensureAudio();save();syncBeep();render()}
@@ -456,7 +581,7 @@ function loanBlock(L,i){
   L=L||{bank:'',name:'',type:'Personal',ref:'',currency:'',amount:'',rate:'',termVal:'',termUnit:'years',method:'annuity',start:today(),first:'',grace:'',fee:'',col:'',notes:''};
   var tv=L.termVal!=null&&L.termVal!==''?L.termVal:(L.years||''),tu=L.termUnit||'years',fq=L.every?{n:L.every,u:L.everyUnit||'months'}:freqParts(L);
   var types=['Personal','Car / vehicle','Home / mortgage','Business','Education','Overdraft / credit line','Other'];
-  var more=!!(L.name||L.currency||L.first||L.grace||L.fee||L.ref||L.col||L.notes||(L.type&&L.type!=='Personal')||(L.method&&L.method!=='annuity')),p='f'+i+'_';
+  var p='f'+i+'_';
   return '<div class="lblock" id="blk'+i+'">'+(i>0?'<div class="lbhead"><b>Another bank</b><button type="button" class="btn sm warn" onclick="rmBank('+i+')">Remove</button></div>':'')
    +'<label>Bank name</label>'+bankBox(i,L.bank)
    +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="'+p+'amt" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div>'
@@ -466,7 +591,7 @@ function loanBlock(L,i){
    +(i===0?'<div class="hint">Payments fall on the same day each time. Every 3 months from Jan 1 gives Apr 1, Jul 1, Oct 1…</div>':'')
    +'<div class="lbrow"><label>Start date</label><span class="cal"><button type="button" class="chip'+(S.cal==='g'?' on':'')+'" onclick="switchCal(\'g\')">Gregorian</button><button type="button" class="chip'+(S.cal==='e'?' on':'')+'" onclick="switchCal(\'e\')">አማርኛ</button></span></div>'+dateField(p+'start',L.start)
    +'<div class="pv" id="pv'+i+'"></div>'
-   +'<details'+(more?' open':'')+'><summary>More options</summary>'
+   +'<div style="display:none">'
      +'<div class="two"><div><label>Loan type</label><select id="'+p+'type">'+types.map(function(t){return opt(t,t,L.type)}).join('')+'</select></div>'
      +'<div><label>Currency</label><input type="text" id="'+p+'cur" value="'+esc(L.currency)+'" placeholder="e.g. ETB" maxlength="6" oninput="preview()"></div></div>'
      +'<label>Loan name</label><input type="text" id="'+p+'name" value="'+esc(L.name&&L.name!==L.bank?L.name:'')+'" placeholder="e.g. My car">'
@@ -476,7 +601,7 @@ function loanBlock(L,i){
      +'<div><label>Fee per payment</label><input type="text" inputmode="decimal" id="'+p+'fee" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.fee))+'" placeholder="0"></div></div>'
      +'<label>Account number</label><input type="text" id="'+p+'ref" value="'+esc(L.ref||'')+'">'
      +'<label>Collateral / guarantor</label><input type="text" id="'+p+'col" value="'+esc(L.col||'')+'">'
-     +'<label>Notes</label><textarea id="'+p+'notes">'+esc(L.notes||'')+'</textarea></details></div>'}
+     +'<label>Notes</label><textarea id="'+p+'notes">'+esc(L.notes||'')+'</textarea></div></div>'}
 function blockIdx(){var a=[];for(var i=0;i<nbMax;i++)if($('f'+i+'_bank'))a.push(i);return a}
 function ensureAdd(){
   document.querySelectorAll('.addrow').forEach(function(x){x.remove()});if(editing)return;
@@ -516,7 +641,7 @@ function openModal(k,arg,draft){
     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
   if(k==='loan'){editing=arg||null;var L=arg?S.loans.filter(function(x){return x.id===arg})[0]:null,isNew=!arg,arr=draft||[L||null],past=(draft&&draft.past!==undefined)?draft.past:isNew;
     nbMax=arr.length;
-    h='<h2>'+(isNew?'Add a loan':'Edit loan')+'</h2><div class="sub">Fill in the bank, amount, rate and length. The rest is optional.</div>'
+    h='<h2>'+(isNew?'Add a loan':'Edit loan')+'</h2><div class="sub">Just 5 things: bank, amount, interest, length and start date.</div>'
      +'<div id="blocks">'+arr.map(function(x,i){return loanBlock(x,i)}).join('')+'</div>'
      +'<label class="sw"><input type="checkbox" id="f_past" '+(past?'checked':'')+'><i></i> Mark past payments as paid</label>'
      +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveLoan()">'+(isNew?'Add loan':'Save changes')+'</button></div>'}
@@ -537,7 +662,14 @@ function openModal(k,arg,draft){
     +'<details><summary>Bot settings</summary><label>Bot token</label><input type="password" id="m_tok" value="'+esc(C.tgToken||'')+'" autocomplete="off" placeholder="Uses the built-in bot when empty"><div class="hint">Leave empty to use the built-in bot.</div><div class="mbtns"><button class="btn sm" onclick="saveContact()">Save token</button></div></details>'
     +'<div class="hint" style="margin-top:12px">Reminders only go out while the app is open, so keep it open on your device.</div>'
     +'<div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
-  if(k==='alerts')h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
+  if(k==='alerts'){var nc=nagCfg(),dOpt='',eOpt='',q;for(q=1;q<=14;q++)dOpt+=opt(q,q+' day'+(q===1?'':'s')+' before',nc.days);
+    [[0,'Once a day'],[1,'Every hour'],[2,'Every 2 hours'],[3,'Every 3 hours'],[6,'Every 6 hours'],[12,'Every 12 hours']].forEach(function(x){eOpt+=opt(x[0],x[1],nc.every)});
+  h='<h2>Alerts &amp; sound</h2><div class="sub">When and how you get reminded.</div>'
+    +'<div class="nagbox"><label class="sw" style="margin-top:0"><input type="checkbox" id="m_nag" '+(nc.on?'checked':'')+'><i></i> Nag me until I pay</label>'
+    +'<div class="hint">Reminds you on Telegram and in the app, again and again, until you tap ✓ paid.</div>'
+    +'<label>Start reminding</label><select id="m_nagd">'+dOpt+'</select>'
+    +'<div class="two"><div><label>At what time</label><input type="time" id="m_nagt" value="'+esc(String(S.alerts.nagTime||'09:00'))+'"></div>'
+    +'<div><label>How often</label><select id="m_nage">'+eOpt+'</select></div></div></div>'
     +'<label>Remind me this many days before <small>(0 = due day)</small></label><input type="text" id="m_leads" value="'+esc(A.leads)+'"><div class="hint">Overdue alerts repeat daily.</div>'
     +'<label>Warning colors: days left</label><div class="two" style="grid-template-columns:repeat(3,1fr)"><div><div class="hint" style="margin:0 0 4px">Yellow</div><input type="text" id="m_y" inputmode="numeric" min="1" value="'+esc(A.y)+'"></div><div><div class="hint" style="margin:0 0 4px">Orange</div><input type="text" id="m_o" inputmode="numeric" min="1" value="'+esc(A.o)+'"></div><div><div class="hint" style="margin:0 0 4px">Red</div><input type="text" id="m_r" inputmode="numeric" min="1" value="'+esc(A.r)+'"></div></div>'
     +'<div class="hint">Yellow pulses slowly, orange faster, red fastest. On the due date it stays solid red.</div>'
@@ -547,7 +679,7 @@ function openModal(k,arg,draft){
     +'<label>Phone push <small>(optional)</small></label><input type="text" id="m_ntfy" value="'+esc(A.ntfy)+'" placeholder="my-secret-topic">'
     +'<div class="hint">Free: install the <b>ntfy</b> app and subscribe to the same topic. Pick a hard-to-guess name.</div>'
     +'<div class="mbtns"><button class="btn" onclick="saveAlerts();testNotify()">Send test alert</button></div>'
-    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>';
+    +'<div class="mbtns"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveAlerts();closeModal();toast(\'Saved\')">Save</button></div>'}
   if(k==='backup')h='<h2>Backup</h2><div class="sub">Your data is stored on this device. Save a copy now and then.</div>'
     +'<div class="mbtns"><button class="btn" onclick="exportData()">Export backup</button><button class="btn" onclick="$(\'imp\').click()">Import backup</button></div>'
     +'<input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)"><div class="mbtns"><button class="btn" onclick="closeModal()">Close</button></div>';
@@ -585,7 +717,7 @@ function saveLoan(){
 function delLoan(id){var L=S.loans.filter(function(l){return l.id===id})[0];if(!confirm('Delete '+(L?lname(L):'this loan')+' and all its payments?'))return;
   S.loans=S.loans.filter(function(l){return l.id!==id});
   Object.keys(S.paid).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.paid[k]});Object.keys(S.removed).forEach(function(k){if(k.indexOf(id+'-')===0)delete S.removed[k]});save();render();toast('Loan deleted')}
-function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if(A.sound)ensureAudio();save();render()}
+function saveAlerts(){var A=S.alerts;A.leads=$('m_leads').value;A.sound=$('m_sound').checked;A.browser=$('m_br').checked;A.ntfy=$('m_ntfy').value.trim();A.y=+$('m_y').value||7;A.o=+$('m_o').value||3;A.r=+$('m_r').value||1;if($('m_nag')){A.nagOn=$('m_nag').checked;A.nagDays=+$('m_nagd').value||5;A.nagTime=$('m_nagt').value||'09:00';A.nagEvery=+$('m_nage').value||0}if(A.sound)ensureAudio();save();render()}
 function saveContact(){
   var C=S.contact;if($('m_tok'))C.tgToken=$('m_tok').value.trim();
   save();closeModal();render();toast('Saved')}
@@ -668,6 +800,8 @@ function boot(email){
 var installEvt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e});
 window.addEventListener('appinstalled',function(){installEvt=null;toast('Installed. Open it from your apps.')});
+function reloadApp(){toast('Reloading…');var go=function(){location.reload()};
+  try{if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(function(r){return r&&r.update()}).then(go,go);else go()}catch(e){go()}}
 function installApp(){if(installEvt){installEvt.prompt();installEvt=null}
   else toast('Use your browser menu: Install app, or Add to Home Screen')}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
