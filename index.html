@@ -361,6 +361,8 @@ function describe(i){var a=Math.abs(i.days);
 function label(i){return i.title+(i.kind==='loan'?' #'+i.no:'')}
 function message(i){return describe(i)+' - '+label(i)+' - '+money(i.amount,i.cur)+' ('+nice(i.date)+')'}
 
+/* Remind every day for the last NAG_DAYS days before a payment, until it is marked paid */
+var NAG_DAYS=5;
 function evaluate(){
   var all=items(),un=all.filter(function(i){return !i.paid}),L=leads(),ord={y:1,o:2,r:3},top='',anyDue=false;
   all.forEach(function(i){i.tier=i.paid?'':tierOf(i.days);if(i.tier==='d')anyDue=true;else if(i.tier&&(ord[i.tier]>(ord[top]||0)))top=i.tier});
@@ -368,8 +370,8 @@ function evaluate(){
   cur={all:all,un:un,tier:ft,focus:fi,overdue:un.filter(function(i){return i.days<0}).length};
   var td=today(),changed=false,M=S.sim?(S.sentSim=S.sentSim||{}):S.sent;
   un.forEach(function(i){
-    var key=null;if(i.days<0)key=i.id+'|od|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
-    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
+    var key=null;if(i.days<0)key=i.id+'|od|'+td;else if(i.days<=NAG_DAYS)key=i.id+'|nag|'+td;else{var b=L.filter(function(l){return l>=i.days})[0];if(b!==undefined)key=i.id+'|'+b}
+    if(key&&!M[key]){M[key]=td;changed=true;var s=notify('Loan Alert',message(i)+(i.days>=0&&i.days<=NAG_DAYS?'\nYou will be reminded every day until it is marked paid.':''),i.days<=1);if(s.length)toast('Alert sent ('+s.join(', ')+'): '+describe(i))}});
   var ks=Object.keys(M);if(ks.length>200){ks.slice(0,ks.length-200).forEach(function(k){delete M[k]});changed=true}
   if(changed)save()}
 
@@ -458,7 +460,7 @@ function loanBlock(L,i){
   L=L||{bank:'',name:'',type:'Personal',ref:'',currency:'',amount:'',rate:'',termVal:'',termUnit:'years',method:'annuity',start:today(),first:'',grace:'',fee:'',col:'',notes:''};
   var tv=L.termVal!=null&&L.termVal!==''?L.termVal:(L.years||''),tu=L.termUnit||'years',fq=L.every?{n:L.every,u:L.everyUnit||'months'}:freqParts(L);
   var types=['Personal','Car / vehicle','Home / mortgage','Business','Education','Overdraft / credit line','Other'];
-  var more=!!(L.name||L.currency||L.first||L.grace||L.fee||L.ref||L.col||L.notes||(L.type&&L.type!=='Personal')||(L.method&&L.method!=='annuity')),p='f'+i+'_';
+  var p='f'+i+'_';
   return '<div class="lblock" id="blk'+i+'">'+(i>0?'<div class="lbhead"><b>Another bank</b><button type="button" class="btn sm warn" onclick="rmBank('+i+')">Remove</button></div>':'')
    +'<label>Bank name</label>'+bankBox(i,L.bank)
    +'<div class="two"><div><label>Loan amount</label><input type="text" inputmode="decimal" id="'+p+'amt" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.amount))+'" placeholder="0"></div>'
@@ -468,7 +470,7 @@ function loanBlock(L,i){
    +(i===0?'<div class="hint">Payments fall on the same day each time. Every 3 months from Jan 1 gives Apr 1, Jul 1, Oct 1…</div>':'')
    +'<div class="lbrow"><label>Start date</label><span class="cal"><button type="button" class="chip'+(S.cal==='g'?' on':'')+'" onclick="switchCal(\'g\')">Gregorian</button><button type="button" class="chip'+(S.cal==='e'?' on':'')+'" onclick="switchCal(\'e\')">አማርኛ</button></span></div>'+dateField(p+'start',L.start)
    +'<div class="pv" id="pv'+i+'"></div>'
-   +'<details'+(more?' open':'')+'><summary>More options</summary>'
+   +'<div style="display:none">'
      +'<div class="two"><div><label>Loan type</label><select id="'+p+'type">'+types.map(function(t){return opt(t,t,L.type)}).join('')+'</select></div>'
      +'<div><label>Currency</label><input type="text" id="'+p+'cur" value="'+esc(L.currency)+'" placeholder="e.g. ETB" maxlength="6" oninput="preview()"></div></div>'
      +'<label>Loan name</label><input type="text" id="'+p+'name" value="'+esc(L.name&&L.name!==L.bank?L.name:'')+'" placeholder="e.g. My car">'
@@ -478,7 +480,7 @@ function loanBlock(L,i){
      +'<div><label>Fee per payment</label><input type="text" inputmode="decimal" id="'+p+'fee" oninput="numFmt(this);preview()" value="'+esc(fmtIn(L.fee))+'" placeholder="0"></div></div>'
      +'<label>Account number</label><input type="text" id="'+p+'ref" value="'+esc(L.ref||'')+'">'
      +'<label>Collateral / guarantor</label><input type="text" id="'+p+'col" value="'+esc(L.col||'')+'">'
-     +'<label>Notes</label><textarea id="'+p+'notes">'+esc(L.notes||'')+'</textarea></details></div>'}
+     +'<label>Notes</label><textarea id="'+p+'notes">'+esc(L.notes||'')+'</textarea></div></div>'}
 function blockIdx(){var a=[];for(var i=0;i<nbMax;i++)if($('f'+i+'_bank'))a.push(i);return a}
 function ensureAdd(){
   document.querySelectorAll('.addrow').forEach(function(x){x.remove()});if(editing)return;
