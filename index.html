@@ -251,8 +251,10 @@ function isoOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDa
 function today(){return S.sim||isoOf(new Date())}
 function dn(iso){var p=iso.split('-').map(Number);return Math.round(Date.UTC(p[0],p[1]-1,p[2])/864e5)}
 function nice(iso){var p=iso.split('-').map(Number),d=new Date(p[0],p[1]-1,p[2]);
-  if(S.cal==='e'){var e=toEth(p[0],p[1],p[2]);return AMW[d.getDay()]+' '+e.d+' '+AMM[e.m-1]+' '+e.y+' ዓ.ም'}
-  return d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+  var e=toEth(p[0],p[1],p[2]),et=e.d+' '+AMM[e.m-1]+' '+e.y+' ዓ.ም',
+      gr=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  if(S.cal==='e')return AMW[d.getDay()]+' '+et+' ('+gr+')';
+  return d.toLocaleDateString('en-GB',{weekday:'short'})+' '+gr+' ('+et+')'}
 function dateField(id,iso){
   if(S.cal!=='e')return '<input type="date" id="'+id+'" value="'+esc(iso||'')+'" onchange="preview()">';
   var e=null;if(iso){var p=iso.split('-').map(Number);e=toEth(p[0],p[1],p[2])}
